@@ -1,0 +1,10 @@
+anthropic>=1.0.0
+fastapi
+uvicorn[standard]
+sse-starlette
+pydantic>=2
+httpx
+openpyxl
+pypdf
+python-dotenv
+pytest
