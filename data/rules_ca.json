@@ -1,0 +1,74 @@
+[
+  {
+    "topic": "calfresh_income",
+    "rule": "CalFresh monthly income limits effective Oct 1, 2025 - Sep 30, 2026 (CDSS). Gross monthly income: 1 person $2,610; 2 people $3,526; 3 people $4,442; 4 people $5,360 (+$918 each additional member). Net monthly income: 1 person $1,305; 2 people $1,763; 3 people $2,221; 4 people $2,680 (+$459 each additional member). Maximum monthly allotment: 1 person $298; 2 people $546; 3 people $785; 4 people $994. Apply at BenefitsCal.com or call 1-877-847-3663.",
+    "source_url": "https://www.cdss.ca.gov/portals/9/calfreshoutreach/220000_English_Income_Inserts_FFY2026%20-%20ADA%20-%20FINAL.pdf",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "calfresh_drug_felony",
+    "rule": "California has opted out of the federal SNAP ban for drug felonies. A person convicted of a felony involving possession, use, or distribution of a controlled substance is eligible for CalFresh (Welfare & Institutions Code 18901.3). Condition: a recipient on probation or parole must comply with their probation/parole terms, including any required drug treatment program.",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=WIC&sectionNum=18901.3",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "medi_cal_income",
+    "rule": "Medi-Cal adult expansion group (ages 19-64): income up to 138% of the federal poverty level. 2026 monthly limits at 138% FPL (effective Jan 1, 2026 for MAGI applicants): 1 person $1,836; 2 people $2,490; 3 people $3,143; 4 people $3,795 (+$655 each additional person). Figures from Santa Clara County Social Services Agency's official 2026 FPL chart for Medi-Cal; dhcs.ca.gov pages could not be loaded (bot protection) for direct confirmation.",
+    "source_url": "https://stgenssa.sccgov.org/debs/program_handbooks/charts/assets/5MediCal/FPLMonthIncomeCompare.htm",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "calaim_reentry",
+    "rule": "CalAIM Justice-Involved Reentry Initiative (as implemented in CDCR): about 135 days before release, benefit workers at each prison submit a Medi-Cal application; about 90 days before release the Medi-Cal Justice-Involved aid code is activated and pre-release services begin (health risk assessment, ASAM substance use level-of-care assessment). The person's Medi-Cal managed care plan assigns an Enhanced Care Manager (ECM); 30-20 days before release there is a virtual warm hand-off with the pre-release care manager and ECM (behavioral health invited when applicable). At release the person gets a Reentry Care Plan with the ECM contact, confirmed appointments, medications/prescriptions, durable medical equipment, Community Supports referrals, and naloxone education.",
+    "source_url": "https://www.cdcr.ca.gov/bph/wp-content/uploads/sites/161/2025/10/pv-3.-Calaims-Justice-Involved-Reentry-Initiative-Implementation.pdf",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "cal_id",
+    "rule": "CDCR CAL-ID Program (Penal Code 3007.05): provides a valid California ID card to eligible incarcerated people upon release from state prison. Available at all CDCR institutions, within 13 months of release. Eligibility: must have a Social Security Number and must previously have been issued a California DMV ID card or driver's license.",
+    "source_url": "https://www.cdcr.ca.gov/rehabilitation/calid/",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "dmv_reduced_fee_id",
+    "rule": "California DMV ID cards: a reduced application fee is available for people who meet income requirements of selected government or nonprofit assistance programs (the program provides form DL 937 to bring to DMV). A no-fee ID card is available to people who are homeless under the McKinney-Vento Act definition. Seniors 62+ get a no-fee senior ID.",
+    "source_url": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/identification-id-cards/",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "general_relief",
+    "rule": "Every California county must relieve and support indigent residents who have no other support (Welfare & Institutions Code 17000), so every county runs a General Relief / General Assistance program. Eligibility, cash amounts, work requirements and time limits are set by each county and vary widely (e.g., LA County GR, SF CAAP, Alameda GA is treated as a loan). Check the specific county program.",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=WIC&sectionNum=17000",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "prop47",
+    "rule": "Prop 47 (Penal Code 1170.18): a person who has completed their sentence for a felony that would have been a misdemeanor under Prop 47 (certain drug possession offenses under H&S 11350, 11357, 11377, and theft/property offenses such as shoplifting under PC 459.5, forgery 473, bad checks 476a, petty theft 490.2, receiving stolen property 496, petty theft with prior 666) can apply to the court that convicted them to have the felony designated a misdemeanor. Once reduced it is a misdemeanor for all purposes, except it does not restore firearm rights.",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=1170.18",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "pc_1203_4",
+    "rule": "PC 1203.4 dismissal ('expungement'): when a person has completed probation (or been discharged early, or the court finds it in the interest of justice), and is not currently serving a sentence, on probation, or charged with an offense, the court lets them withdraw the plea and dismisses the case; they are released from most penalties and disabilities of the conviction. Limits: the conviction can still be used in later prosecutions, must still be disclosed on applications for public office, state/local licensing, or Lottery contracts, and dismissal does not restore firearm rights. (People sentenced to state prison use other sections; see courts self-help.)",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=1203.4",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "clean_slate",
+    "rule": "Automatic conviction relief (California 'Clean Slate', Penal Code 1203.425): starting Oct 1, 2024 (subject to budget appropriation), the CA Department of Justice reviews records monthly and grants relief without a petition. Eligible: not required to register as a sex offender, not on active supervision, not serving a sentence or facing charges, and the conviction (on/after Jan 1, 1973) is (a) a probation case completed without revocation, (b) a misdemeanor/infraction with sentence completed and 1+ year since judgment, or (c) a felony where all incarceration/supervision is complete and 4 years have passed with no new felony. Serious felonies (PC 1192.7(c)), violent felonies (PC 667.5) and registrable sex offenses are excluded from (c). The record then shows 'relief granted'.",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=1203.425",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "hud_housing_bars",
+    "rule": "Federal public housing (HUD Public Housing Occupancy Guidebook, June 2022): PHAs MUST deny admission if any household member (1) was convicted of manufacturing methamphetamine on the premises of federally assisted housing, or (2) is subject to a lifetime sex offender registration requirement. PHAs must also deny for current illegal drug use, drug/alcohol use that threatens other tenants, or a drug-related eviction from federally assisted housing within the last 3 years (unless the person completed supervised rehab or circumstances changed). All other criminal history is discretionary: PHAs may admit people with conviction records and should consider the circumstances of each case; arrest records alone are not evidence of criminal conduct.",
+    "source_url": "https://www.hud.gov/sites/dfiles/PIH/documents/PHOG_Eligibility_Det_Denial_Assistance.pdf",
+    "as_of": "2026-11-05"
+  },
+  {
+    "topic": "fair_chance_act",
+    "rule": "California Fair Chance Act (Government Code 12952): employers with 5 or more employees may not ask about conviction history on a job application or consider it before making a conditional job offer. In a background check they may not consider arrests not leading to conviction (with limited exceptions), diversion program participation, or convictions that were sealed, dismissed, expunged, or pardoned / covered by a certificate of rehabilitation.",
+    "source_url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=12952",
+    "as_of": "2026-11-05"
+  }
+]

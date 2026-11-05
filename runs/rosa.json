@@ -1,0 +1,614 @@
+{
+  "profile": {
+    "id": "rosa-fresno",
+    "display_name": "Rosa",
+    "city": "Fresno",
+    "county": "Fresno",
+    "zip": "93701",
+    "lat": 36.7468,
+    "lon": -119.7726,
+    "days_since_release": 40,
+    "supervision": {
+      "type": "probation",
+      "curfew": null,
+      "gps": false,
+      "county_restriction": null,
+      "notes": null
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card"
+    ],
+    "housing_status": "family_or_friends",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "woman",
+    "lgbtq": false,
+    "children": null,
+    "offense_categories": [
+      "drug"
+    ],
+    "insurance": null,
+    "goals": [
+      "food assistance",
+      "steady job",
+      "stay in recovery"
+    ],
+    "barriers": [
+      "drug felony on record",
+      "no car"
+    ],
+    "notes": "Heard people with drug felonies can't get food stamps."
+  },
+  "sections": [
+    {
+      "need": {
+        "category": "food_benefits",
+        "urgency": "today",
+        "why": "Zero income at 40 days out, and she thinks her drug felony bars her from food stamps. It doesn't: California dropped the ban in 2015, so she can apply for CalFresh now and may get expedited benefits."
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "CalFresh (apply via GetCalFresh)",
+            "category": "food_benefits",
+            "description": "Online CalFresh application in about 10 minutes; benefits load on an EBT card. People with prior drug felony convictions are eligible in California (W&I Code 18901.3). Ask for expedited service when applying.",
+            "address": null,
+            "city": null,
+            "county": "Fresno",
+            "phone": "(877) 847-3663",
+            "url": "https://www.getcalfresh.org/",
+            "hours": null,
+            "who_it_serves": "Low-income Californians, including people recently released",
+            "intake_requirements": "County interview; ID, income and expense proof can be sent after applying",
+            "cost": "Free",
+            "source": "state",
+            "source_url": "https://www.getcalfresh.org/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No income, household of 1, lives in Fresno. California does not ban people with drug felonies from CalFresh. Ask for expedited service.",
+            "confirm_question": null,
+            "rule_cited": "W&I Code 18901.3 (as stated in listing)",
+            "rule_url": "https://www.getcalfresh.org/"
+          },
+          "why_it_fits": "Rosa can get CalFresh even with a drug felony, because California ended that ban, and with no income she should ask for expedited benefits, which can arrive within days.",
+          "what_to_bring": [
+            "State ID",
+            "SSN card",
+            "Release papers or probation paperwork",
+            "A note saying she has no income (proof can be sent after applying)",
+            "Address where she is staying with family or friends"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Central California Food Bank - CalFresh",
+            "category": "food_benefits",
+            "description": "Food assistance and help with CalFresh for low-income people. Also the main food bank for the area, so ask about pantries near 93701.",
+            "address": "4010 E. Amendola, Fresno, CA",
+            "city": "Fresno",
+            "county": "Fresno",
+            "phone": "(559) 237-3663",
+            "url": "https://www.ccfoodbank.org",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "cdcr_dapo",
+            "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "Serves low-income people and helps with CalFresh. No exclusions listed. She can ask about pantries near 93701.",
+            "confirm_question": null,
+            "rule_cited": "CDCR DAPO resource guide listing",
+            "rule_url": "https://www.ccfoodbank.org"
+          },
+          "why_it_fits": "The main Fresno food bank can give her food now while CalFresh is processed, help with her application, and point her to pantries near 93701.",
+          "what_to_bring": [
+            "State ID",
+            "Proof of address if she has it"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Fresno County General Relief (GR)",
+            "category": "food_benefits",
+            "description": "County-funded cash or in-kind aid for basic living costs for adults without children who don't qualify for other aid.",
+            "address": null,
+            "city": null,
+            "county": "Fresno",
+            "phone": "(855) 832-8082",
+            "url": "https://www.fresnocountyca.gov/Departments/Social-Services/Assistance-Programs/General-Relief",
+            "hours": null,
+            "who_it_serves": "Fresno County resident adults and childless couples",
+            "intake_requirements": null,
+            "cost": "Free",
+            "source": "county",
+            "source_url": "https://www.fresnocountyca.gov/Departments/Social-Services/Assistance-Programs/General-Relief",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "worth_applying",
+            "reason": "She is a Fresno County adult with no children and no income. The county's GR rules weren't checked, and GR is usually for people who don't qualify for other aid.",
+            "confirm_question": "Does Fresno County GR have any work, sanction, or probation rules that apply to her, and can she get GR while also getting CalFresh?",
+            "rule_cited": "Fresno County GR listing",
+            "rule_url": "https://www.fresnocountyca.gov/Departments/Social-Services/Assistance-Programs/General-Relief"
+          },
+          "why_it_fits": "With zero income and no children, she may qualify for General Relief cash on top of CalFresh, so it is worth asking about the rules for people on probation.",
+          "what_to_bring": [
+            "State ID",
+            "SSN card",
+            "Release papers or probation paperwork",
+            "Proof of no income"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "health",
+        "urgency": "this_week",
+        "why": "She wants to stay in recovery. She needs Medi-Cal confirmed or started, plus ongoing substance use treatment or peer support."
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "BenefitsCal (apply for or check Medi-Cal online)",
+            "category": "health",
+            "description": "Statewide online portal to apply for and manage Medi-Cal, CalFresh and General Relief. Can be used on a phone or library computer, so no trip is needed. People with prior drug felonies are eligible for CalFresh in California.",
+            "address": null,
+            "city": null,
+            "county": "Fresno",
+            "phone": null,
+            "url": "https://benefitscal.com/",
+            "hours": null,
+            "who_it_serves": "Low-income Californians",
+            "intake_requirements": null,
+            "cost": "Free",
+            "source": "state",
+            "source_url": "https://benefitscal.com/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No income, household of 1, lives in Fresno. California lifted the drug-felony ban on CalFresh, so her record does not block food stamps. She can apply online by phone, so no car is needed.",
+            "confirm_question": null,
+            "rule_cited": "Program listing: CA prior drug felons eligible for CalFresh",
+            "rule_url": "https://benefitscal.com/"
+          },
+          "why_it_fits": "She can check or start Medi-Cal on her phone without a car, and Medi-Cal is what pays for her recovery treatment.",
+          "what_to_bring": [
+            "State ID",
+            "SSN card",
+            "Release papers or probation paperwork"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Fresno County Substance Use Disorder Services",
+            "category": "health",
+            "description": "County page explaining how to get substance use treatment, find providers and reach support programs. Services may be available to people who have or qualify for Medi-Cal. This is the county entry point for outpatient and women's programs.",
+            "address": null,
+            "city": null,
+            "county": "Fresno",
+            "phone": null,
+            "url": "https://www.fresnocountyca.gov/Departments/Behavioral-Health/Care-and-Services/Programs-Services/Substance-Use-Disorder-Services",
+            "hours": null,
+            "who_it_serves": "People with or eligible for Medi-Cal",
+            "intake_requirements": null,
+            "cost": "Free with Medi-Cal; call to confirm",
+            "source": "county",
+            "source_url": "https://www.fresnocountyca.gov/Departments/Behavioral-Health/Care-and-Services/Programs-Services/Substance-Use-Disorder-Services",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "Her goal is to stay in recovery. With $0 income she likely qualifies for Medi-Cal, and this is the county entry point for outpatient and women's programs.",
+            "confirm_question": null,
+            "rule_cited": "Program listing",
+            "rule_url": "https://www.fresnocountyca.gov/Departments/Behavioral-Health/Care-and-Services/Programs-Services/Substance-Use-Disorder-Services"
+          },
+          "why_it_fits": "This is Fresno County's main entry point for substance use treatment, including women's outpatient programs, which are free with Medi-Cal.",
+          "what_to_bring": [
+            "State ID",
+            "Medi-Cal card or application number",
+            "Probation officer's name and contact"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Family Health Care Network",
+            "category": "health",
+            "description": "Low-cost health care with behavioral health services and a food pantry. Has sites at 2210 E. Illinois and 255 Herwaldt Dr in Rosa's 93701 ZIP code.",
+            "address": "2210 E. Illinois, Fresno, CA 93701",
+            "city": "Fresno",
+            "county": "Fresno",
+            "phone": "(877) 960-3426",
+            "url": "https://www.fhcn.org/contact-us",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": "Low cost",
+            "source": "cdcr_dapo",
+            "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "Low-cost care, behavioral health and a food pantry, with sites in her 93701 ZIP code.",
+            "confirm_question": null,
+            "rule_cited": "Program listing",
+            "rule_url": "https://www.fhcn.org/contact-us"
+          },
+          "why_it_fits": "It has two sites in her own ZIP code with behavioral health care and a food pantry, so she can work on recovery and get food without a car.",
+          "what_to_bring": [
+            "State ID",
+            "Medi-Cal card or application number"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "housing",
+        "urgency": "this_week",
+        "why": "She's staying with family or friends, which may not last. A sober living or recovery residence option would support her recovery."
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "WestCare California – Fresno recovery residences",
+            "category": "housing",
+            "description": "Recovery residences for men and women in Fresno who lack a safe, substance-free place to live or risk homelessness. Also offers residential and outpatient substance use treatment.",
+            "address": null,
+            "city": "Fresno",
+            "county": "Fresno",
+            "phone": null,
+            "url": "https://westcare.com/places/california/",
+            "hours": null,
+            "who_it_serves": "Women and men needing a substance-free home",
+            "intake_requirements": "Call WestCare Fresno for screening",
+            "cost": "Not stated; call",
+            "source": "web",
+            "source_url": "https://westcare.com/places/california/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "It serves women who need a substance-free home in Fresno. She's in recovery and her housing is unstable (staying with family or friends).",
+            "confirm_question": "What are the costs, and is there an opening?",
+            "rule_cited": null,
+            "rule_url": "https://westcare.com/places/california/"
+          },
+          "why_it_fits": "WestCare runs substance-free recovery residences for women in Fresno who could lose their place to stay, which matches her recovery goal.",
+          "what_to_bring": [
+            "State ID",
+            "Probation officer's contact info",
+            "Medi-Cal info"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Rescue the Children",
+            "category": "housing",
+            "description": "Secure emergency and long-term housing services for at-risk, homeless or previously incarcerated women, including women with children.",
+            "address": "2320 W Weldon Ave, Fresno, CA 93705",
+            "city": "Fresno",
+            "county": "Fresno",
+            "phone": "(559) 268-0839",
+            "url": null,
+            "hours": null,
+            "who_it_serves": "Previously incarcerated or homeless women",
+            "intake_requirements": "Call to ask",
+            "cost": "Not stated; call",
+            "source": "web",
+            "source_url": "https://www.transitionalhousing.org/ci/ca-fresno",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "It explicitly serves previously incarcerated women.",
+            "confirm_question": "Is there an opening, and is there a cost?",
+            "rule_cited": null,
+            "rule_url": "https://www.transitionalhousing.org/ci/ca-fresno"
+          },
+          "why_it_fits": "It provides housing specifically for formerly incarcerated women, a safe backup if staying with family or friends ends.",
+          "what_to_bring": [
+            "State ID",
+            "Release papers or probation paperwork"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Fresno Madera Continuum of Care",
+            "category": "housing",
+            "description": "Local homelessness system that connects people to transitional and supportive housing, with employment training and life skills support. Use it as a way into coordinated housing if the family placement falls through.",
+            "address": "777 N. Parkway Dr, Fresno, CA 93728",
+            "city": "Fresno",
+            "county": "Fresno",
+            "phone": "(559) 368-3042",
+            "url": "https://www.fresnomaderahomeless.org",
+            "hours": null,
+            "who_it_serves": "People experiencing homelessness",
+            "intake_requirements": "Call for coordinated entry",
+            "cost": "Free",
+            "source": "cdcr_dapo",
+            "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "worth_applying",
+            "reason": "It's for people experiencing homelessness. She's housed with family for now, so this is a backup if that falls through.",
+            "confirm_question": "Does staying temporarily with family count as at-risk or homeless for coordinated entry?",
+            "rule_cited": null,
+            "rule_url": "https://www.fresnomaderahomeless.org"
+          },
+          "why_it_fits": "If her family placement falls through, coordinated entry is the door to wider transitional and supportive housing in Fresno.",
+          "what_to_bring": [
+            "State ID",
+            "SSN card",
+            "Proof of income (currently none)"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "jobs",
+        "urgency": "this_week",
+        "why": "She has no income and wants a steady job. She needs employers who hire people with records, reachable by bus."
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "Center for Employment Opportunities (Fresno)",
+            "category": "jobs",
+            "description": "Job readiness training, paid transitional work, job coaching and placement. Starts with paid work crews, then moves to permanent jobs. Ask about a schedule that fits recovery meetings and probation check-ins.",
+            "address": "2333 Merced St., Fresno, CA 93721",
+            "city": "Fresno",
+            "county": "Fresno",
+            "phone": "(559) 777-7116",
+            "url": "https://www.ceoworks.org",
+            "hours": null,
+            "who_it_serves": "People returning from incarceration",
+            "intake_requirements": null,
+            "cost": "Free",
+            "source": "snapshot",
+            "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+            "tlm_network": true,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "Serves people returning from incarceration; Rosa released 40 days ago, on probation, seeking steady job.",
+            "confirm_question": null,
+            "rule_cited": "Program listing",
+            "rule_url": null
+          },
+          "why_it_fits": "CEO is in The Last Mile network, places paid work crews with people who have records, and can schedule around her recovery meetings and probation check-ins.",
+          "what_to_bring": [
+            "State ID",
+            "SSN card",
+            "Release papers or probation paperwork"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "America Works of California – Fresno",
+            "category": "jobs",
+            "description": "Job placement for people with records, with work readiness, vocational training, placement and retention support. Also serves SNAP recipients, so it pairs well with a CalFresh application.",
+            "address": "1477 E. Shaw, Suite 100, Fresno, CA 93710",
+            "city": "Fresno",
+            "county": "Fresno",
+            "phone": "(559) 412-5788",
+            "url": "https://americaworks.com",
+            "hours": null,
+            "who_it_serves": "Adults returning from incarceration, parole/probation, SNAP recipients",
+            "intake_requirements": null,
+            "cost": "Free",
+            "source": "snapshot",
+            "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "Serves adults on probation and SNAP recipients; matches Rosa.",
+            "confirm_question": null,
+            "rule_cited": "Program listing",
+            "rule_url": null
+          },
+          "why_it_fits": "America Works places people with records in jobs and serves CalFresh recipients, so it fits well once her CalFresh application is in.",
+          "what_to_bring": [
+            "State ID",
+            "SSN card",
+            "CalFresh application confirmation"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "CA HIRE Initiative – direct cash",
+            "category": "jobs",
+            "description": "California program that pays up to $2,400 in cash tied to reentry milestones, offered through CEO. It can help with bus passes and other costs while looking for work.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": "(213) 689-1880",
+            "url": "https://www.ceoworks.org/ca-hire-stories",
+            "hours": null,
+            "who_it_serves": "People on parole/probation or returning from incarceration",
+            "intake_requirements": null,
+            "cost": "Free benefit",
+            "source": "tlm",
+            "source_url": "https://www.ceoworks.org/ca-hire-stories",
+            "tlm_network": true,
+            "distance_miles": null,
+            "verdict": "worth_applying",
+            "reason": "Serves people on probation through CEO; the enrollment criteria and whether funds are available are not stated.",
+            "confirm_question": "Is Rosa eligible to enroll in CA HIRE through CEO Fresno, and are funds still available?",
+            "rule_cited": "CEO CA HIRE page",
+            "rule_url": null
+          },
+          "why_it_fits": "Through CEO, she may get up to $2,400 in cash, which could pay for bus passes since she has no car and no income.",
+          "what_to_bring": [
+            "State ID",
+            "SSN card",
+            "Release papers"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "legal_id",
+        "urgency": "this_month",
+        "why": "She already has a state ID and SSN card. Next steps are a bank account and checking whether her drug record can be reduced or cleared to remove job barriers."
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "California Courts Self-Help: Clean Your Record",
+            "category": "legal_id",
+            "description": "Official guide and forms for PC 1203.4 dismissal/expungement, Prop 47 reductions, and sealing arrests; explains how to find free legal help. Fee waivers often available. Online, so no car needed.",
+            "address": null,
+            "city": null,
+            "county": "Fresno",
+            "phone": null,
+            "url": "https://selfhelp.courts.ca.gov/clean-your-record",
+            "hours": null,
+            "who_it_serves": "Anyone with a California record; 1203.4 relief generally comes after probation is completed, Prop 47 can be filed sooner if eligible",
+            "intake_requirements": null,
+            "cost": "Free (court fees often waived)",
+            "source": "snapshot",
+            "source_url": "https://selfhelp.courts.ca.gov/clean-your-record",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "Open to anyone with a CA record, and it's online. Prop 47 can be filed now. 1203.4 relief usually comes after probation ends.",
+            "confirm_question": null,
+            "rule_cited": "Listing: who_it_serves",
+            "rule_url": "https://selfhelp.courts.ca.gov/clean-your-record"
+          },
+          "why_it_fits": "This free online court guide explains whether her drug record can be reduced (Prop 47) or dismissed (1203.4), usually after probation ends or ends early, which would help with job barriers.",
+          "what_to_bring": [
+            "Case number and court documents",
+            "Probation terms"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Fresno County Public Defender's Office (record-clearing / expungement clinics)",
+            "category": "legal_id",
+            "description": "Public Defender volunteers have held free clinics to help Fresno residents with drug-related records, including Prop 47 reductions and expungements. Call the office to ask about current clinic dates and your eligibility while on probation. Past event, so confirm current services.",
+            "address": null,
+            "city": "Fresno",
+            "county": "Fresno",
+            "phone": null,
+            "url": null,
+            "hours": null,
+            "who_it_serves": "Fresno residents with drug-related records",
+            "intake_requirements": "Phone and current clinic schedule not verified in this run; call to confirm",
+            "cost": "Free",
+            "source": "web",
+            "source_url": "https://www.newswire.com/news/expungement-clinic-and-resource-fair-to-help-fresno-residents-clear-20935115",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "worth_applying",
+            "reason": "Serves Fresno residents with drug records, which fits Rosa. The clinic was a past event, so current services aren't confirmed.",
+            "confirm_question": "Are record-clearing clinics running now, and can people on probation get help?",
+            "rule_cited": null,
+            "rule_url": "https://www.newswire.com/news/expungement-clinic-and-resource-fair-to-help-fresno-residents-clear-20935115"
+          },
+          "why_it_fits": "Free Public Defender clinics have helped Fresno residents clear drug records, and she can ask whether they help people still on probation.",
+          "what_to_bring": [
+            "State ID",
+            "Case number and court documents",
+            "Probation paperwork"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "UMB Bank - Fresno Main Branch (no monthly fee checking)",
+            "category": "legal_id",
+            "description": "Checking account advertised with no monthly service fee and online/mobile banking. Ask whether they check ChexSystems and request a second-chance option. Rosa already has state ID and SSN card to open.",
+            "address": "255 E River Park Cir Ste 180, Fresno, CA 93720",
+            "city": "Fresno",
+            "county": "Fresno",
+            "phone": null,
+            "url": "https://locations.umb.com/ca/fresno/umb-checking-accounts-740.html",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": "State ID and SSN; ask about screening and opening deposit",
+            "cost": "No monthly service fee",
+            "source": "web",
+            "source_url": "https://locations.umb.com/ca/fresno/umb-checking-accounts-740.html",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "worth_applying",
+            "reason": "She has the ID and SSN card needed to open an account. Account screening policy is unknown.",
+            "confirm_question": "Do you check ChexSystems, and is there a second-chance account?",
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "She already has an ID and SSN card to open a checking account with no monthly fee, so she will have somewhere to deposit paychecks.",
+          "what_to_bring": [
+            "State ID",
+            "SSN card",
+            "Small opening deposit if required"
+          ]
+        }
+      ]
+    }
+  ],
+  "act_today": [
+    {
+      "step": "Apply for CalFresh today at GetCalFresh.org (about 10 minutes on a phone). Her drug felony does not block her. Report zero income and ask for expedited service so benefits can come within days.",
+      "resource_name": "CalFresh (apply via GetCalFresh)",
+      "what_to_bring": [
+        "State ID",
+        "SSN card",
+        "Address where she is staying",
+        "Probation paperwork"
+      ]
+    },
+    {
+      "step": "Call Central California Food Bank to get food today and find the nearest pantry or food distribution to 93701.",
+      "resource_name": "Central California Food Bank - CalFresh",
+      "what_to_bring": [
+        "State ID"
+      ]
+    },
+    {
+      "step": "On BenefitsCal, check whether Medi-Cal is active or apply for it. Then call Fresno County Substance Use Disorder Services to set up outpatient recovery support.",
+      "resource_name": "BenefitsCal (apply for or check Medi-Cal online)",
+      "what_to_bring": [
+        "State ID",
+        "SSN card",
+        "Release papers or probation paperwork"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "name": "EPOCH (Fresno Rescue Mission)",
+      "category": "housing",
+      "description": "Medi-Cal-funded shelter for up to 6 months for people who were homeless before hospitalization or residential substance abuse treatment. Includes housing navigation, case management and daily meals.",
+      "address": "4141 N. Blackstone, Fresno, CA 93726",
+      "city": "Fresno",
+      "county": "Fresno",
+      "phone": "(559) 492-1373",
+      "url": null,
+      "hours": null,
+      "who_it_serves": "People who were homeless and are entering treatment",
+      "intake_requirements": "Referral-based; must be coming from hospital or residential treatment",
+      "cost": "Medi-Cal funded",
+      "source": "cdcr_dapo",
+      "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+      "tlm_network": false,
+      "distance_miles": null,
+      "verdict": "not_eligible",
+      "reason": "The listing requires coming directly from a hospital or residential treatment after being homeless. She was released from custody and is staying with family or friends.",
+      "confirm_question": null,
+      "rule_cited": "Listing intake: must be coming from hospital or residential treatment",
+      "rule_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf"
+    }
+  ],
+  "stats": {
+    "programs_checked": 320,
+    "sources_searched": 33,
+    "est_minutes_saved": 99,
+    "seconds": 88.4,
+    "candidates_judged": 38
+  }
+}

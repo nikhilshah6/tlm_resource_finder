@@ -67,7 +67,7 @@ def download(url: str, dest: Path, refresh: bool, data: bytes | None = None) -> 
 def clean(s: str | None) -> str | None:
     if s is None:
         return None
-    s = re.sub(r"\s+", " ", str(s)).strip(" ;,")
+    s = re.sub(r"\s+", " ", str(s).replace("\u2022", " ")).strip(" ;,")
     return s or None
 
 
@@ -107,16 +107,22 @@ def norm_county(s: str | None) -> str | None:
     return None
 
 
+ZIP2CITY: dict[str, str] = {}
+CITY_RE2 = re.compile(r"(?:^|\s)([A-Z][a-z]+(?: [A-Z][a-z]+){0,2}),?\s+(?:CA|Ca\.?|California),?\s+(\d{5})")
 CITY_RE = re.compile(r",\s*([A-Z][A-Za-z .'\-]{1,40}?),?\s+(?:CA|Ca\.?|California)\b\.?\s*(\d{5})?")
 
 
 def parse_city(addr: str | None) -> tuple[str | None, str | None]:
     if not addr:
         return None, None
-    m = CITY_RE.search(addr)
+    m = CITY_RE.search(addr) or CITY_RE2.search(addr)
     if not m:
-        return None, None
+        z = re.search(r"\b(9[0-6]\d{3})\b", addr)
+        return (ZIP2CITY.get(z.group(1)) if z else None), (z.group(1) if z else None)
     city = m.group(1).strip()
+    zc = ZIP2CITY.get(m.group(2) or "")
+    if zc and city.lower() != zc.lower() and city.lower().endswith(" " + zc.lower()):
+        city = zc  # e.g. "Suite 200 Fresno" -> "Fresno"
     city = re.sub(r"^(Suite|Ste\.?|Unit|#)\s*\S+\s*", "", city).strip()
     return city or None, m.group(2)
 
@@ -186,6 +192,9 @@ def extract_pdf_text(pdf: Path) -> str:
     return t
 
 
+ADDRLIKE = re.compile(r"^\d+[A-Za-z]?\s+\S+.*(?:\b(?:St|Street|Ave|Avenue|Blvd|Boulevard|Rd|Road|Dr|Drive|Way|Ln|Lane|Hwy|Highway)\b|\bCA\b\.?\s*\d{5})")
+
+
 def parse_cdcr_guide(text: str, source_url: str) -> list[dict]:
     lines = []
     for raw in text.splitlines():
@@ -245,9 +254,13 @@ def parse_cdcr_guide(text: str, source_url: str) -> list[dict]:
                 name = None
                 if pending:
                     name = pending[-1]
+                    if ADDRLIKE.match(name) and len(pending) >= 2:
+                        name = pending[-2]
                     if len(pending) >= 2 and (name[:1].islower() or name.startswith("(")):
                         name = pending[-2] + " " + name
                 cur = {"name": name, "county": county, "section": section}
+                if pending and ADDRLIKE.match(pending[-1]) and key != "address":
+                    cur["address"] = pending[-1]
                 pending = []
             if key == "other":
                 field = "other"
@@ -277,15 +290,15 @@ def parse_cdcr_guide(text: str, source_url: str) -> list[dict]:
         name = clean(e.get("name"))
         if not name or not e.get("county") or len(name) > 110 or name.endswith("."):
             continue
-        if re.match(r"(?i)^(no resources|services|website|phone|address)", name):
+        if re.match(r"(?i)^(no resources|services|website|phone|address)", name) or ADDRLIKE.match(name):
             continue
         name = re.sub(r"\s*[–-]\s*$", "", name)
         services = clean(e.get("services"))
         address = clean(e.get("address"))
-        if address and re.match(r"(?i)^(refer to|unavailable|n/?a|none|confidential|various|multiple)", address):
-            addr_out = None if address.lower().startswith(("refer", "unavailable", "n/a", "none")) else address
-        else:
-            addr_out = address
+        addr_out = address
+        if address and re.match(r"(?i)^(refer|unavailable|not available|n/?a\b|none|confidential|various|varies|multiple|"
+                                 r"telephone|teleservices|virtual|online|call|statewide|countywide)", address):
+            addr_out = None
         url = norm_url(e.get("website"))
         phone = norm_phone(e.get("phone"))
         if not (url or phone or addr_out):
@@ -315,6 +328,7 @@ def parse_cdcr_guide(text: str, source_url: str) -> list[dict]:
 def load_hrsa(path: Path):
     zip2county: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
     city2county: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
+    zip2city: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
     recs = []
     with open(path, encoding="utf-8-sig", errors="replace") as f:
         for r in csv.DictReader(f):
@@ -323,6 +337,8 @@ def load_hrsa(path: Path):
             county = norm_county(r["County Equivalent Name"])
             z = (r["Site Postal Code"] or "")[:5]
             city = clean(r["Site City"])
+            if city:
+                zip2city[z][city] += 1
             if county:
                 zip2county[z][county] += 1
                 if city:
@@ -335,6 +351,8 @@ def load_hrsa(path: Path):
                 continue
             setting = r["Health Center Service Delivery Site Location Setting Description"]
             if setting in ("School", "Transitional Care in Carceral Setting"):
+                continue
+            if re.search(r"(?i)pediatric|children|\bkids\b|\bteen|\bWIC\b|school", r["Site Name"]):
                 continue
             hrs = r["Operating Hours per Week"]
             try:
@@ -360,6 +378,7 @@ def load_hrsa(path: Path):
             })
     z2c = {z: c.most_common(1)[0][0] for z, c in zip2county.items()}
     c2c = {k: c.most_common(1)[0][0] for k, c in city2county.items()}
+    ZIP2CITY.update({z: c.most_common(1)[0][0].title() for z, c in zip2city.items()})
     return recs, z2c, c2c
 
 
@@ -437,7 +456,7 @@ STATE_ESSENTIALS = [
          url="https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/identification-id-cards/",
          description="Apply for a California ID card at a DMV office. Reduced-fee ID for people who meet income requirements of public assistance programs (bring form DL 937 from the program); no-fee ID for people experiencing homelessness (McKinney-Vento definition).",
          intake_requirements="ID card application, SSN, identity document, residency documents if first CA card; DL 937 (reduced fee) or homeless verification (no fee)",
-         cost="Standard fee; reduced or no fee if eligible", phone="(800) 777-0133",
+         cost="Standard fee; reduced or no fee if eligible",
          source_url="https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/identification-id-cards/"),
     dict(name="CalJOBS (California's online job bank)", category="jobs", source="state",
          url="https://www.caljobs.ca.gov/",
@@ -709,12 +728,16 @@ def load_usaspending(refresh: bool) -> list[dict]:
 
 
 # ----------------------------------------------------------------------------- main
-def norm_key(r: dict) -> tuple[str, str]:
+def norm_key(r: dict) -> tuple[str, str, str]:
+    """Dedupe key: normalized name + city (falls back to county) + category.
+
+    Category is part of the key so an org listed under several service sections
+    (e.g. a housing program and a jobs program) stays findable under each."""
     n = (r.get("name") or "").lower()
     n = re.sub(r"\b(inc|llc|the|of|and|corp|corporation|foundation)\b", " ", n.replace("&", " and "))
     n = re.sub(r"[^a-z0-9]+", "", n)
     c = re.sub(r"[^a-z]", "", (r.get("city") or r.get("county") or "").lower())
-    return n, c
+    return n, c, r.get("category") or ""
 
 
 def main() -> None:
@@ -739,6 +762,15 @@ def main() -> None:
     except Exception as e:  # noqa: BLE001
         status["usaspending"] = f"FAILED: {e}"
 
+    z2c: dict = {}
+    c2c: dict = {}
+    try:
+        hrsa_path = download(HRSA_URL, RAW / "hrsa" / "Health_Center_Service_Delivery_and_LookAlike_Sites.csv", refresh)
+        hrsa, z2c, c2c = load_hrsa(hrsa_path)
+        status["hrsa"] = "ok"
+    except Exception as e:  # noqa: BLE001
+        hrsa = []
+        status["hrsa"] = f"FAILED: {e}"
     cdcr = []
     for fn, url in CDCR_GUIDES.items():
         try:
@@ -751,15 +783,6 @@ def main() -> None:
     groups["cdcr_dapo"] = cdcr
     status.setdefault("cdcr_dapo", "ok" if cdcr else "FAILED")
 
-    z2c: dict = {}
-    c2c: dict = {}
-    try:
-        hrsa_path = download(HRSA_URL, RAW / "hrsa" / "Health_Center_Service_Delivery_and_LookAlike_Sites.csv", refresh)
-        hrsa, z2c, c2c = load_hrsa(hrsa_path)
-        status["hrsa"] = "ok"
-    except Exception as e:  # noqa: BLE001
-        hrsa = []
-        status["hrsa"] = f"FAILED: {e}"
     try:
         cos_path = download(COS_URL, RAW / "careeronestop" / "reentry_youth.xlsx", refresh)
         groups["careeronestop"] = load_careeronestop(cos_path, z2c, c2c)

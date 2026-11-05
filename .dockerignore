@@ -1,0 +1,8 @@
+.venv
+.env
+runs
+evals/runs
+data/raw
+__pycache__
+.git
+.claude
