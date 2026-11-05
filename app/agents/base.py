@@ -129,7 +129,7 @@ async def run_agent(
             text = "".join(getattr(b, "text", "") for b in resp.content if b.type == "text")
             parsed = _json_from_text(text)
             if parsed is not None:
-                return parsed
+                return _decode_fields(parsed)
             if nudged:
                 raise RuntimeError(f"{agent} agent finished without submitting results")
             nudged = True
@@ -141,7 +141,7 @@ async def run_agent(
         calls = []
         for u in uses:
             if u.name == "submit":
-                submitted = u.input
+                submitted = _decode_fields(u.input)
                 results.append({"type": "tool_result", "tool_use_id": u.id, "content": "Received."})
             elif u.name in by_name:
                 calls.append(u)
@@ -202,6 +202,22 @@ async def _create(*, model, system, messages, tools, effort, max_tokens):
             USE_FALLBACKS = False  # this account/model doesn't take fallbacks; continue without
     async with client().messages.stream(**kwargs) as s:
         return await s.get_final_message()
+
+
+def _decode_fields(inp):
+    """Models occasionally send an array/object field as a JSON string; decode it."""
+    if not isinstance(inp, dict):
+        return inp
+    out = {}
+    for k, v in inp.items():
+        if isinstance(v, str) and v.lstrip()[:1] in ("[", "{"):
+            try:
+                out[k] = json.loads(v)
+                continue
+            except json.JSONDecodeError:
+                pass
+        out[k] = v
+    return out
 
 
 def _json_from_text(text: str) -> Optional[dict]:

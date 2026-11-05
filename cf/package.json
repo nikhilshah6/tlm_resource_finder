@@ -1,0 +1,21 @@
+{
+  "name": "tlm-reentry-agents",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "python3 ../scripts/build_cf_assets.py",
+    "dev": "wrangler pages dev public --port 8788",
+    "deploy": "wrangler pages deploy public --project-name tlm-reentry-agents"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest"
+  },
+  "devDependencies": {
+    "wrangler": "^4",
+    "typescript": "^5",
+    "@cloudflare/workers-types": "^4"
+  },
+  "allowScripts": {
+    "workerd@1.20261104.1": true
+  }
+}

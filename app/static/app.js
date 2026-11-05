@@ -352,6 +352,17 @@
     const recorded = [];
     let ok = false;
     try {
+      if (typeof window.runStepwise === "function") {
+        // Cloudflare deploy: the browser runs each agent as its own short function call.
+        await window.runStepwise(body, (ev) => {
+          recorded.push({ t: Math.round(performance.now() - run.start), ...ev });
+          handleEvent(ev);
+        });
+        ok = run.gotDone;
+        if (ok) storage.set({ savedAt: Date.now(), request: body, events: recorded });
+        endRun(ok);
+        return;
+      }
       const resp = await fetch("/api/run", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "text/event-stream" },

@@ -1,125 +1,136 @@
 # Eval report
 
-- Run: `evals/runs/20261105-150913`  
-- Pipeline: FAKE (evals/fake_pipeline.py)  
-- Profiles: 18 (0 errors), concurrency 3  
-- LLM grader disabled (--no-llm); heuristic used for wrong exclusions.  
-- Links: skipped (--no-links)
+- Run: `evals/runs/20261105-152700`  
+- Pipeline: app.pipeline.run_pipeline  
+- Profiles: 18 (0 errors), concurrency 4  
+- LLM grader: claude-opus-5-5.  
+- Links: checked (httpx, 8s timeout)
 
 ## Summary
 
 | Metric | Value | Target | Status |
 | --- | --- | --- | --- |
-| Must-include recall (categories + keyword groups) | 99% (143/145) | >= 85% | PASS |
+| Must-include recall (categories + keyword groups) | 99% (144/145) | >= 85% | PASS |
 | - category recall | 100% | | |
-| - keyword-group recall | 97% | | |
-| Gray areas kept | 94% (30/32) | 100% | FAIL |
-| Wrong exclusions | 18 | 0 | FAIL |
-| Must-not violations | 0 | 0 | PASS |
+| - keyword-group recall | 99% | | |
+| Gray areas kept | 100% (32/32) | 100% | PASS |
+| Wrong exclusions | 0 | 0 | PASS |
+| Must-not violations | 6 | 0 | FAIL |
 | Invented (no source_url) | 0 | 0 | PASS |
-| Web sources not seen in tool_call events (info) | 36 | | |
-| Working links | n/a (0/0) | >= 90% | n/a |
-| Seconds per run (avg / max) | 0.2 / 0.2 | <= 90s | PASS |
+| Web sources not seen in tool_call events (info) | 42 | | |
+| Working links | 88% (234/266) | >= 90% | FAIL |
+| Seconds per run (avg / max) | 92.9 / 105.3 | <= 90s | FAIL |
 | Pipeline errors | 0 | 0 | PASS |
 
 ## Per profile
 
 | Profile | Status | Cat recall | Group recall | Gray kept | Wrong excl. | Must-not | Invented | Links ok | Recs/Excl | Sec |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| marcus-oakland | ok | 5/5 | 6/6 | 2/2 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| anthony-sf | ok | 5/5 | 5/5 | 2/2 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| lashonda-la | ok | 5/5 | 4/4 | 3/3 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| rosa-fresno | ok | 3/3 | 4/4 | 3/3 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| devon-la-registrant | ok | 4/4 | 5/5 | 1/1 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| jamie-sandiego | ok | 4/4 | 3/3 | 1/2 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| luis-riverside-cdl | ok | 4/4 | 4/4 | 2/2 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| keisha-sacramento | ok | 3/3 | 2/3 | 1/2 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| tomas-bakersfield | ok | 3/3 | 3/3 | 1/1 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| darnell-oakland | ok | 4/4 | 5/5 | 2/2 | 1 | 0 | 0 | 0/0 | 14/2 | 0.1 |
-| maria-sandiego-mom | ok | 4/4 | 4/4 | 1/1 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| kevin-fresno-cdl | ok | 4/4 | 4/4 | 2/2 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| tanya-riverside | ok | 4/4 | 4/4 | 2/2 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| eddie-sf-registrant | ok | 3/3 | 3/3 | 1/1 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| andre-longbeach | ok | 3/3 | 4/4 | 1/1 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| brenda-sacramento | ok | 4/4 | 5/5 | 2/2 | 1 | 0 | 0 | 0/0 | 14/2 | 0.2 |
-| ray-kern | ok | 4/4 | 5/5 | 2/2 | 1 | 0 | 0 | 0/0 | 14/2 | 0.1 |
-| nina-oakland-lgbtq | ok | 4/4 | 3/4 | 1/1 | 1 | 0 | 0 | 0/0 | 14/2 | 0.1 |
+| marcus-oakland | ok | 5/5 | 6/6 | 2/2 | 0 | 0 | 0 | 13/15 | 15/0 | 86.3 |
+| anthony-sf | ok | 5/5 | 5/5 | 2/2 | 0 | 0 | 0 | 10/12 | 15/0 | 97.6 |
+| lashonda-la | ok | 5/5 | 4/4 | 3/3 | 0 | 0 | 0 | 17/18 | 18/0 | 100.9 |
+| rosa-fresno | ok | 3/3 | 4/4 | 3/3 | 0 | 0 | 0 | 14/15 | 15/1 | 105.3 |
+| devon-la-registrant | ok | 4/4 | 5/5 | 1/1 | 0 | 0 | 0 | 15/15 | 15/0 | 98.0 |
+| jamie-sandiego | ok | 4/4 | 3/3 | 2/2 | 0 | 0 | 0 | 13/15 | 15/0 | 100.2 |
+| luis-riverside-cdl | ok | 4/4 | 4/4 | 2/2 | 0 | 0 | 0 | 9/15 | 17/0 | 92.4 |
+| keisha-sacramento | ok | 3/3 | 3/3 | 2/2 | 0 | 0 | 0 | 14/15 | 15/0 | 84.5 |
+| tomas-bakersfield | ok | 3/3 | 3/3 | 1/1 | 0 | 0 | 0 | 12/12 | 12/0 | 79.0 |
+| darnell-oakland | ok | 4/4 | 5/5 | 2/2 | 0 | 0 | 0 | 11/14 | 15/0 | 82.7 |
+| maria-sandiego-mom | ok | 4/4 | 4/4 | 1/1 | 0 | 0 | 0 | 14/15 | 18/1 | 96.6 |
+| kevin-fresno-cdl | ok | 4/4 | 4/4 | 2/2 | 0 | 0 | 0 | 13/15 | 15/1 | 93.9 |
+| tanya-riverside | ok | 4/4 | 4/4 | 2/2 | 0 | 1 | 0 | 11/14 | 15/0 | 90.0 |
+| eddie-sf-registrant | ok | 3/3 | 3/3 | 1/1 | 0 | 5 | 0 | 13/15 | 15/0 | 95.8 |
+| andre-longbeach | ok | 3/3 | 4/4 | 1/1 | 0 | 0 | 0 | 13/15 | 15/0 | 96.8 |
+| brenda-sacramento | ok | 4/4 | 5/5 | 2/2 | 0 | 0 | 0 | 13/14 | 14/0 | 92.0 |
+| ray-kern | ok | 4/4 | 4/5 | 2/2 | 0 | 0 | 0 | 13/15 | 15/1 | 86.8 |
+| nina-oakland-lgbtq | ok | 4/4 | 4/4 | 1/1 | 0 | 0 | 0 | 16/17 | 17/0 | 93.4 |
 
 ## Details (misses and violations)
 
 **marcus-oakland**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (ConnectTimeout): https://www.rootandrebound.org/
+- bad link (403): https://www.lifelongmedical.org/
 
 **anthony-sf**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (ConnectTimeout): https://www.rootandrebound.org/
+- bad link (404): https://www.arribajuntos.org/location/career-link-center-mission
 
 **lashonda-la**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (404): https://anewwayoflife.org/our-work/
 
 **rosa-fresno**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
-
-**devon-la-registrant**
-
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (ConnectError): https://www.fresnocounty.ca.gov/Departments/Behavioral-Health
 
 **jamie-sandiego**
 
-- gray area `women` missing
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (403): https://thecentersd.org/housing-services/
+- bad link (403): https://thecentersd.org/behavioral-health-services
 
 **luis-riverside-cdl**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (404): https://www.dmv.ca.gov/portal/driver-education-and-safety/dmv-safety-guidelines-activities/statewide-ignition-interlock-device-pilot-program/
+- bad link (403): https://rivcodpss.org/dpss-office-locations-calworks-calfresh-child-care-general-assistance-medi-cal-welfare-work
+- bad link (ConnectError): https://www.csarivca.org
+- bad link (ConnectError): https://www.rivcoworkforce.com/job-seeker-resources
+- bad link (403): https://rivcodpss.org/rental-assistance
+- bad link (500): https://data.hud.gov/Housing_Counselor/
 
 **keisha-sacramento**
 
-- missing any of: culinary, kitchen, food service, chef, Homeboy
-- gray area `culinary` missing
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
-
-**tomas-bakersfield**
-
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (404): https://www.saccourt.ca.gov/ud/resources.aspx/1000
 
 **darnell-oakland**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (ConnectError): https://westoaklandhealth.org/
+- bad link (ConnectTimeout): https://www.rootandrebound.org/
+- bad link (404): https://www.merritt.edu/campus-map/
 
 **maria-sandiego-mom**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (ConnectError): https://www.southbaycommunityservices.org
 
 **kevin-fresno-cdl**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (500): https://data.hud.gov/Housing_Counselor/
+- bad link (403): https://www.yelp.com/biz/dmv-dot-physical-exam-at-sandhu-clinic-fresno
 
 **tanya-riverside**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- must-not (county check): Time for Change Foundation — Women's Reentry Program violates `No in-person programs located outside Riverside County unless statewide or online (parole/probation county restriction)`
+- bad link (403): https://rivcodpss.org/dpss-office-locations-calworks-calfresh-child-care-general-assistance-medi-cal-welfare-work
+- bad link (410): https://feedam.org/resource/128615
+- bad link (ConnectError): https://www.rivcoworkforce.com/job-seeker-resources
 
 **eddie-sf-registrant**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- must-not (registrant text): Asian Inc (HUD-approved housing counseling) violates `No family, children's, or youth housing/shelters whose written rules exclude sex registrants (PC 290), and no housing within restricted distance of schools/parks if the program says registrants are barred`
+- must-not (registrant text): San Francisco Housing Development Corporation violates `No family, children's, or youth housing/shelters whose written rules exclude sex registrants (PC 290), and no housing within restricted distance of schools/parks if the program says registrants are barred`
+- must-not (registrant text): SF Public Defender Clean Slate (record clearance) violates `No family, children's, or youth housing/shelters whose written rules exclude sex registrants (PC 290), and no housing within restricted distance of schools/parks if the program says registrants are barred`
+- must-not (registrant text): Arriba Juntos - Career Link Center - Civic Center violates `No family, children's, or youth housing/shelters whose written rules exclude sex registrants (PC 290), and no housing within restricted distance of schools/parks if the program says registrants are barred`
+- must-not (keyword): Arriba Juntos - Career Link Center - Civic Center violates `youth`
+- bad link (404): https://www.sf.gov/reports/august-2022/catalog-reentry-services
+- bad link (404): https://www.arribajuntos.org/locations/career-link-center-civic-center
 
 **andre-longbeach**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (410): https://dhs.lacounty.gov/longbeach/
+- bad link (403): https://www.yelp.com/biz/forklift-training-and-employment-center-long-beach
 
 **brenda-sacramento**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (403): https://www.yelp.com/biz/social-security-sacramento-3
 
 **ray-kern**
 
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- missing any of: Social Security, SSA, SSN
+- bad link (ConnectTimeout): https://rootandrebound.org
+- bad link (500): https://www.themissionkc.org
 
 **nina-oakland-lgbtq**
 
-- missing any of: mental health, counseling, behavioral
-- wrong exclusion: Downtown men's shelter - no rule_cited or uncertain reason (heuristic)
+- bad link (404): https://ceoworks.org/locations/oakland-ca
 

@@ -3,3 +3,8 @@
 __pycache__/
 data/raw/
 *.pyc
+runs/
+evals/runs/
+cf/node_modules/
+cf/.dev.vars
+cf/.wrangler/

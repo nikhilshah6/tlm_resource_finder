@@ -254,6 +254,7 @@ async def judge(finder: str, cands: list[Candidate], profile: Profile, emit: Emi
             v = {**v, "verdict": "worth_applying", "confirm_question": v.get("confirm_question") or "Am I eligible given my situation?"}
         judged.append(JudgedCandidate.model_validate({**c.model_dump(), **{k: v.get(k) for k in
                       ("verdict", "reason", "confirm_question", "rule_cited", "rule_url")}}))
+    judged = [_enforce_county(j, profile) for j in judged]
     n_ok = sum(j.verdict != "not_eligible" for j in judged)
     await emit({"type": "verdict", "agent": "eligibility",
                 "message": f"{FINDER_LABELS[finder]}: {n_ok} recommended, {len(judged) - n_ok} excluded", "count": len(judged)})
@@ -309,6 +310,17 @@ async def rank(profile: Profile, orch: OrchestratorPlan, judged: list[JudgedCand
         act.append(ActStep(step=a.get("step", ""), resource_name=name, what_to_bring=a.get("what_to_bring") or []))
     await emit({"type": "found", "agent": "ranker", "message": f"Plan ready: {sum(len(s.recommendations) for s in sections)} recommendations, {len(act)} steps for today", "count": len(act)})
     return sections, act
+
+
+def _enforce_county(j: JudgedCandidate, profile: Profile) -> JudgedCandidate:
+    """A supervision county restriction is a written condition: in-person programs elsewhere are excluded."""
+    restrict = (profile.supervision.county_restriction or "").replace(" County", "").strip().lower()
+    county = (j.county or "").replace(" County", "").strip().lower()
+    if restrict and county and county not in (restrict, "statewide", "california", "online") and j.verdict != "not_eligible":
+        return j.model_copy(update={"verdict": "not_eligible",
+            "reason": f"In-person program in {j.county} County; supervision conditions limit travel to {profile.supervision.county_restriction} County.",
+            "rule_cited": "Supervision county restriction (conditions of parole/probation)"})
+    return j
 
 
 def _lenient_candidate(c: dict):
