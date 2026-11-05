@@ -1,0 +1,77 @@
+{
+  "summary": {
+    "profiles": 1,
+    "errors": 0,
+    "recall": 1.0,
+    "category_recall": 1.0,
+    "any_recall": 1.0,
+    "gray_kept": 1.0,
+    "wrong_exclusions": 1,
+    "must_not": 0,
+    "invented": 0,
+    "web_unverified": 2,
+    "links": null,
+    "seconds_avg": 0.2,
+    "seconds_max": 0.2
+  },
+  "meta": {
+    "run_dir": "evals/runs/20261105-150858",
+    "fake": true,
+    "concurrency": 3,
+    "grader_note": "LLM grader: claude-opus-5-5.",
+    "links": false
+  },
+  "rows": [
+    {
+      "id": "marcus-oakland",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 5,
+      "cat_total": 5,
+      "any_hit": 6,
+      "any_total": 6,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 2,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "transitional",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "Reentry transitional housing program"
+        },
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic (AuthenticationError: Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}, 'request_id': 'req_011Cgkd7VLSx5QLNMzntCZPL'})",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 0,
+      "links_total": 0,
+      "bad_links": []
+    }
+  ]
+}

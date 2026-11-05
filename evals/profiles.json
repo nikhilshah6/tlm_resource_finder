@@ -1,0 +1,651 @@
+[
+  {
+    "id": "marcus-oakland",
+    "preset": true,
+    "label": "Marcus, 25 days out, Oakland",
+    "summary": "Marcus is staying on his sister's couch in Oakland until the end of the month, on parole with a 9pm curfew, and wants warehouse work.",
+    "display_name": "Marcus",
+    "city": "Oakland",
+    "county": "Alameda",
+    "zip": "94607",
+    "lat": 37.8044,
+    "lon": -122.2712,
+    "days_since_release": 25,
+    "supervision": {
+      "type": "parole",
+      "curfew": "9pm-6am",
+      "gps": false,
+      "county_restriction": "Alameda",
+      "notes": "Reports to Oakland parole office every two weeks"
+    },
+    "documents_held": [
+      "state_id",
+      "birth_certificate"
+    ],
+    "housing_status": "family_or_friends",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "man",
+    "lgbtq": false,
+    "offense_categories": [
+      "property"
+    ],
+    "insurance": null,
+    "goals": [
+      "warehouse work",
+      "own apartment",
+      "forklift certification"
+    ],
+    "barriers": [
+      "must leave sister's place by end of month",
+      "9pm curfew rules out night shifts",
+      "no SSN card"
+    ],
+    "notes": "Sister's lease does not allow long-term guests."
+  },
+  {
+    "id": "anthony-sf",
+    "preset": true,
+    "label": "Anthony, 12 days out, San Francisco",
+    "summary": "Anthony is sleeping in his car in San Francisco 12 days after release, on parole with a GPS monitor, and has no ID.",
+    "display_name": "Anthony",
+    "city": "San Francisco",
+    "county": "San Francisco",
+    "zip": "94103",
+    "lat": 37.7726,
+    "lon": -122.4099,
+    "days_since_release": 12,
+    "supervision": {
+      "type": "parole",
+      "curfew": null,
+      "gps": true,
+      "county_restriction": "San Francisco",
+      "notes": "GPS ankle monitor; must charge 2 hours per day"
+    },
+    "documents_held": [
+      "ssn_card"
+    ],
+    "housing_status": "unhoused",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "man",
+    "lgbtq": false,
+    "offense_categories": [
+      "violent"
+    ],
+    "insurance": null,
+    "goals": [
+      "get an ID",
+      "stable housing",
+      "any job"
+    ],
+    "barriers": [
+      "sleeping in car",
+      "no state ID",
+      "needs outlet to charge GPS monitor"
+    ],
+    "notes": "Car is registered to his cousin."
+  },
+  {
+    "id": "lashonda-la",
+    "preset": true,
+    "label": "LaShonda, Los Angeles mom reunifying",
+    "summary": "LaShonda lives in transitional housing in South LA, is working to get her two kids back from foster care, and wants her record cleared.",
+    "display_name": "LaShonda",
+    "city": "Los Angeles",
+    "county": "Los Angeles",
+    "zip": "90003",
+    "lat": 33.964,
+    "lon": -118.2728,
+    "days_since_release": 90,
+    "supervision": {
+      "type": "probation",
+      "curfew": null,
+      "gps": false,
+      "county_restriction": null
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card",
+      "birth_certificate"
+    ],
+    "housing_status": "transitional",
+    "household_size": 1,
+    "monthly_income": 900,
+    "gender": "woman",
+    "lgbtq": false,
+    "children": "2 kids (ages 6 and 9) in foster care; DCFS reunification case open",
+    "offense_categories": [
+      "property",
+      "drug"
+    ],
+    "insurance": "Medi-Cal",
+    "goals": [
+      "reunify with children",
+      "record clearing",
+      "family-sized apartment",
+      "full-time job"
+    ],
+    "barriers": [
+      "needs housing that allows children",
+      "part-time pay only"
+    ]
+  },
+  {
+    "id": "rosa-fresno",
+    "preset": true,
+    "label": "Rosa, Fresno, drug conviction",
+    "summary": "Rosa is 40 days out in Fresno with a drug felony and asks whether she can get CalFresh and which employers will hire her.",
+    "display_name": "Rosa",
+    "city": "Fresno",
+    "county": "Fresno",
+    "zip": "93701",
+    "lat": 36.7468,
+    "lon": -119.7726,
+    "days_since_release": 40,
+    "supervision": {
+      "type": "probation",
+      "curfew": null,
+      "gps": false,
+      "county_restriction": null
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card"
+    ],
+    "housing_status": "family_or_friends",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "woman",
+    "lgbtq": false,
+    "offense_categories": [
+      "drug"
+    ],
+    "insurance": null,
+    "goals": [
+      "food assistance",
+      "steady job",
+      "stay in recovery"
+    ],
+    "barriers": [
+      "drug felony on record",
+      "no car"
+    ],
+    "notes": "Heard people with drug felonies can't get food stamps."
+  },
+  {
+    "id": "devon-la-registrant",
+    "display_name": "Devon",
+    "city": "Los Angeles",
+    "county": "Los Angeles",
+    "zip": "90013",
+    "days_since_release": 3,
+    "supervision": {
+      "type": "parole",
+      "curfew": "10pm-6am",
+      "gps": true,
+      "county_restriction": "Los Angeles",
+      "notes": "PC 290 registrant; must register within 5 working days"
+    },
+    "documents_held": [],
+    "housing_status": "unhoused",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "man",
+    "lgbtq": false,
+    "offense_categories": [
+      "sex_registration"
+    ],
+    "goals": [
+      "any shelter tonight",
+      "ID",
+      "job"
+    ],
+    "barriers": [
+      "registration restrictions on housing",
+      "no documents at all",
+      "GPS"
+    ]
+  },
+  {
+    "id": "jamie-sandiego",
+    "display_name": "Jamie",
+    "city": "San Diego",
+    "county": "San Diego",
+    "zip": "92101",
+    "days_since_release": 60,
+    "supervision": {
+      "type": "probation",
+      "county_restriction": null
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card"
+    ],
+    "housing_status": "shelter",
+    "household_size": 1,
+    "monthly_income": 400,
+    "gender": "transgender woman",
+    "lgbtq": true,
+    "offense_categories": [
+      "drug"
+    ],
+    "insurance": "Medi-Cal",
+    "goals": [
+      "community college",
+      "LGBTQ-affirming housing",
+      "gender-affirming care"
+    ],
+    "barriers": [
+      "unsafe in current shelter"
+    ]
+  },
+  {
+    "id": "luis-riverside-cdl",
+    "display_name": "Luis",
+    "city": "Riverside",
+    "county": "Riverside",
+    "zip": "92501",
+    "days_since_release": 200,
+    "supervision": {
+      "type": "probation",
+      "county_restriction": null,
+      "notes": "DUI probation; license suspended, eligible for restricted license with IID"
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card",
+      "birth_certificate"
+    ],
+    "housing_status": "own_place",
+    "household_size": 3,
+    "monthly_income": 1600,
+    "gender": "man",
+    "lgbtq": false,
+    "children": "2 kids living with him",
+    "offense_categories": [
+      "dui"
+    ],
+    "insurance": null,
+    "goals": [
+      "CDL Class A",
+      "better-paying job"
+    ],
+    "barriers": [
+      "suspended license",
+      "DUI on record"
+    ]
+  },
+  {
+    "id": "keisha-sacramento",
+    "display_name": "Keisha",
+    "city": "Sacramento",
+    "county": "Sacramento",
+    "zip": "95815",
+    "days_since_release": 150,
+    "supervision": {
+      "type": "parole",
+      "curfew": "10pm-5am",
+      "gps": false,
+      "county_restriction": "Sacramento"
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card"
+    ],
+    "housing_status": "transitional",
+    "household_size": 1,
+    "monthly_income": 600,
+    "gender": "woman",
+    "lgbtq": false,
+    "offense_categories": [
+      "violent"
+    ],
+    "insurance": "Medi-Cal",
+    "goals": [
+      "culinary career",
+      "permanent housing"
+    ],
+    "barriers": [
+      "transitional stay ends in 30 days",
+      "violent conviction"
+    ]
+  },
+  {
+    "id": "tomas-bakersfield",
+    "display_name": "Tomas",
+    "city": "Bakersfield",
+    "county": "Kern",
+    "zip": "93301",
+    "days_since_release": 400,
+    "supervision": {
+      "type": "none"
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card",
+      "birth_certificate"
+    ],
+    "housing_status": "own_place",
+    "household_size": 1,
+    "monthly_income": 1200,
+    "gender": "man",
+    "lgbtq": false,
+    "offense_categories": [
+      "property"
+    ],
+    "insurance": null,
+    "goals": [
+      "record clearing",
+      "full-time job"
+    ],
+    "barriers": [
+      "background checks keep failing"
+    ],
+    "notes": "Finished probation about 11 months ago; misdemeanor theft."
+  },
+  {
+    "id": "darnell-oakland",
+    "display_name": "Darnell",
+    "city": "Oakland",
+    "county": "Alameda",
+    "zip": "94612",
+    "days_since_release": 5,
+    "supervision": {
+      "type": "probation",
+      "county_restriction": "Alameda"
+    },
+    "documents_held": [
+      "state_id"
+    ],
+    "housing_status": "unhoused",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "man",
+    "lgbtq": false,
+    "offense_categories": [
+      "drug"
+    ],
+    "goals": [
+      "stay sober",
+      "shelter",
+      "Medi-Cal"
+    ],
+    "barriers": [
+      "opioid use disorder",
+      "no SSN card"
+    ]
+  },
+  {
+    "id": "maria-sandiego-mom",
+    "display_name": "Maria",
+    "city": "Chula Vista",
+    "county": "San Diego",
+    "zip": "91910",
+    "days_since_release": 180,
+    "supervision": {
+      "type": "none"
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card",
+      "birth_certificate"
+    ],
+    "housing_status": "family_or_friends",
+    "household_size": 2,
+    "monthly_income": 1100,
+    "gender": "woman",
+    "lgbtq": false,
+    "children": "1 child (age 4) with grandmother; regaining custody",
+    "offense_categories": [
+      "dui"
+    ],
+    "insurance": null,
+    "goals": [
+      "reunify with daughter",
+      "childcare",
+      "medical assistant training"
+    ],
+    "barriers": [
+      "no license",
+      "childcare"
+    ]
+  },
+  {
+    "id": "kevin-fresno-cdl",
+    "display_name": "Kevin",
+    "city": "Fresno",
+    "county": "Fresno",
+    "zip": "93706",
+    "days_since_release": 30,
+    "supervision": {
+      "type": "parole",
+      "curfew": "8pm-6am",
+      "gps": true,
+      "county_restriction": "Fresno"
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card"
+    ],
+    "housing_status": "shelter",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "man",
+    "lgbtq": false,
+    "offense_categories": [
+      "violent"
+    ],
+    "goals": [
+      "CDL",
+      "housing"
+    ],
+    "barriers": [
+      "GPS",
+      "8pm curfew",
+      "violent record"
+    ]
+  },
+  {
+    "id": "tanya-riverside",
+    "display_name": "Tanya",
+    "city": "Moreno Valley",
+    "county": "Riverside",
+    "zip": "92553",
+    "days_since_release": 15,
+    "supervision": {
+      "type": "probation",
+      "county_restriction": "Riverside"
+    },
+    "documents_held": [
+      "ssn_card"
+    ],
+    "housing_status": "shelter",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "woman",
+    "lgbtq": false,
+    "offense_categories": [
+      "drug",
+      "property"
+    ],
+    "goals": [
+      "recovery program",
+      "ID",
+      "housing"
+    ],
+    "barriers": [
+      "no state ID",
+      "meth use disorder"
+    ]
+  },
+  {
+    "id": "eddie-sf-registrant",
+    "display_name": "Eddie",
+    "city": "San Francisco",
+    "county": "San Francisco",
+    "zip": "94102",
+    "days_since_release": 300,
+    "supervision": {
+      "type": "probation",
+      "county_restriction": "San Francisco",
+      "notes": "PC 290 registrant"
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card"
+    ],
+    "housing_status": "own_place",
+    "household_size": 1,
+    "monthly_income": 800,
+    "gender": "man",
+    "lgbtq": false,
+    "offense_categories": [
+      "sex_registration"
+    ],
+    "goals": [
+      "full-time job",
+      "IT certification"
+    ],
+    "barriers": [
+      "registry shows up on background checks",
+      "SRO rent burden"
+    ]
+  },
+  {
+    "id": "andre-longbeach",
+    "display_name": "Andre",
+    "city": "Long Beach",
+    "county": "Los Angeles",
+    "zip": "90813",
+    "days_since_release": 30,
+    "supervision": {
+      "type": "parole",
+      "curfew": "10pm-6am",
+      "gps": false,
+      "county_restriction": "Los Angeles"
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card",
+      "birth_certificate"
+    ],
+    "housing_status": "transitional",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "man",
+    "lgbtq": false,
+    "offense_categories": [
+      "drug",
+      "violent"
+    ],
+    "goals": [
+      "warehouse work at the port",
+      "forklift certification"
+    ],
+    "barriers": [
+      "no work history in last 8 years"
+    ]
+  },
+  {
+    "id": "brenda-sacramento",
+    "display_name": "Brenda",
+    "city": "Sacramento",
+    "county": "Sacramento",
+    "zip": "95811",
+    "days_since_release": 120,
+    "supervision": {
+      "type": "none"
+    },
+    "documents_held": [
+      "state_id"
+    ],
+    "housing_status": "unhoused",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "woman",
+    "lgbtq": false,
+    "offense_categories": [
+      "property"
+    ],
+    "insurance": null,
+    "goals": [
+      "disability benefits",
+      "doctor for diabetes",
+      "housing"
+    ],
+    "barriers": [
+      "age 61",
+      "diabetes",
+      "no SSN card"
+    ]
+  },
+  {
+    "id": "ray-kern",
+    "display_name": "Ray",
+    "city": "Bakersfield",
+    "county": "Kern",
+    "zip": "93307",
+    "days_since_release": 10,
+    "supervision": {
+      "type": "parole",
+      "curfew": null,
+      "gps": false,
+      "county_restriction": "Kern"
+    },
+    "documents_held": [],
+    "housing_status": "family_or_friends",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "man",
+    "lgbtq": false,
+    "offense_categories": [
+      "dui",
+      "drug"
+    ],
+    "goals": [
+      "ID and Social Security card",
+      "farm or warehouse job"
+    ],
+    "barriers": [
+      "no documents",
+      "no license"
+    ]
+  },
+  {
+    "id": "nina-oakland-lgbtq",
+    "display_name": "Nina",
+    "city": "Oakland",
+    "county": "Alameda",
+    "zip": "94621",
+    "days_since_release": 75,
+    "supervision": {
+      "type": "probation",
+      "county_restriction": null
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card",
+      "birth_certificate"
+    ],
+    "housing_status": "family_or_friends",
+    "household_size": 1,
+    "monthly_income": 700,
+    "gender": "woman",
+    "lgbtq": true,
+    "children": "1 son (age 12) with her mother; wants joint custody",
+    "offense_categories": [
+      "property"
+    ],
+    "insurance": "Medi-Cal",
+    "goals": [
+      "college (Laney)",
+      "reunify with son",
+      "mental health counseling"
+    ],
+    "barriers": [
+      "part-time income",
+      "anxiety"
+    ]
+  }
+]

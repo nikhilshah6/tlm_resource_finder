@@ -1,0 +1,142 @@
+{
+  "summary": {
+    "profiles": 2,
+    "errors": 0,
+    "recall": 1.0,
+    "category_recall": 1.0,
+    "any_recall": 1.0,
+    "gray_kept": 1.0,
+    "wrong_exclusions": 4,
+    "must_not": 0,
+    "invented": 0,
+    "web_unverified": 4,
+    "links": null,
+    "seconds_avg": 0.2,
+    "seconds_max": 0.2
+  },
+  "meta": {
+    "run_dir": "evals/runs/20261105-150850",
+    "fake": true,
+    "concurrency": 3,
+    "grader_note": "LLM grader: claude-opus-5-5.",
+    "links": false
+  },
+  "rows": [
+    {
+      "id": "anthony-sf",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 5,
+      "cat_total": 5,
+      "any_hit": 5,
+      "any_total": 5,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 2,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "shelter",
+          "status": "kept",
+          "verdict": "worth_applying",
+          "name": "Reentry transitional housing program"
+        },
+        {
+          "keyword": "Cal-ID",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "DMV Cal-ID card (reduced fee)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "llm",
+      "wrong_exclusions": 2,
+      "wrong_exclusion_details": [
+        {
+          "index": 0,
+          "name": "Veterans transitional housing (VA GPD)",
+          "why": "The GPD veteran-only rule is real, but the profile has no veteran-status field. The exclusion rests on missing information, not a known disqualifier. It should be worth_applying with a question to confirm military service."
+        },
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "No rule is cited, and the reason is only that bed availability is unknown. Missing information can never justify exclusion, and a men's shelter fits this unhoused man."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 0,
+      "links_total": 0,
+      "bad_links": []
+    },
+    {
+      "id": "rosa-fresno",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 3,
+      "cat_total": 3,
+      "any_hit": 4,
+      "any_total": 4,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 3,
+      "gray_total": 3,
+      "gray_details": [
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        },
+        {
+          "keyword": "Medi-Cal",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "Medi-Cal (apply on BenefitsCal)"
+        },
+        {
+          "keyword": "Job",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "America's Job Center of California (AJCC)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "llm",
+      "wrong_exclusions": 2,
+      "wrong_exclusion_details": [
+        {
+          "index": 0,
+          "name": "Veterans transitional housing (VA GPD)",
+          "why": "The VA GPD veteran-only rule is real, but the profile says nothing either way about military service. The exclusion rests on missing information, not a known disqualifier, so it should be worth_applying with a question confirming veteran status."
+        },
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "The reason cites no written rule; it relies only on unknown bed availability. Missing information is never a valid basis for not_eligible."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 0,
+      "links_total": 0,
+      "bad_links": []
+    }
+  ]
+}

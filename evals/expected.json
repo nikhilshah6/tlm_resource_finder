@@ -1,0 +1,1204 @@
+{
+  "marcus-oakland": {
+    "must_include_categories": [
+      "housing",
+      "jobs",
+      "food_benefits",
+      "health",
+      "legal_id"
+    ],
+    "must_include_any": [
+      [
+        "CalFresh"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "General Assistance",
+        "General Relief",
+        "CAAP",
+        "County Adult Assistance"
+      ],
+      [
+        "warehouse",
+        "forklift",
+        "logistics",
+        "America's Job Center",
+        "AJCC",
+        "Workforce"
+      ],
+      [
+        "Social Security",
+        "SSA",
+        "SSN"
+      ],
+      [
+        "transitional",
+        "reentry housing",
+        "sober living",
+        "Coordinated Entry",
+        "housing"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "women only",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "women's shelter",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "for women",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "mothers",
+        "why": "client is a man without custody-linked mother programs"
+      },
+      {
+        "rule": "No in-person programs located outside Alameda County unless statewide or online (parole/probation county restriction)",
+        "check": "county_restriction",
+        "county": "Alameda"
+      },
+      {
+        "rule": "No jobs that require night shifts ending after 9pm (curfew 9pm-6am)"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "transitional",
+        "why": "Reentry transitional housing often screens case-by-case; a property record should not be excluded"
+      },
+      {
+        "program_keyword": "CalFresh",
+        "why": "Zero income and no rule excludes him; at minimum worth applying"
+      }
+    ]
+  },
+  "anthony-sf": {
+    "must_include_categories": [
+      "housing",
+      "legal_id",
+      "food_benefits",
+      "health",
+      "jobs"
+    ],
+    "must_include_any": [
+      [
+        "Cal-ID",
+        "DMV",
+        "ID card",
+        "identification card",
+        "state ID"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "General Assistance",
+        "General Relief",
+        "CAAP",
+        "County Adult Assistance"
+      ],
+      [
+        "shelter",
+        "Coordinated Entry",
+        "navigation",
+        "211",
+        "emergency housing",
+        "access point"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "women only",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "women's shelter",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "for women",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "mothers",
+        "why": "client is a man without custody-linked mother programs"
+      },
+      {
+        "rule": "No in-person programs located outside San Francisco County unless statewide or online (parole/probation county restriction)",
+        "check": "county_restriction",
+        "county": "San Francisco"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "shelter",
+        "aliases": [
+          "navigation",
+          "transitional"
+        ],
+        "why": "Shelters/navigation centers screen violent records case-by-case; not a written blanket exclusion"
+      },
+      {
+        "program_keyword": "Cal-ID",
+        "aliases": [
+          "DMV",
+          "ID card"
+        ],
+        "why": "Missing documents is never a reason to exclude; CDCR/parole can help with the ID fee waiver"
+      }
+    ]
+  },
+  "lashonda-la": {
+    "must_include_categories": [
+      "family",
+      "legal_id",
+      "housing",
+      "food_benefits",
+      "jobs"
+    ],
+    "must_include_any": [
+      [
+        "reunification",
+        "DCFS",
+        "Child Welfare",
+        "Children and Family",
+        "Children & Family",
+        "parenting",
+        "Family Services"
+      ],
+      [
+        "expungement",
+        "record clearance",
+        "record clearing",
+        "Clean Slate",
+        "1203.4",
+        "Prop 47",
+        "Proposition 47",
+        "record relief",
+        "Clean Start"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "family",
+        "housing",
+        "Section 8",
+        "Housing Choice",
+        "rapid rehousing"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "men only",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's shelter",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's mission",
+        "why": "client is a woman"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "CalFresh",
+        "why": "Drug conviction does not bar CalFresh in California; part-time income likely under limit"
+      },
+      {
+        "program_keyword": "expungement",
+        "aliases": [
+          "record clear",
+          "Clean Slate",
+          "1203.4",
+          "Prop 47"
+        ],
+        "why": "Still on probation: early termination + 1203.4 or Prop 47 may apply; must not be ruled out"
+      },
+      {
+        "program_keyword": "CalWORKs",
+        "why": "Eligibility depends on reunification timeline (kids may be returning); worth applying, not excluded"
+      }
+    ]
+  },
+  "rosa-fresno": {
+    "must_include_categories": [
+      "food_benefits",
+      "jobs",
+      "health"
+    ],
+    "must_include_any": [
+      [
+        "CalFresh"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "America's Job Center",
+        "AJCC",
+        "Workforce",
+        "CEO",
+        "Center for Employment Opportunities",
+        "job"
+      ],
+      [
+        "treatment",
+        "recovery",
+        "substance",
+        "SUD",
+        "sober",
+        "Narcotics Anonymous",
+        "detox",
+        "MAT"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "men only",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's shelter",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's mission",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "drug felony ban",
+        "why": "California lifted the CalFresh drug felony ban in 2015"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "CalFresh",
+        "why": "California does not bar people with drug felonies from CalFresh (ban lifted 2015)"
+      },
+      {
+        "program_keyword": "Medi-Cal",
+        "why": "No income; drug record irrelevant"
+      },
+      {
+        "program_keyword": "Job",
+        "aliases": [
+          "Workforce",
+          "AJCC",
+          "employment"
+        ],
+        "why": "Fair chance hiring; record is not a written exclusion for job centers"
+      }
+    ]
+  },
+  "devon-la-registrant": {
+    "must_include_categories": [
+      "housing",
+      "legal_id",
+      "food_benefits",
+      "health"
+    ],
+    "must_include_any": [
+      [
+        "Cal-ID",
+        "DMV",
+        "ID card",
+        "identification card",
+        "state ID"
+      ],
+      [
+        "Social Security",
+        "SSA",
+        "SSN"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "General Assistance",
+        "General Relief",
+        "CAAP",
+        "County Adult Assistance"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "women only",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "women's shelter",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "for women",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "mothers",
+        "why": "client is a man without custody-linked mother programs"
+      },
+      {
+        "rule": "No family, children's, or youth housing/shelters whose written rules exclude sex registrants (PC 290), and no housing within restricted distance of schools/parks if the program says registrants are barred",
+        "check": "text_excludes_registrants"
+      },
+      {
+        "keyword": "family shelter",
+        "why": "registrants are typically barred from family shelters"
+      },
+      {
+        "keyword": "youth",
+        "why": "registrant cannot use youth-serving programs"
+      },
+      {
+        "rule": "No in-person programs located outside Los Angeles County unless statewide or online (parole/probation county restriction)",
+        "check": "county_restriction",
+        "county": "Los Angeles"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "General Relief",
+        "why": "Registrant status does not bar LA County General Relief"
+      }
+    ]
+  },
+  "jamie-sandiego": {
+    "must_include_categories": [
+      "housing",
+      "health",
+      "jobs",
+      "food_benefits"
+    ],
+    "must_include_any": [
+      [
+        "CalFresh"
+      ],
+      [
+        "Project Rebound",
+        "community college",
+        "Rising Scholars",
+        "FAFSA",
+        "Cal Grant",
+        "college"
+      ],
+      [
+        "LGBT",
+        "Trans",
+        "Pride",
+        "queer",
+        "affirming"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "men's shelter",
+        "why": "Placing a trans woman in a men's shelter is inappropriate"
+      },
+      {
+        "rule": "Do not exclude from women's programs on the basis of being transgender (CA Equal Access rule)"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "women",
+        "aliases": [
+          "Women's"
+        ],
+        "why": "Trans women are eligible for women's programs under CA law; must not be marked not_eligible"
+      },
+      {
+        "program_keyword": "CalFresh",
+        "why": "Drug conviction is not a bar in California"
+      }
+    ]
+  },
+  "luis-riverside-cdl": {
+    "must_include_categories": [
+      "jobs",
+      "legal_id",
+      "food_benefits",
+      "health"
+    ],
+    "must_include_any": [
+      [
+        "CDL",
+        "truck",
+        "commercial driver"
+      ],
+      [
+        "DMV",
+        "license",
+        "reinstate"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "CalFresh"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "women only",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "women's shelter",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "for women",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "mothers",
+        "why": "client is a man without custody-linked mother programs"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "CDL",
+        "aliases": [
+          "truck",
+          "commercial driver"
+        ],
+        "why": "DUI disqualification period may be ending; training is worth applying with a confirm question about license reinstatement date"
+      },
+      {
+        "program_keyword": "CalFresh",
+        "why": "Household of 3 at $1,600/mo is under the gross limit"
+      }
+    ]
+  },
+  "keisha-sacramento": {
+    "must_include_categories": [
+      "housing",
+      "jobs",
+      "food_benefits"
+    ],
+    "must_include_any": [
+      [
+        "culinary",
+        "kitchen",
+        "food service",
+        "chef",
+        "Homeboy"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "housing",
+        "rapid rehousing",
+        "Section 8",
+        "SHRA"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "men only",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's shelter",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's mission",
+        "why": "client is a woman"
+      },
+      {
+        "rule": "No in-person programs located outside Sacramento County unless statewide or online (parole/probation county restriction)",
+        "check": "county_restriction",
+        "county": "Sacramento"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "transitional",
+        "aliases": [
+          "housing"
+        ],
+        "why": "Transitional/permanent housing with case-by-case screening for violent records must be worth_applying, not excluded"
+      },
+      {
+        "program_keyword": "culinary",
+        "aliases": [
+          "kitchen"
+        ],
+        "why": "Culinary training programs typically accept violent records"
+      }
+    ]
+  },
+  "tomas-bakersfield": {
+    "must_include_categories": [
+      "legal_id",
+      "jobs",
+      "health"
+    ],
+    "must_include_any": [
+      [
+        "expungement",
+        "record clearance",
+        "record clearing",
+        "Clean Slate",
+        "1203.4",
+        "Prop 47",
+        "Proposition 47",
+        "record relief",
+        "Clean Start"
+      ],
+      [
+        "America's Job Center",
+        "AJCC",
+        "Workforce",
+        "CEO",
+        "Center for Employment Opportunities",
+        "job"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "women only",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "women's shelter",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "for women",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "mothers",
+        "why": "client is a man without custody-linked mother programs"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "expungement",
+        "aliases": [
+          "record clear",
+          "1203.4",
+          "Clean Slate",
+          "record relief"
+        ],
+        "why": "Probation complete; 1203.4 dismissal likely available now \u2014 must not be excluded over waiting periods"
+      }
+    ]
+  },
+  "darnell-oakland": {
+    "must_include_categories": [
+      "housing",
+      "health",
+      "food_benefits",
+      "legal_id"
+    ],
+    "must_include_any": [
+      [
+        "treatment",
+        "recovery",
+        "substance",
+        "SUD",
+        "sober",
+        "Narcotics Anonymous",
+        "detox",
+        "MAT"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "Social Security",
+        "SSA",
+        "SSN"
+      ],
+      [
+        "shelter",
+        "Coordinated Entry",
+        "navigation",
+        "211",
+        "emergency housing",
+        "access point"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "women only",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "women's shelter",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "for women",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "mothers",
+        "why": "client is a man without custody-linked mother programs"
+      },
+      {
+        "rule": "No in-person programs located outside Alameda County unless statewide or online (parole/probation county restriction)",
+        "check": "county_restriction",
+        "county": "Alameda"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "sober",
+        "aliases": [
+          "recovery residence",
+          "treatment"
+        ],
+        "why": "Drug record is the reason to refer, never a reason to exclude"
+      },
+      {
+        "program_keyword": "CalFresh",
+        "why": "Drug felony is not a bar in California"
+      }
+    ]
+  },
+  "maria-sandiego-mom": {
+    "must_include_categories": [
+      "family",
+      "food_benefits",
+      "health",
+      "jobs"
+    ],
+    "must_include_any": [
+      [
+        "reunification",
+        "DCFS",
+        "Child Welfare",
+        "Children and Family",
+        "Children & Family",
+        "parenting",
+        "Family Services",
+        "custody",
+        "family law"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal",
+        "Covered California"
+      ],
+      [
+        "WIC",
+        "child care",
+        "childcare",
+        "CalWORKs"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "men only",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's shelter",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's mission",
+        "why": "client is a woman"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "CalWORKs",
+        "why": "Eligibility depends on whether daughter is in her household; worth applying with confirm question"
+      }
+    ]
+  },
+  "kevin-fresno-cdl": {
+    "must_include_categories": [
+      "jobs",
+      "housing",
+      "food_benefits",
+      "health"
+    ],
+    "must_include_any": [
+      [
+        "CDL",
+        "truck",
+        "commercial driver"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "General Assistance",
+        "General Relief",
+        "CAAP",
+        "County Adult Assistance"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "women only",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "women's shelter",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "for women",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "mothers",
+        "why": "client is a man without custody-linked mother programs"
+      },
+      {
+        "rule": "No in-person programs located outside Fresno County unless statewide or online (parole/probation county restriction)",
+        "check": "county_restriction",
+        "county": "Fresno"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "CDL",
+        "aliases": [
+          "truck"
+        ],
+        "why": "Violent record is not a written bar to a CDL; employer screening varies"
+      },
+      {
+        "program_keyword": "transitional",
+        "aliases": [
+          "housing"
+        ],
+        "why": "Case-by-case screening for violent records"
+      }
+    ]
+  },
+  "tanya-riverside": {
+    "must_include_categories": [
+      "health",
+      "legal_id",
+      "housing",
+      "food_benefits"
+    ],
+    "must_include_any": [
+      [
+        "treatment",
+        "recovery",
+        "substance",
+        "SUD",
+        "sober",
+        "Narcotics Anonymous",
+        "detox",
+        "MAT"
+      ],
+      [
+        "Cal-ID",
+        "DMV",
+        "ID card",
+        "identification card",
+        "state ID"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "CalFresh"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "men only",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's shelter",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's mission",
+        "why": "client is a woman"
+      },
+      {
+        "rule": "No in-person programs located outside Riverside County unless statewide or online (parole/probation county restriction)",
+        "check": "county_restriction",
+        "county": "Riverside"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "CalFresh",
+        "why": "Drug record is not a bar in California"
+      },
+      {
+        "program_keyword": "sober",
+        "aliases": [
+          "recovery",
+          "treatment"
+        ],
+        "why": "Recent use is a reason to refer to treatment, not exclude"
+      }
+    ]
+  },
+  "eddie-sf-registrant": {
+    "must_include_categories": [
+      "jobs",
+      "food_benefits",
+      "health"
+    ],
+    "must_include_any": [
+      [
+        "America's Job Center",
+        "AJCC",
+        "Workforce",
+        "CEO",
+        "Center for Employment Opportunities",
+        "job"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "women only",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "women's shelter",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "for women",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "mothers",
+        "why": "client is a man without custody-linked mother programs"
+      },
+      {
+        "rule": "No family, children's, or youth housing/shelters whose written rules exclude sex registrants (PC 290), and no housing within restricted distance of schools/parks if the program says registrants are barred",
+        "check": "text_excludes_registrants"
+      },
+      {
+        "keyword": "family shelter",
+        "why": "registrants are typically barred from family shelters"
+      },
+      {
+        "keyword": "youth",
+        "why": "registrant cannot use youth-serving programs"
+      },
+      {
+        "rule": "No in-person programs located outside San Francisco County unless statewide or online (parole/probation county restriction)",
+        "check": "county_restriction",
+        "county": "San Francisco"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "CalFresh",
+        "why": "Registrant status does not affect CalFresh"
+      }
+    ]
+  },
+  "andre-longbeach": {
+    "must_include_categories": [
+      "jobs",
+      "food_benefits",
+      "health"
+    ],
+    "must_include_any": [
+      [
+        "warehouse",
+        "forklift",
+        "logistics",
+        "America's Job Center",
+        "AJCC",
+        "Workforce"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "General Assistance",
+        "General Relief",
+        "CAAP",
+        "County Adult Assistance"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "women only",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "women's shelter",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "for women",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "mothers",
+        "why": "client is a man without custody-linked mother programs"
+      },
+      {
+        "rule": "No in-person programs located outside Los Angeles County unless statewide or online (parole/probation county restriction)",
+        "check": "county_restriction",
+        "county": "Los Angeles"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "warehouse",
+        "aliases": [
+          "forklift",
+          "logistics"
+        ],
+        "why": "Fair chance employers; record is not a written bar"
+      }
+    ]
+  },
+  "brenda-sacramento": {
+    "must_include_categories": [
+      "housing",
+      "health",
+      "food_benefits",
+      "legal_id"
+    ],
+    "must_include_any": [
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "Social Security",
+        "SSA",
+        "SSN",
+        "SSI"
+      ],
+      [
+        "shelter",
+        "Coordinated Entry",
+        "navigation",
+        "211",
+        "emergency housing",
+        "access point"
+      ],
+      [
+        "clinic",
+        "health center",
+        "FQHC"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "men only",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's shelter",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's mission",
+        "why": "client is a woman"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "SSI",
+        "why": "Disability determination is unknown; must be worth_applying, never excluded"
+      },
+      {
+        "program_keyword": "General Assistance",
+        "why": "Sacramento GA eligibility depends on details; worth applying"
+      }
+    ]
+  },
+  "ray-kern": {
+    "must_include_categories": [
+      "legal_id",
+      "jobs",
+      "food_benefits",
+      "health"
+    ],
+    "must_include_any": [
+      [
+        "Cal-ID",
+        "DMV",
+        "ID card",
+        "identification card",
+        "state ID"
+      ],
+      [
+        "Social Security",
+        "SSA",
+        "SSN"
+      ],
+      [
+        "CalFresh"
+      ],
+      [
+        "Medi-Cal",
+        "BenefitsCal"
+      ],
+      [
+        "America's Job Center",
+        "AJCC",
+        "Workforce",
+        "CEO",
+        "Center for Employment Opportunities",
+        "job"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "women only",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "women's shelter",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "for women",
+        "why": "client is a man"
+      },
+      {
+        "keyword": "mothers",
+        "why": "client is a man without custody-linked mother programs"
+      },
+      {
+        "rule": "No in-person programs located outside Kern County unless statewide or online (parole/probation county restriction)",
+        "check": "county_restriction",
+        "county": "Kern"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "CalFresh",
+        "why": "Drug record not a bar; missing ID is not a reason to exclude"
+      },
+      {
+        "program_keyword": "DMV",
+        "aliases": [
+          "Cal-ID",
+          "ID card"
+        ],
+        "why": "Missing birth certificate is a step to solve, not an exclusion"
+      }
+    ]
+  },
+  "nina-oakland-lgbtq": {
+    "must_include_categories": [
+      "family",
+      "health",
+      "jobs",
+      "food_benefits"
+    ],
+    "must_include_any": [
+      [
+        "Project Rebound",
+        "community college",
+        "Rising Scholars",
+        "FAFSA",
+        "Cal Grant",
+        "college"
+      ],
+      [
+        "reunification",
+        "DCFS",
+        "Child Welfare",
+        "Children and Family",
+        "Children & Family",
+        "parenting",
+        "Family Services",
+        "custody",
+        "family law"
+      ],
+      [
+        "mental health",
+        "counseling",
+        "behavioral"
+      ],
+      [
+        "CalFresh"
+      ]
+    ],
+    "must_not": [
+      {
+        "keyword": "men only",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's shelter",
+        "why": "client is a woman"
+      },
+      {
+        "keyword": "men's mission",
+        "why": "client is a woman"
+      }
+    ],
+    "gray_areas": [
+      {
+        "program_keyword": "Rising Scholars",
+        "aliases": [
+          "Project Rebound",
+          "college"
+        ],
+        "why": "On probation is no bar to community college reentry programs"
+      }
+    ]
+  }
+}

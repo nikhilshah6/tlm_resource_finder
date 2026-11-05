@@ -1,0 +1,486 @@
+[intake] agent_start: Reading the situation
+[intake] found: Profile ready: Oakland, Alameda County
+[orchestrator] agent_start: Ordering needs and briefing the finders
+[] stats: 0
+[orchestrator] found: Needs: housing (this week), legal id (this week), food benefits (this week), health (this week), jobs (this month), legal id (this month)
+[housing] agent_start: Housing: Find a reentry or transitional bed for a single man on parole in Oakland/Alameda County that can take him before the end of the month (sober living, reentry housing, or a parolee program such as STOP or a CDCR-funded bed through his parole agent). Also find longer-term affordable or rapid-rehousing programs that lead to his own apartment. List intake steps and any waitlists.
+[legal_id] agent_start: Legal, ID & money: 1) Get a replacement Social Security card: find the nearest SSA office to Oakland 94607 and list what to bring (his state ID) and whether he needs an appointment. 2) Find second-chance banking: a free or low-fee checking account he can open with a state ID, and how to check whether a ChexSystems record would block him. 3) Find a free record-relief consultation (e.g. Alameda County Public Defender Clean Slate, East Bay Community Law Center) about relief for his property conviction after parole, and about any certificate-of-rehabilitation path.
+[food_benefits] agent_start: Food & benefits: Help him apply for CalFresh with expedited (within 3 days) issuance, plus Alameda County General Assistance cash aid. List the nearest Social Services office or online application (BenefitsCal) and drop-in food pantries or free meals near 94607 to cover him until benefits arrive. Mention transit fare help (e.g. a reduced-fare Clipper card).
+[health] agent_start: Health & recovery: Enroll him in Medi-Cal (Alameda County) and connect him to a primary care clinic near West Oakland that serves people after release (e.g. a federally qualified health center or Transitions Clinic). Include where he can get an occupational or physical exam if an employer or forklift program requires one.
+[jobs] agent_start: Jobs & training: Find warehouse and logistics jobs (day or swing shifts) open to people with records in Alameda County, plus free or low-cost forklift certification programs (e.g. a reentry job-training program, Workforce Development Board / AJCC funding, Cypress Mandela, Oakland Private Industry Council). Focus on fair-chance employers near the Port of Oakland, Hayward and San Leandro that he can reach by transit.
+[] stats: 0
+[food_benefits] tool_call: TLM resource snapshot: food benefits Alameda CalFresh General Assistance Oakland food pantry
+[food_benefits] tool_call: 211 search: food pantry free meals Oakland 94607
+[food_benefits] error: 211 API key not configured; search 211 county websites with web search instead
+[food_benefits] tool_call: TLM resource snapshot: food benefits Alameda
+[] stats: 0
+[health] tool_call: TLM resource snapshot: health Alameda Oakland clinic health center primary care
+[health] tool_call: TLM resource snapshot: food benefits Medi-Cal Alameda enrollment
+[health] tool_call: 211 search: Transitions Clinic Oakland primary care after release
+[health] error: 211 API key not configured; search 211 county websites with web search instead
+[] stats: 0
+[legal_id] tool_call: TLM resource snapshot: legal id Social Security card record clearance expungement Alameda
+[legal_id] tool_call: FDIC bank branches in Oakland
+[legal_id] tool_call: 211 search: record clearance expungement Alameda County free legal
+[legal_id] error: 211 API key not configured; search 211 county websites with web search instead
+[legal_id] tool_call: TLM resource snapshot: food benefits bank account second chance checking
+[] stats: 0
+[jobs] tool_call: TLM resource snapshot: jobs warehouse forklift logistics Alameda Oakland
+[jobs] tool_call: CareerOneStop job centers near Oakland
+[jobs] error: CareerOneStop key not configured; use snapshot and web search for job centers
+[jobs] tool_call: 211 search: forklift certification reentry job training Oakland
+[jobs] error: 211 API key not configured; search 211 county websites with web search instead
+[] stats: 0
+[housing] tool_call: TLM resource snapshot: housing Alameda Oakland transitional sober living parolee reentry
+[housing] tool_call: HUD housing counselors within 10 mi of Oakland
+[housing] tool_call: 211 search: reentry transitional housing Oakland parolee
+[housing] error: 211 API key not configured; search 211 county websites with web search instead
+[health] tool_call: Web search: Transitions Clinic Network Oakland Alameda Health System formerly incarcerated primary care
+[health] tool_call: Web search: Transitions Clinic Network Oakland Alameda Health System formerly incarcerated primary care
+[health] tool_call: Web search: LifeLong Medical Care West Oakland clinic
+[health] tool_call: Web search: Alameda County Social Services Medi-Cal apply in person Oakland
+[health] tool_call: Web search: LifeLong Medical Care West Oakland Health Center address phone
+[health] tool_call: Web search: Alameda County Social Services Agency Medi-Cal apply Oakland office
+[health] tool_call: Web search: Transitions Clinic Alameda Health System Oakland formerly incarcerated
+[health] tool_call: Web search: Oakland occupational health clinic pre-employment physical forklift walk-in
+[] stats: 65
+[health] tool_call: TLM resource snapshot: health Oakland
+[health] tool_call: TLM resource snapshot: legal id Alameda Social Security
+[health] tool_call: TLM resource snapshot: jobs Oakland Alameda
+[food_benefits] tool_call: Web search: Alameda County Social Services CalFresh apply expedited Oakland office
+[food_benefits] tool_call: Web search: Alameda County Social Services CalFresh apply expedited Oakland office
+[food_benefits] tool_call: Web search: Alameda County General Assistance apply Oakland
+[food_benefits] tool_call: Web search: Alameda County Community Food Bank find food pantry Oakland
+[food_benefits] tool_call: Web search: Alameda County Community Food Bank Oakland food pantry free meals near me
+[] stats: 104
+[food_benefits] found: Food & benefits: 1 programs shortlisted
+[jobs] tool_call: Web search: Cypress Mandela training center Oakland forklift warehouse
+[jobs] tool_call: Web search: Cypress Mandela training center Oakland forklift warehouse
+[jobs] tool_call: Web search: Oakland Private Industry Council forklift reentry
+[jobs] tool_call: Web search: Alameda County reentry forklift certification free
+[jobs] tool_call: Web search: Oakland free forklift certification reentry Alameda County
+[jobs] tool_call: Web search: Oakland Private Industry Council America's Job Center West Oakland
+[jobs] tool_call: Reading https://oaklandside.org/2026/07/08/cypress-mandela-training-center-oakland-apprenticeship-trades-hvac/
+[] stats: 143
+[jobs] found: Jobs & training: 1 programs shortlisted
+[housing] tool_call: Web search: Alameda County reentry housing parolee Oakland transitional housing
+[housing] tool_call: Web search: Alameda County reentry housing parolee Oakland transitional housing
+[housing] tool_call: Web search: Alameda County Coordinated Entry Housing Resource Centers Oakland EveryOne Home
+[housing] tool_call: Web search: Oakland sober living reentry men parole Alameda County free bed
+[] stats: 181
+[housing] tool_call: TLM resource snapshot: housing Alameda
+[housing] tool_call: TLM resource snapshot: legal id Alameda Oakland reentry
+[housing] tool_call: TLM resource snapshot: housing parole CDCR transitional
+[legal_id] tool_call: Web search: SSA office Oakland CA 94607 replacement Social Security card appointment
+[legal_id] tool_call: Web search: SSA office Oakland CA 94607 replacement Social Security card appointment
+[legal_id] tool_call: Web search: SSA office Oakland CA 94607 replacement Social Security card appointment
+[legal_id] tool_call: Web search: Wells Fargo Opportunity Checking OR Bank of America Safebalance second chance checking ChexSystems
+[legal_id] tool_call: Web search: Alameda County Public Defender Clean Slate record clearance
+[legal_id] tool_call: Web search: second chance checking account Bank On certified ChexSystems free report
+[legal_id] tool_call: Reading 
+[] stats: 220
+[legal_id] found: Legal, ID & money: 4 programs shortlisted
+[health] tool_call: Web search: LifeLong Medical Care West Oakland Health Center
+[health] tool_call: Reading https://www.lifelongmedical.org/locations/
+[health] tool_call: Reading https://www.alamedahealthsystem.org/
+[] stats: 220
+[] stats: 220
+[health] found: Health & recovery: 0 programs shortlisted
+[housing] tool_call: Reading https://alamedacountyca.gov/probation/documents/AB109RequestFPMeeting11.1.22.pdf
+[housing] tool_call: Reading https://www.achch.org
+[] stats: 220
+[housing] found: Housing: 4 programs shortlisted
+[eligibility] agent_start: Checking eligibility for 4 housing programs
+[eligibility] agent_start: Checking eligibility for 4 legal, id & money programs
+[eligibility] agent_start: Checking eligibility for 1 food & benefits programs
+[eligibility] agent_start: Checking eligibility for 1 jobs & training programs
+[] stats: 220
+[eligibility] tool_call: Rule lookup: CalFresh
+[] stats: 220
+[eligibility] verdict: Jobs & training: 1 recommended, 0 excluded
+[] stats: 220
+[eligibility] verdict: Food & benefits: 1 recommended, 0 excluded
+[] stats: 220
+[eligibility] verdict: Housing: 4 recommended, 0 excluded
+[] stats: 220
+[eligibility] verdict: Legal, ID & money: 4 recommended, 0 excluded
+[ranker] agent_start: Ranking options and writing the plan for today
+[] stats: 220
+[ranker] found: Plan ready: 8 recommendations, 3 steps for today
+{
+  "profile": {
+    "id": "marcus-oakland",
+    "display_name": "Marcus",
+    "city": "Oakland",
+    "county": "Alameda",
+    "zip": "94607",
+    "lat": 37.8044,
+    "lon": -122.2712,
+    "days_since_release": 25,
+    "supervision": {
+      "type": "parole",
+      "curfew": "9pm-6am",
+      "gps": false,
+      "county_restriction": "Alameda",
+      "notes": "Reports to Oakland parole office every two weeks"
+    },
+    "documents_held": [
+      "state_id",
+      "birth_certificate"
+    ],
+    "housing_status": "family_or_friends",
+    "household_size": 1,
+    "monthly_income": 0,
+    "gender": "man",
+    "lgbtq": false,
+    "children": null,
+    "offense_categories": [
+      "property"
+    ],
+    "insurance": null,
+    "goals": [
+      "warehouse work",
+      "own apartment",
+      "forklift certification"
+    ],
+    "barriers": [
+      "must leave sister's place by end of month",
+      "9pm curfew rules out night shifts",
+      "no SSN card"
+    ],
+    "notes": "Sister's lease does not allow long-term guests."
+  },
+  "sections": [
+    {
+      "need": {
+        "category": "housing",
+        "urgency": "this_week",
+        "why": "Must leave his sister's place by the end of the month because her lease doesn't allow long-term guests. He has about a week or two left before he could end up without a place to sleep, and he has $0 income, so he needs a reentry or transitional bed lined up now."
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "Money Management International - Oakland",
+            "category": "housing",
+            "description": "HUD-approved housing counseling agency (rental help, homelessness prevention, finding housing). Not a bed program. Can help with a rental plan and budget. Ask about leads on reentry beds.",
+            "address": "1901 Harrison St Ste 1100",
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": "866-232-9080",
+            "url": "http://www.moneymanagement.org",
+            "hours": null,
+            "who_it_serves": "General public; English, Spanish",
+            "intake_requirements": "Call to confirm. Not verified this run.",
+            "cost": "Call to confirm",
+            "source": "hud",
+            "source_url": "https://data.hud.gov/Housing_Counselor/",
+            "tlm_network": false,
+            "distance_miles": 0.3,
+            "verdict": "likely",
+            "reason": "HUD-approved housing counseling serves the general public. No criminal-record bar applies to counseling (HUD housing bars cover assisted-housing admission, not counseling). It's 0.3 mi away in Alameda, inside his parole county, and can help with rental planning and budgeting before he has to leave his sister's place.",
+            "confirm_question": "Is counseling free, and do you have leads on reentry or transitional beds open by end of month?",
+            "rule_cited": "Program listing: 'General public'; HUD Housing Counselor directory",
+            "rule_url": "https://data.hud.gov/Housing_Counselor/"
+          },
+          "why_it_fits": "It's 0.3 miles away and can help him make a housing plan before he has to leave his sister's place, but it doesn't provide beds, so he should ask straight away for leads on reentry or transitional beds open by the end of the month.",
+          "what_to_bring": [
+            "State ID",
+            "Parole/release papers",
+            "Parole agent's name and phone number",
+            "Note of his move-out date"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "NID-Housing Counseling Agency (NID-HCA)",
+            "category": "housing",
+            "description": "HUD-approved housing counseling agency (rental help, homelessness prevention, finding housing). Languages include Creole, English, Spanish.",
+            "address": "7677 Oakport St Ste 510",
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": "510-268-9792",
+            "url": "https://www.nidhousing.com/",
+            "hours": null,
+            "who_it_serves": "General public",
+            "intake_requirements": "Call to confirm. Not verified this run.",
+            "cost": "Call to confirm",
+            "source": "hud",
+            "source_url": "https://data.hud.gov/Housing_Counselor/",
+            "tlm_network": false,
+            "distance_miles": 5.4,
+            "verdict": "likely",
+            "reason": "HUD-approved counseling agency open to the general public, 5.4 mi away in Oakland, inside his parole county. No exclusion applies.",
+            "confirm_question": "Can you see him for homelessness-prevention counseling before the end of this month?",
+            "rule_cited": "Program listing: 'General public'; HUD Housing Counselor directory",
+            "rule_url": "https://data.hud.gov/Housing_Counselor/"
+          },
+          "why_it_fits": "It offers homelessness-prevention counseling in Oakland, which is the right help when he has a deadline to leave and $0 income, if they can see him before the end of the month.",
+          "what_to_bring": [
+            "State ID",
+            "Parole/release papers",
+            "Note of his move-out date"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Habitat For Humanity East Bay/Silicon Valley",
+            "category": "housing",
+            "description": "HUD-approved housing counseling agency (rental help, homelessness prevention, finding housing). Can help with the longer-term path to his own apartment.",
+            "address": "2619 Broadway",
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": "510-803-3362",
+            "url": "http://www.habitatebsv.org/",
+            "hours": null,
+            "who_it_serves": "General public; English, Spanish",
+            "intake_requirements": "Call to confirm. Not verified this run.",
+            "cost": "Call to confirm",
+            "source": "hud",
+            "source_url": "https://data.hud.gov/Housing_Counselor/",
+            "tlm_network": false,
+            "distance_miles": 0.8,
+            "verdict": "likely",
+            "reason": "HUD-approved counseling agency open to the general public in Oakland (0.8 mi). It fits his longer-term goal of his own apartment, and no written exclusion applies.",
+            "confirm_question": "Do you offer rental (not just homebuyer) counseling for someone with zero income right now?",
+            "rule_cited": "Program listing: 'General public'; HUD Housing Counselor directory",
+            "rule_url": "https://data.hud.gov/Housing_Counselor/"
+          },
+          "why_it_fits": "It's for the longer-term path to his own apartment once he has income, if they do rental counseling for someone with no income right now.",
+          "what_to_bring": [
+            "State ID",
+            "Any proof of income once he has it"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "food_benefits",
+        "urgency": "this_week",
+        "why": "25 days out with no income and a household of one. He should qualify for CalFresh, possibly with expedited issuance, and for Alameda County General Assistance cash aid to cover basics and transit fare."
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "Alameda County CalFresh (apply online via BenefitsCal, phone, mail or in person)",
+            "category": "food_benefits",
+            "description": "Apply for CalFresh online at BenefitsCal, by phone, or by mail. A household with no income may qualify for expedited service, with benefits within 3 calendar days of the county receiving the application. Ask for expedited processing when applying. Regular applications are processed within 30 days.",
+            "address": "Mail-in: P.O. Box 12941, Oakland, CA 94604",
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": "(510) 272-3663",
+            "url": "https://benefitscal.com",
+            "hours": "Offices are open weekdays, roughly 8am-5pm, except county holidays. Confirm by phone.",
+            "who_it_serves": "Alameda County residents with low or no income",
+            "intake_requirements": "Apply now with state ID; give the SSN if known. The SSN card replacement does not have to be finished before applying. Confirm office address and hours with the county before going in person.",
+            "cost": "Free",
+            "source": "web",
+            "source_url": "https://newcomerswelcome.acgov.org/resource-directory/calfresh/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "Marcus lives in Oakland, in Alameda County, and has $0 monthly income in a 1-person household. That matches who the listing serves: Alameda County residents with low or no income. With no income, he may qualify for expedited benefits within 3 days, so he should ask for expedited processing. He can apply with his state ID. The listing says he doesn't need to finish replacing his SSN card before applying. His property offense doesn't exclude him from CalFresh. Since he has a 9pm curfew, he can apply online through BenefitsCal or by phone.",
+            "confirm_question": null,
+            "rule_cited": "Program listing: 'Alameda County residents with low or no income'; 'Apply now with state ID... SSN card replacement does not have to be finished before applying.'",
+            "rule_url": "https://newcomerswelcome.acgov.org/resource-directory/calfresh/"
+          },
+          "why_it_fits": "With $0 income and a household of one, he can ask for expedited CalFresh and may get food benefits within 3 days, without waiting for his SSN card.",
+          "what_to_bring": [
+            "State ID",
+            "SSN if he knows it",
+            "Release papers",
+            "Note that his income is $0 and he lives at his sister's address for now"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "jobs",
+        "urgency": "this_month",
+        "why": "His goals are warehouse work and forklift certification. Income is the path to his own apartment. His 9pm–6am curfew rules out night and graveyard shifts, so it has to be day or swing work that ends early enough to get home by 9pm."
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "Cypress Mandela Training Center",
+            "category": "jobs",
+            "description": "Free, competitive pre-apprenticeship program in East Oakland that trains people for union trades jobs. An Oaklandside article describes large orientations where people apply. The article doesn't mention forklift training or warehouse jobs. Ask staff whether they offer forklift or logistics certificates or can refer him to one.",
+            "address": "66th Avenue and San Leandro Street, Oakland, CA",
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": null,
+            "url": "https://www.cypressmandela.org",
+            "hours": null,
+            "who_it_serves": "Bay Area residents seeking trades pre-apprenticeship. Confirm whether people with records are accepted.",
+            "intake_requirements": "Attend an orientation and apply. Confirm dates, ID needs and SSN card timing by phone.",
+            "cost": "Free, per the article. Confirm with the program.",
+            "source": "web",
+            "source_url": "https://oaklandside.org/2026/07/08/cypress-mandela-training-center-oakland-apprenticeship-trades-hvac/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "worth_applying",
+            "reason": "Free trades pre-apprenticeship program in Oakland, inside his Alameda County parole limits. It fits his warehouse and job goals, but the article doesn't mention forklift training. The listing also doesn't say whether people with records are accepted or whether an SSN card is needed to enroll. No written rule excludes him.",
+            "confirm_question": "Can someone on parole with a property conviction enroll using a state ID and birth certificate while his replacement SSN card is pending, and are classes held during the day so he's home by his 9pm curfew?",
+            "rule_cited": "Program listing (Oaklandside article, 2026-07-08); gray-area policy",
+            "rule_url": "https://oaklandside.org/2026/07/08/cypress-mandela-training-center-oakland-apprenticeship-trades-hvac/"
+          },
+          "why_it_fits": "It's a free Oakland pre-apprenticeship that could lead to steady day work, but he needs to ask whether it offers forklift or logistics training or can refer him to it, and whether classes end before his 9pm curfew.",
+          "what_to_bring": [
+            "State ID",
+            "Birth certificate",
+            "SSN card or the SSA receipt",
+            "Parole agent contact info"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "legal_id",
+        "urgency": "this_month",
+        "why": "He needs a bank account to receive direct-deposit pay and save a security deposit. Record relief for his property conviction is a longer-term step: most relief opens up only after parole ends, but a consultation now helps him plan."
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "Social Security Office – Oakland",
+            "category": "legal_id",
+            "description": "Handles replacement Social Security cards. Per the listing, an appointment is not required, but calling ahead may shorten the wait. Bring the state ID you hold. Replacement cards are free. Confirm hours and phone at ssa.gov before going. Visit in daytime, within the 9pm–6am curfew.",
+            "address": "360 22nd St, Suite 400",
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": null,
+            "url": null,
+            "hours": null,
+            "who_it_serves": "Anyone needing a replacement SSN card",
+            "intake_requirements": "State ID (proof of identity); birth certificate is also useful for proof of citizenship. Unverified: confirm current document list with SSA.",
+            "cost": "Free",
+            "source": "web",
+            "source_url": "https://ssa-office.com/org/social-security-office-in-oakland/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "The office serves anyone who needs a replacement SSN card, and Marcus has no SSN card. He already has a state ID to prove who he is and a birth certificate to prove citizenship. Replacement cards are free. Daytime visits fit his 9pm-6am curfew, and the office is in Alameda County, so it's within his county restriction.",
+            "confirm_question": "Can he call ssa.gov or the office to check current hours and get started online first, which may shorten the wait?",
+            "rule_cited": "Program listing: 'Anyone needing a replacement SSN card'; intake requires state ID",
+            "rule_url": "https://ssa-office.com/org/social-security-office-in-oakland/"
+          },
+          "why_it_fits": "He already has a state ID and birth certificate, so he can get a free replacement Social Security card here during the day, which employers need for hiring paperwork.",
+          "what_to_bring": [
+            "State ID",
+            "Birth certificate",
+            "Parole/release papers (in case they're useful)"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "legal_id",
+        "urgency": "this_month",
+        "why": "He needs a bank account to receive direct-deposit pay and save a security deposit. Record relief for his property conviction is a longer-term step: most relief opens up only after parole ends, but a consultation now helps him plan."
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "Summit Bank – Broadway branch (ask about second-chance/Bank On account)",
+            "category": "legal_id",
+            "description": "FDIC-insured Oakland branch. Listing only says to check for a second-chance or Bank On certified account. Not confirmed that it offers one. Ask whether it checks ChexSystems and what the fees and minimum deposit are.",
+            "address": "2969 Broadway",
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": null,
+            "url": null,
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": "State ID. Unverified.",
+            "cost": null,
+            "source": "fdic",
+            "source_url": "https://banks.data.fdic.gov/bankfind-suite/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "worth_applying",
+            "reason": "The listing doesn't confirm that this branch offers a second-chance or Bank On account. No written rule excludes him. He has the state ID the listing asks for, and the branch is in Alameda County.",
+            "confirm_question": "Does this branch offer a second-chance or Bank On account that doesn't screen with ChexSystems and has no minimum deposit, and will it open the account with a state ID and his SSN number (no card)?",
+            "rule_cited": "Program listing (FDIC BankFind): second-chance/Bank On account not confirmed",
+            "rule_url": "https://banks.data.fdic.gov/bankfind-suite/"
+          },
+          "why_it_fits": "A second-chance or Bank On account would let him get his pay by direct deposit and save for a security deposit, but he needs to ask if it skips ChexSystems and has no minimum deposit.",
+          "what_to_bring": [
+            "State ID",
+            "SSN card or the number",
+            "Mailing address"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Wells Fargo – Oakland Main Branch (ask about low-fee/Bank On account)",
+            "category": "legal_id",
+            "description": "FDIC-insured branch downtown, reachable by transit. Listing only says to check for a second-chance or Bank On certified account. Not confirmed. Ask about ChexSystems screening, monthly fees, and a no-overdraft option.",
+            "address": "2040 Franklin St",
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": null,
+            "url": null,
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": "State ID. Unverified.",
+            "cost": null,
+            "source": "fdic",
+            "source_url": "https://banks.data.fdic.gov/bankfind-suite/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "worth_applying",
+            "reason": "The listing doesn't confirm a low-fee or Bank On account. No written exclusion applies. He has a state ID, and the branch is downtown and reachable by transit.",
+            "confirm_question": "Does this branch offer a Bank On certified account with no overdraft fees, and does it screen applicants with ChexSystems?",
+            "rule_cited": "Program listing (FDIC BankFind): low-fee/Bank On account not confirmed",
+            "rule_url": "https://banks.data.fdic.gov/bankfind-suite/"
+          },
+          "why_it_fits": "It's a downtown branch he can reach by transit and a backup if Summit Bank doesn't work out; he should ask for a Bank On account with no overdraft fees.",
+          "what_to_bring": [
+            "State ID",
+            "SSN card or the number",
+            "Mailing address"
+          ]
+        }
+      ]
+    }
+  ],
+  "act_today": [
+    {
+      "step": "Call Money Management International (0.3 mi) today. Tell them he has to leave his sister's place by the end of the month and ask for leads on reentry or transitional beds. Also ask his parole agent about parolee housing referrals.",
+      "resource_name": "Money Management International - Oakland",
+      "what_to_bring": [
+        "State ID",
+        "Parole papers",
+        "Parole agent contact info"
+      ]
+    },
+    {
+      "step": "Apply for CalFresh on BenefitsCal and ask for expedited service because his income is $0.",
+      "resource_name": "Alameda County CalFresh (apply online via BenefitsCal, phone, mail or in person)",
+      "what_to_bring": [
+        "State ID",
+        "SSN if known",
+        "Release papers"
+      ]
+    },
+    {
+      "step": "Check the Oakland SSA office hours on ssa.gov, then go during the day to request a free replacement Social Security card.",
+      "resource_name": "Social Security Office – Oakland",
+      "what_to_bring": [
+        "State ID",
+        "Birth certificate"
+      ]
+    }
+  ],
+  "excluded": [],
+  "stats": {
+    "programs_checked": 220,
+    "sources_searched": 76,
+    "est_minutes_saved": 228,
+    "seconds": 85.9,
+    "candidates_judged": 10
+  }
+}

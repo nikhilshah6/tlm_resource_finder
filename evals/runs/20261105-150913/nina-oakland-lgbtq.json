@@ -1,0 +1,582 @@
+{
+  "profile": {
+    "id": "nina-oakland-lgbtq",
+    "display_name": "Nina",
+    "city": "Oakland",
+    "county": "Alameda",
+    "zip": "94621",
+    "lat": null,
+    "lon": null,
+    "days_since_release": 75,
+    "supervision": {
+      "type": "probation",
+      "curfew": null,
+      "gps": false,
+      "county_restriction": null,
+      "notes": null
+    },
+    "documents_held": [
+      "state_id",
+      "ssn_card",
+      "birth_certificate"
+    ],
+    "housing_status": "family_or_friends",
+    "household_size": 1,
+    "monthly_income": 700,
+    "gender": "woman",
+    "lgbtq": true,
+    "children": "1 son (age 12) with her mother; wants joint custody",
+    "offense_categories": [
+      "property"
+    ],
+    "insurance": "Medi-Cal",
+    "goals": [
+      "college (Laney)",
+      "reunify with son",
+      "mental health counseling"
+    ],
+    "barriers": [
+      "part-time income",
+      "anxiety"
+    ],
+    "notes": null
+  },
+  "sections": [
+    {
+      "need": {
+        "category": "food_benefits",
+        "urgency": "this_week",
+        "why": "food_benefits need"
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "CalFresh (apply on BenefitsCal)",
+            "category": "food_benefits",
+            "description": "Monthly food benefits on an EBT card. A drug felony does not disqualify you in California.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": null,
+            "url": "https://www.cdss.ca.gov/calfresh",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "snapshot",
+            "source_url": "https://www.cdss.ca.gov/calfresh",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "CalWORKs",
+            "category": "food_benefits",
+            "description": "Cash aid and childcare for families with children.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": null,
+            "url": "https://www.cdss.ca.gov/calworks",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "snapshot",
+            "source_url": "https://www.cdss.ca.gov/calworks",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Alameda County General Assistance",
+            "category": "food_benefits",
+            "description": "County cash aid for adults without children.",
+            "address": null,
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": null,
+            "url": "https://www.alamedacountysocialservices.org/our-services/Work-and-Money/General-Assistance/index",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "snapshot",
+            "source_url": "https://www.alamedacountysocialservices.org/our-services/Work-and-Money/General-Assistance/index",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "health",
+        "urgency": "this_week",
+        "why": "health need"
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "Medi-Cal (apply on BenefitsCal)",
+            "category": "health",
+            "description": "Free health coverage for low-income Californians, including substance use treatment.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": null,
+            "url": "https://www.dhcs.ca.gov/services/medi-cal",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "snapshot",
+            "source_url": "https://www.dhcs.ca.gov/services/medi-cal",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "SAMHSA treatment locator - substance use treatment",
+            "category": "health",
+            "description": "Find licensed substance use treatment and recovery programs near you.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": null,
+            "url": "https://findtreatment.gov/",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "findtreatment",
+            "source_url": "https://findtreatment.gov/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "legal_id",
+        "urgency": "this_week",
+        "why": "legal_id need"
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "DMV Cal-ID card (reduced fee)",
+            "category": "legal_id",
+            "description": "California identification card; reduced-fee or no-fee ID available.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": null,
+            "url": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/identification-id-cards/",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "snapshot",
+            "source_url": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/identification-id-cards/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Social Security card replacement (SSA)",
+            "category": "legal_id",
+            "description": "Replace a lost Social Security card online or at a local SSA office.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": null,
+            "url": "https://www.ssa.gov/number-card/replace-card",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "snapshot",
+            "source_url": "https://www.ssa.gov/number-card/replace-card",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Clean Slate record clearance clinic (1203.4 expungement)",
+            "category": "legal_id",
+            "description": "Free help with expungement, Prop 47 reductions, and record relief.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": null,
+            "url": "https://selfhelp.courts.ca.gov/clean-your-record",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "snapshot",
+            "source_url": "https://selfhelp.courts.ca.gov/clean-your-record",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "jobs",
+        "urgency": "this_week",
+        "why": "jobs need"
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "America's Job Center of California (AJCC)",
+            "category": "jobs",
+            "description": "Free job search help, training vouchers, forklift and warehouse certifications.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": null,
+            "url": "https://www.caljobs.ca.gov/",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "careeronestop",
+            "source_url": "https://www.caljobs.ca.gov/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Truck driving CDL training (WIOA-funded)",
+            "category": "jobs",
+            "description": "Class A CDL training through WIOA vouchers.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": null,
+            "url": "https://www.caljobs.ca.gov/",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "careeronestop",
+            "source_url": "https://www.caljobs.ca.gov/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "worth_applying",
+            "reason": "Screened case-by-case.",
+            "confirm_question": "Has your parole/probation officer approved this?",
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Project Rebound / Rising Scholars college program",
+            "category": "jobs",
+            "description": "College support for formerly incarcerated students.",
+            "address": null,
+            "city": null,
+            "county": null,
+            "phone": null,
+            "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "web",
+            "source_url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "housing",
+        "urgency": "this_week",
+        "why": "housing need"
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "Coordinated Entry access point (call 211)",
+            "category": "housing",
+            "description": "Entry point for shelter, navigation centers, and transitional housing.",
+            "address": null,
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": null,
+            "url": "https://www.211ca.org/",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "211",
+            "source_url": "https://www.211ca.org/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        },
+        {
+          "candidate": {
+            "name": "Reentry transitional housing program",
+            "category": "housing",
+            "description": "Transitional housing for people leaving prison; violent records screened case-by-case.",
+            "address": null,
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": null,
+            "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "web",
+            "source_url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        }
+      ]
+    },
+    {
+      "need": {
+        "category": "family",
+        "urgency": "this_week",
+        "why": "family need"
+      },
+      "recommendations": [
+        {
+          "candidate": {
+            "name": "Child Welfare reunification parenting classes",
+            "category": "family",
+            "description": "Parenting and family reunification support for parents with an open case.",
+            "address": null,
+            "city": "Oakland",
+            "county": "Alameda",
+            "phone": null,
+            "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+            "hours": null,
+            "who_it_serves": null,
+            "intake_requirements": null,
+            "cost": null,
+            "source": "snapshot",
+            "source_url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+            "tlm_network": false,
+            "distance_miles": null,
+            "verdict": "likely",
+            "reason": "No written rule excludes this person.",
+            "confirm_question": null,
+            "rule_cited": null,
+            "rule_url": null
+          },
+          "why_it_fits": "Fits Nina's situation in Alameda County.",
+          "what_to_bring": [
+            "ID if you have it",
+            "release papers"
+          ]
+        }
+      ]
+    }
+  ],
+  "act_today": [
+    {
+      "step": "Apply for CalFresh and Medi-Cal on BenefitsCal",
+      "resource_name": "CalFresh (apply on BenefitsCal)",
+      "what_to_bring": [
+        "ID",
+        "proof of income"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "name": "Veterans transitional housing (VA GPD)",
+      "category": "housing",
+      "description": "Transitional housing for veterans.",
+      "address": null,
+      "city": null,
+      "county": null,
+      "phone": null,
+      "url": "https://www.va.gov/homeless/gpd.asp",
+      "hours": null,
+      "who_it_serves": null,
+      "intake_requirements": null,
+      "cost": null,
+      "source": "hud",
+      "source_url": "https://www.va.gov/homeless/gpd.asp",
+      "tlm_network": false,
+      "distance_miles": null,
+      "verdict": "not_eligible",
+      "reason": "Program rules require veteran status; profile does not show military service.",
+      "confirm_question": null,
+      "rule_cited": "Grant and Per Diem program serves homeless veterans only (38 CFR 61).",
+      "rule_url": "https://www.va.gov/homeless/gpd.asp"
+    },
+    {
+      "name": "Downtown men's shelter",
+      "category": "housing",
+      "description": null,
+      "address": null,
+      "city": null,
+      "county": null,
+      "phone": null,
+      "url": null,
+      "hours": null,
+      "who_it_serves": null,
+      "intake_requirements": null,
+      "cost": null,
+      "source": "211",
+      "source_url": null,
+      "tlm_network": false,
+      "distance_miles": null,
+      "verdict": "not_eligible",
+      "reason": "Unclear whether there are beds; info missing.",
+      "confirm_question": null,
+      "rule_cited": null,
+      "rule_url": null
+    }
+  ],
+  "stats": {
+    "programs_checked": 16,
+    "sources_searched": 6
+  }
+}

@@ -1,0 +1,1260 @@
+{
+  "summary": {
+    "profiles": 18,
+    "errors": 0,
+    "recall": 0.9862068965517241,
+    "category_recall": 1.0,
+    "any_recall": 0.9733333333333334,
+    "gray_kept": 0.9375,
+    "wrong_exclusions": 18,
+    "must_not": 0,
+    "invented": 0,
+    "web_unverified": 36,
+    "links": 0.6666666666666666,
+    "seconds_avg": 0.17777777777777778,
+    "seconds_max": 0.2
+  },
+  "meta": {
+    "run_dir": "evals/runs/20261105-150750",
+    "fake": true,
+    "concurrency": 3,
+    "grader_note": "LLM grader disabled (--no-llm); heuristic used for wrong exclusions.",
+    "links": true
+  },
+  "rows": [
+    {
+      "id": "marcus-oakland",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 5,
+      "cat_total": 5,
+      "any_hit": 6,
+      "any_total": 6,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 2,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "transitional",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "Reentry transitional housing program"
+        },
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "anthony-sf",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 5,
+      "cat_total": 5,
+      "any_hit": 5,
+      "any_total": 5,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 2,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "shelter",
+          "status": "kept",
+          "verdict": "worth_applying",
+          "name": "Reentry transitional housing program"
+        },
+        {
+          "keyword": "Cal-ID",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "DMV Cal-ID card (reduced fee)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 8,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://www.sf.gov/apply-cash-assistance-caap",
+          "status": 404
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "lashonda-la",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 5,
+      "cat_total": 5,
+      "any_hit": 4,
+      "any_total": 4,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 3,
+      "gray_total": 3,
+      "gray_details": [
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        },
+        {
+          "keyword": "expungement",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "Clean Slate record clearance clinic (1203.4 expungement)"
+        },
+        {
+          "keyword": "CalWORKs",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalWORKs"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadError"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "rosa-fresno",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 3,
+      "cat_total": 3,
+      "any_hit": 4,
+      "any_total": 4,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 3,
+      "gray_total": 3,
+      "gray_details": [
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        },
+        {
+          "keyword": "Medi-Cal",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "Medi-Cal (apply on BenefitsCal)"
+        },
+        {
+          "keyword": "Job",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "America's Job Center of California (AJCC)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "devon-la-registrant",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 4,
+      "cat_total": 4,
+      "any_hit": 5,
+      "any_total": 5,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 1,
+      "gray_total": 1,
+      "gray_details": [
+        {
+          "keyword": "General Relief",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "LA County General Relief"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "jamie-sandiego",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 4,
+      "cat_total": 4,
+      "any_hit": 3,
+      "any_total": 3,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 1,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "women",
+          "status": "missing"
+        },
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "luis-riverside-cdl",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 4,
+      "cat_total": 4,
+      "any_hit": 4,
+      "any_total": 4,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 2,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "CDL",
+          "status": "kept",
+          "verdict": "worth_applying",
+          "name": "Truck driving CDL training (WIOA-funded)"
+        },
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 8,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://rivcodpss.org/",
+          "status": 403
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "keisha-sacramento",
+      "seconds": 0.1,
+      "error": null,
+      "cat_hit": 3,
+      "cat_total": 3,
+      "any_hit": 2,
+      "any_total": 3,
+      "missing_categories": [],
+      "missing_groups": [
+        [
+          "culinary",
+          "kitchen",
+          "food service",
+          "chef",
+          "Homeboy"
+        ]
+      ],
+      "gray_kept": 1,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "transitional",
+          "status": "kept",
+          "verdict": "worth_applying",
+          "name": "Reentry transitional housing program"
+        },
+        {
+          "keyword": "culinary",
+          "status": "missing"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 8,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://dhs.saccounty.gov/PRI/Pages/General-Assistance/GA-Home.aspx",
+          "status": 404
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "tomas-bakersfield",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 3,
+      "cat_total": 3,
+      "any_hit": 3,
+      "any_total": 3,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 1,
+      "gray_total": 1,
+      "gray_details": [
+        {
+          "keyword": "expungement",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "Clean Slate record clearance clinic (1203.4 expungement)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "darnell-oakland",
+      "seconds": 0.1,
+      "error": null,
+      "cat_hit": 4,
+      "cat_total": 4,
+      "any_hit": 5,
+      "any_total": 5,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 2,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "sober",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "SAMHSA treatment locator - substance use treatment"
+        },
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "maria-sandiego-mom",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 4,
+      "cat_total": 4,
+      "any_hit": 4,
+      "any_total": 4,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 1,
+      "gray_total": 1,
+      "gray_details": [
+        {
+          "keyword": "CalWORKs",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalWORKs"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadError"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "kevin-fresno-cdl",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 4,
+      "cat_total": 4,
+      "any_hit": 4,
+      "any_total": 4,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 2,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "CDL",
+          "status": "kept",
+          "verdict": "worth_applying",
+          "name": "Truck driving CDL training (WIOA-funded)"
+        },
+        {
+          "keyword": "transitional",
+          "status": "kept",
+          "verdict": "worth_applying",
+          "name": "Reentry transitional housing program"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadError"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "tanya-riverside",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 4,
+      "cat_total": 4,
+      "any_hit": 4,
+      "any_total": 4,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 2,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        },
+        {
+          "keyword": "sober",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "SAMHSA treatment locator - substance use treatment"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 8,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadError"
+        },
+        {
+          "url": "https://rivcodpss.org/",
+          "status": 403
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "eddie-sf-registrant",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 3,
+      "cat_total": 3,
+      "any_hit": 3,
+      "any_total": 3,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 1,
+      "gray_total": 1,
+      "gray_details": [
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 8,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://www.sf.gov/apply-cash-assistance-caap",
+          "status": 404
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "andre-longbeach",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 3,
+      "cat_total": 3,
+      "any_hit": 4,
+      "any_total": 4,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 1,
+      "gray_total": 1,
+      "gray_details": [
+        {
+          "keyword": "warehouse",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "America's Job Center of California (AJCC)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadError"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "brenda-sacramento",
+      "seconds": 0.2,
+      "error": null,
+      "cat_hit": 4,
+      "cat_total": 4,
+      "any_hit": 5,
+      "any_total": 5,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 2,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "SSI",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "Sacramento County General Assistance"
+        },
+        {
+          "keyword": "General Assistance",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "Sacramento County General Assistance"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 8,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://dhs.saccounty.gov/PRI/Pages/General-Assistance/GA-Home.aspx",
+          "status": 404
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "ray-kern",
+      "seconds": 0.1,
+      "error": null,
+      "cat_hit": 4,
+      "cat_total": 4,
+      "any_hit": 5,
+      "any_total": 5,
+      "missing_categories": [],
+      "missing_groups": [],
+      "gray_kept": 2,
+      "gray_total": 2,
+      "gray_details": [
+        {
+          "keyword": "CalFresh",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "CalFresh (apply on BenefitsCal)"
+        },
+        {
+          "keyword": "DMV",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "DMV Cal-ID card (reduced fee)"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "id": "nina-oakland-lgbtq",
+      "seconds": 0.1,
+      "error": null,
+      "cat_hit": 4,
+      "cat_total": 4,
+      "any_hit": 3,
+      "any_total": 4,
+      "missing_categories": [],
+      "missing_groups": [
+        [
+          "mental health",
+          "counseling",
+          "behavioral"
+        ]
+      ],
+      "gray_kept": 1,
+      "gray_total": 1,
+      "gray_details": [
+        {
+          "keyword": "Rising Scholars",
+          "status": "kept",
+          "verdict": "likely",
+          "name": "Project Rebound / Rising Scholars college program"
+        }
+      ],
+      "invented": 0,
+      "invented_names": [],
+      "web_unverified": 2,
+      "web_unverified_names": [
+        "Project Rebound / Rising Scholars college program",
+        "Reentry transitional housing program"
+      ],
+      "n_recommended": 14,
+      "n_excluded": 2,
+      "grader": "heuristic",
+      "wrong_exclusions": 1,
+      "wrong_exclusion_details": [
+        {
+          "index": 1,
+          "name": "Downtown men's shelter",
+          "why": "no rule_cited or uncertain reason (heuristic)",
+          "reason": "Unclear whether there are beds; info missing."
+        }
+      ],
+      "must_not": 0,
+      "must_not_details": [],
+      "links_ok": 9,
+      "links_total": 13,
+      "bad_links": [
+        {
+          "url": "https://www.cdss.ca.gov/calfresh",
+          "status": "ReadTimeout"
+        },
+        {
+          "url": "https://www.cccco.edu/About-Us/Chancellors-Office/Divisions/Educational-Services-and-Support/Student-Service/What-we-do/Rising-Scholars-Network",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
+          "status": 404
+        },
+        {
+          "url": "https://www.cdss.ca.gov/inforesources/child-welfare-programs",
+          "status": 404
+        }
+      ]
+    }
+  ]
+}
