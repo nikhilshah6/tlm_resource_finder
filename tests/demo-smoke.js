@@ -80,7 +80,7 @@ function agentStep(b, signal) {
 
   console.log("case page and resources");
   await go("#/case/a-marcus"); await sleep(120);
-  ok(/Marcus Johnson/.test(d.querySelector(".ltitle").textContent) && /Status/.test(txt()) && /Tasks/.test(txt()) && /Notes/.test(txt()), "case page has status, tasks, notes");
+  ok(/Marcus Johnson/.test(d.querySelector(".ltitle").textContent) && /Housing/.test(txt()) && /Supervision/.test(txt()) && /Tasks/.test(txt()) && /Notes/.test(txt()) && !/\bStatus\b/.test(d.getElementById("p-profile").textContent) && !d.querySelector("#p-tasks > .gh:first-child"), "case page has the profile facts, tasks and notes, with no heading repeating its tab name");
   ok(d.querySelector('#t-overview[aria-selected="true"]') && !d.getElementById("p-overview").hidden && /Resource plan/.test(d.getElementById("agov-a-marcus").textContent) && /Build plan/.test(d.getElementById("agov-a-marcus").textContent), "case opens on Overview, led by the resource plan card");
   d.getElementById("t-overview").dispatchEvent(new w.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
   ok(d.querySelector('#t-resources[aria-selected="true"]') && d.activeElement === d.getElementById("t-resources") && !d.getElementById("p-resources").hidden, "arrow keys move between tabs");
@@ -224,7 +224,7 @@ function agentStep(b, signal) {
   ev("RXV.close()");
   await go("#/resources"); await sleep(60);
   ok(d.getElementById("rfor") && d.getElementById("rfor").value === "a-marcus", "Resources page picks the last case opened");
-  ok(d.querySelector(".res-layout .res-index") && d.querySelectorAll(".res-index .ri").length >= 7 && d.querySelector(".content.wide"), "Resources page has a category index beside the lists");
+  ok(!d.querySelector(".res-index") && d.querySelector(".forbar #rfor") && d.querySelectorAll(".bar .t").length === 0, "Resources page: one column, no category index repeating the list, no title repeated in the top bar");
   d.getElementById("rfor").value = "a-darnell"; d.getElementById("rfor").dispatchEvent(new w.Event("change")); await sleep(60);
   [...d.querySelectorAll("#res-a-darnell .row.cat")].find((b) => /Housing/.test(b.textContent)).click(); await sleep(10);
   ok(/Recommend to Darnell/.test(d.getElementById("res-a-darnell").textContent), "changing the picker switches who you recommend for");
@@ -259,8 +259,8 @@ function agentStep(b, signal) {
   ev("RXV.signOut()"); ev("RXV.signIn('alumnus')"); await go("#/me/resources"); await sleep(60);
   ok(!d.getElementById("ag-a-marcus"), "alumni never see the AI search");
   ev("RXV.signOut()"); ev("RXV.signIn('john')"); await go("#/case/a-marcus"); await sleep(80);
-  const agBtn = () => [...d.querySelectorAll("#ag-a-marcus button")].find((b) => /Find resources with AI/.test(b.textContent));
-  ok(agBtn() && !agBtn().disabled, "the case page offers Find resources with AI for a California ZIP");
+  const agBtn = () => [...d.querySelectorAll("#ag-a-marcus button")].find((b) => /Build plan/.test(b.textContent));
+  ok(agBtn() && !agBtn().disabled, "the case page offers Build plan for a California ZIP");
   agBtn().click(); await sleep(10);
   ok(d.getElementById("sheet").hasAttribute("open") && /about 90 seconds/.test(d.getElementById("sheetBody").textContent) && /Nothing is saved/.test(d.getElementById("sheetBody").textContent), "it asks first, saying how long it takes and that nothing is saved");
   agentSlow = 40; ev("RXV.agentRun('a-marcus')"); await sleep(30);

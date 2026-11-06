@@ -154,7 +154,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       '<p class="side-label">' + (cur.kind === "cm" ? "Casework" : "My reentry") + "</p>" +
       '<div class="navlist">' + items.map(link).join("") + "</div></div>" +
       '<div class="side-foot"><button type="button" class="profile" onclick="RXV.account()" aria-label="Account: ' + esc(cur.name) + '">' + av(cur.name) + '<span class="pmeta"><b>' + esc(cur.name) + '</b><span class="muted">' + esc(who) + '</span></span><svg class="updown" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l4-4 4 4M16 15l-4 4-4-4"/></svg></button></div></nav>' +
-      '<div class="main"><header class="bar" id="bar"><div class="bar-l">' + (v.back ? '<a class="back" href="' + v.back[1] + '">' + I.back + esc(v.back[0]) + "</a>" : '<span class="t">' + esc(v.title) + "</span>") + "</div>" +
+      '<div class="main"><header class="bar" id="bar"><div class="bar-l">' + (v.back ? '<a class="back" href="' + v.back[1] + '">' + I.back + esc(v.back[0]) + "</a>" : "") + "</div>" +
       '<div class="bar-r">' + (v.barRight || '<span class="pill">Sample data</span>') + themeBtn() + '<button type="button" class="av av-btn" onclick="RXV.account()" aria-label="Account">' + esc(C.initials(cur.name)) + "</button></div></header>" +
       '<main class="content' + (v.wide ? " wide" : "") + '" id="content">' + v.html + "</main></div>" +
       '<nav class="tabs" aria-label="Main">' + items.map(link).join("") + '<button type="button" class="nav signout" onclick="RXV.signOut()">' + I.out + "<span>Sign out</span></button></nav></div>";
@@ -186,8 +186,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     m.forEach(function (a) { a.events.forEach(function (e) { if (e.type === "case-manager" && !e.done && e.date >= t && C.days(t, e.date) <= 7) calls.push({ a: a, e: e }); }); });
     calls.sort(function (x, y) { return (x.e.date + x.e.time) < (y.e.date + y.e.time) ? -1 : 1; });
     function when(e) { var d = C.days(t, e.date); return (d === 0 ? "Today" : d === 1 ? "Tomorrow" : C.fmShort(e.date)) + (e.time ? ", " + C.ft(e.time) : ""); }
-    var todayCalls = calls.filter(function (x) { return x.e.date === t; }).length;
-    var h = '<div class="page-head"><div><h1 class="ltitle">Today</h1><p class="subtitle">' + esc(C.fmDay(t)) + " · " + (todayCalls ? todayCalls + " call" + (todayCalls === 1 ? "" : "s") + " today, " : "") + calls.length + " this week</p></div>" +
+    var h = '<div class="page-head"><div><h1 class="ltitle">Today</h1><p class="subtitle">' + esc(C.fmDay(t)) + "</p></div>" +
       '<div class="actions"><button type="button" class="btn" id="todayNotes" onclick="RXV.notes()">' + I.plus + 'Add call notes<span class="draftflag">' + (draft ? "Draft saved" : "") + '</span></button><button type="button" class="btn" onclick="RXV.assign()">' + I.plus + "Assign task</button></div></div>";
     /* 1. next call */
     var nx = calls[0];
@@ -315,11 +314,11 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     var warn = checks.filter(function (c) { return c.sev === "warn"; }).concat(checks.filter(function (c) { return c.sev !== "warn"; }));
     if (warn.length) ov += gh(checks.some(function (c) { return c.sev === "warn"; }) ? "Needs attention" : "Record checks", "no AI") + group(warn.map(function (c) { return '<div class="row"><span class="dot ' + (c.sev === "warn" ? "warn" : "info") + '" aria-hidden="true"></span><div class="body">' + esc(c.text) + "</div></div>"; }).join(""));
     var top = cu.filter(function (t) { return t.status !== "done"; }).concat(su.filter(function (t) { return t.status !== "done"; })).slice(0, 4);
-    ov += gh("Open tasks", '<button type="button" class="linkbtn" onclick="RXV.tab(\'' + a.id + '\',\'tasks\')">All tasks (' + a.tasks.length + ")</button>") + group(top.map(function (t) { return taskRow(a, t); }).join(""), "No open tasks.");
+    ov += gh("Open tasks", '<button type="button" class="linkbtn" onclick="RXV.tab(\'' + a.id + '\',\'tasks\')">All tasks</button>') + group(top.map(function (t) { return taskRow(a, t); }).join(""), "No open tasks.");
     if (notes[0]) ov += gh("Latest note", '<button type="button" class="linkbtn" onclick="RXV.tab(\'' + a.id + '\',\'activity\')">All activity</button>') + group(noteRow(notes[0]));
 
     /* ---- the other tabs: the full record ---- */
-    var rs = gh("Resources", esc(first) + " sees general resources and what you share") + '<div id="res-' + a.id + '">' + resourcesHtml(a, "cm") + "</div>";
+    var rs = '<p class="tabnote">' + esc(first) + " sees the general resources and anything you share.</p>" + '<div id="res-' + a.id + '">' + resourcesHtml(a, "cm") + "</div>";
     var tk = '<div class="group">' + (cu.length ? '<div class="sub">Assigned</div>' + cu.map(function (t) { return taskRow(a, t); }).join("") : "") +
       '<div class="sub">First 30 Days, ' + done + " of " + su.length + " done</div>" + su.map(function (t) { return taskRow(a, t); }).join("") +
       '<button type="button" class="row add" onclick="RXV.assign(\'' + a.id + '\')">' + I.plus + "Assign task</button></div>";
@@ -329,7 +328,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     /* Profile: a fact list with icons, two columns on wide screens; no box */
     function fact(icon, label, value, detail) { return '<div class="fact"><span class="fi" aria-hidden="true">' + icon + '</span><div><div class="fl">' + esc(label) + '</div><div class="fv">' + value + "</div>" + onlyIf(detail, '<div class="fd">' + detail + "</div>") + "</div></div>"; }
     function list(xs, none) { return xs.length ? '<ul class="fu">' + xs.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" : '<span class="muted">' + none + "</span>"; }
-    var pr = gh("Status", "from the record") + '<div class="facts">' +
+    var pr = '<div class="facts">' +
       fact(I.home, "Housing", esc(C.HOUSING[a.housing.status]), esc(a.housing.detail || "")) +
       fact(I.shield, "Supervision", esc(String(s.type || "None").replace(/^./, function (c) { return c.toUpperCase(); })) + onlyIf(s.officer, " · " + esc(s.officer)),
         [s.cadence ? "Check-ins " + esc(s.cadence.toLowerCase()) : "", s.nextCheckin ? "next " + esc(C.fmShort(s.nextCheckin)) : "", "ends " + (s.endDate ? esc(C.fmShort(s.endDate)) : '<span class="warntext">not on file</span>')].filter(Boolean).join(" · ") + onlyIf(s.conditions, "<br>" + esc(s.conditions))) +
@@ -339,7 +338,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       fact(I.flag, "Barriers", list(a.barriers, "No barriers recorded"), "") +
       fact(I.calendar, "Release", "Released " + esc(C.fmShort(a.releaseDate)) + " · day " + a.dayN, esc(a.facility || "")) +
       "</div>";
-    h += panel("overview", ov) + panel("resources", rs) + panel("tasks", gh("Tasks", open.length + " open") + tk) + panel("activity", ac) + panel("profile", pr);
+    h += panel("overview", ov) + panel("resources", rs) + panel("tasks", tk) + panel("activity", ac) + panel("profile", pr);
     return { title: a.name, back: [back, V.from || "#/today"], html: h, after: function () { loadRes(a); if (SAVED_MODE) loadDemoPlan(a); } };
   }
   function stat(label, value, tone, sub) { return '<div class="stat"><div class="sl">' + esc(label) + '</div><div class="sv' + (tone ? " " + tone + "text" : "") + '">' + value + "</div>" + onlyIf(sub, '<div class="ss">' + sub + "</div>") + "</div>"; }
@@ -445,7 +444,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       '<div class="brief-foot"><span class="muted" id="bGen">Sample data</span><div class="brief-acts"><button type="button" class="btn" onclick="RXV.regen(\'' + a.id + '\')">Regenerate</button><button type="button" class="btn" onclick="RXV.corrections(\'' + a.id + '\')">Flag corrections</button>' + callBtn(a, "Start call with " + first, " pri") + "</div></div>" +
       "</div>" + side + "</div>";
     return { title: "Briefing: " + a.name, back: ["Back to " + a.name + "'s case", "#/case/" + a.id], html: h, wide: true,
-      barRight: '<button type="button" class="btn sm" onclick="RXV.print()">' + I.print + "Print sheet</button>" + callBtn(a, "Start call", " sm pri"),
+      barRight: '<button type="button" class="btn sm" onclick="RXV.print()">' + I.print + "Print sheet</button>",
       after: function () { if (V.brief[a.id]) drawBrief(a); else genBrief(a); } };
   }
 
@@ -650,7 +649,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     if (cm && pinned && inPins) h += '<form onsubmit="RXV.resNote(\'' + a.id + "','" + rid + '\',this.elements.n.value);return false"><input name="n" aria-label="Note for ' + esc(first) + '" maxlength="200" placeholder="Add a note for ' + esc(first) + '" value="' + esc(x.note || "") + '"><button type="submit" class="btn sm">Save note</button></form>';
     return h + "</article>";
   }
-  function drawRes(a) { var el = $("rl-" + a.id); if (el) el.innerHTML = resList(a, cur && cur.kind === "cm" ? "cm" : "me"); var ri = $("ri-" + a.id); if (ri) ri.innerHTML = resIndex(a); }
+  function drawRes(a) { var el = $("rl-" + a.id); if (el) el.innerHTML = resList(a, cur && cur.kind === "cm" ? "cm" : "me"); }
   function loadRes(a) { C.loadResources(a, function () { drawRes(a); }); }
   V.resSearch = function (aid, q) { V.resQ[aid] = q; drawRes(C.byId(aid)); };
   function okey(aid) { return (cur ? cur.id : "") + ":" + aid; } /* open categories are remembered per signed-in person */
@@ -672,33 +671,15 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
 
   /* ---------- case manager: Resources page (pick who you're recommending for) ---------- */
   function renderCmResources() {
-    /* Two columns on wide screens: who you're recommending for and a category index on the left, the lists on the right. */
     var mine = C.mine(), id = V.resFor && mine.some(function (x) { return x.id === V.resFor; }) ? V.resFor : V.lastCase && mine.some(function (x) { return x.id === V.lastCase; }) ? V.lastCase : (mine[0] || {}).id;
     if (!id) return { title: "Resources", html: '<h1 class="ltitle">Resources</h1>' + group("", "No alumni on your caseload.") };
     var a = C.byId(id); V.resFor = id;
-    var h = '<div class="page-head"><div><h1 class="ltitle">Resources</h1><p class="subtitle">Local places and programs by category. What you recommend shows first on the alumnus\'s own Resources page.</p></div></div>' +
-      '<div class="res-layout"><aside class="res-side">' +
-      '<div class="group forpick"><div class="field"><label for="rfor">Recommending for</label><select id="rfor" onchange="RXV.setResFor(this.value)">' + mine.map(function (x) { return '<option value="' + x.id + '"' + (x.id === id ? " selected" : "") + ">" + esc(x.name) + " · " + esc(x.loc) + "</option>"; }).join("") + '</select></div><a class="row" href="#/case/' + a.id + '"><div class="body"><div class="ttl">Open ' + esc(a.name) + "'s case</div></div>" + I.chev + "</a></div>" +
-      '<nav class="res-index" id="ri-' + a.id + '" aria-label="Jump to a category">' + resIndex(a) + "</nav></aside>" +
-      '<div class="res-main"><div id="res-' + a.id + '">' + resourcesHtml(a, "cm") + "</div></div></div>";
-    return { title: "Resources", html: h, wide: true, after: function () { loadRes(a); if (SAVED_MODE) loadDemoPlan(a); } };
+    var h = '<div class="page-head"><div><h1 class="ltitle">Resources</h1><p class="subtitle">What you recommend shows first on the alumnus\'s own Resources page.</p></div></div>' +
+      '<div class="forbar"><label for="rfor">For</label><select id="rfor" onchange="RXV.setResFor(this.value)">' + mine.map(function (x) { return '<option value="' + x.id + '"' + (x.id === id ? " selected" : "") + ">" + esc(x.name) + " · " + esc(x.loc) + "</option>"; }).join("") + '</select><a class="linkbtn" href="#/case/' + a.id + '">Open case</a></div>' +
+      '<div id="res-' + a.id + '">' + resourcesHtml(a, "cm") + "</div>";
+    return { title: "Resources", html: h, after: function () { loadRes(a); if (SAVED_MODE) loadDemoPlan(a); } };
   }
-  function resIndex(a) {
-    var g = agState(a.id), st = C.resState(a), list = st.data ? C.rank(a, st.data.items || []) : [], h = "";
-    function item(js, tile, label, n) { var none = n === 0; return '<button type="button" class="ri"' + (none ? ' disabled title="None nearby"' : ' onclick="' + js + '"') + ">" + tile + '<span class="body">' + esc(label) + '</span><span class="trail">' + (none ? "None" : n) + "</span></button>"; }
-    if (g.status === "done") {
-      var G = C.agentGroups(g.plan);
-      h += '<div class="ri-h">AI plan</div>' + G.cats.map(function (c) { return item("RXV.jump('" + a.id + "','ai:" + c.id + "')", '<span class="ctile c-' + c.id + '" aria-hidden="true">' + CI[c.id] + "</span>", c.label, c.items.length); }).join("");
-    }
-    h += '<div class="ri-h">General resources</div>' + C.CATS.map(function (c) { var n = list.filter(function (r) { return r.cat === c.id; }).length; return item("RXV.jump('" + a.id + "','" + c.id + "')", '<span class="ctile c-' + c.id + '" aria-hidden="true">' + CI[c.id] + "</span>", c.label, st.data ? n : "…"); }).join("");
-    return h;
-  }
-  /* open a category (AI "ai:<id>" or general "<id>") and bring it into view */
-  V.jump = function (aid, key) {
-    var o = V.openCats[okey(aid)] = V.openCats[okey(aid)] || {}; o[key] = true; drawRes(C.byId(aid));
-    var el = $(key.indexOf("ai:") === 0 ? "aic-" + aid + "-" + key.slice(3) : "gc-" + aid + "-" + key);
-    if (el) { if (el.scrollIntoView) el.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); el.focus(); el.classList.add("hit"); setTimeout(function () { el.classList.remove("hit"); }, 1200); }
-  };
+
 
   V.setResFor = function (id) { V.resFor = id; render(); };
 
@@ -755,8 +736,8 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     if (g.status === "idle") {
       if (q) return h + "</div>";
       var ca = geo && geo.state === "CA", why = !st.data ? "Checking the location…" : ca ? "A team of Claude agents checks eligibility and builds a plan for " + esc(first) + ". About 90 seconds." : "AI search covers California only.";
-      h += gh("AI plan") + group('<div class="row"><div class="body"><div class="ttl">AI deep search</div><div class="sec">' + why + '</div></div>' +
-        (ca ? '<button type="button" class="btn sm pri" onclick="RXV.agentAsk(\'' + a.id + '\')">Find resources with AI</button>' : '<button type="button" class="btn sm" disabled title="' + (st.data ? "AI search covers California only" : "Checking the location") + '">Find resources with AI</button>') + "</div>");
+      h += gh("AI plan") + group('<div class="row"><div class="body"><div class="sec">' + why + '</div></div>' +
+        (ca ? '<button type="button" class="btn sm pri" onclick="RXV.agentAsk(\'' + a.id + '\')">' + I.spark + 'Build plan</button>' : '<button type="button" class="btn sm" disabled title="' + (st.data ? "AI search covers California only" : "Checking the location") + '">Build plan</button>') + "</div>");
     } else if (g.status === "running") {
       var secs = Math.round((Date.now() - g.t0) / 1000);
       h += gh("AI plan", "searching · " + secs + " s") + '<div class="group">' + AG_STAGES.map(function (s) {
@@ -768,7 +749,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     } else if (g.status === "done") {
       var cats = aiCats(a, g.plan, "cm", q), sh = a.aiShared, cur2 = sh && sh.runId === g.runId;
       if (q && !cats) return h + "</div>";
-      h += gh("AI plan", "draft, check before use");
+      h += gh("AI plan");
       if (!q) {
         /* one quiet line about where it came from, then one line about sharing (no tinted banner, no boxed row) */
         h += '<p class="bstatus ok">Built by Claude agents from ' + esc(first) + "'s sample record and public sources" + (g.saved ? " (saved run from " + esc(g.saved) + ")" : "") + ". Not saved to the record." + (g.errors.length ? ' <span class="warntext">' + g.errors.length + " step" + (g.errors.length === 1 ? "" : "s") + " had trouble: " + esc(g.errors.join("; ")) + "</span>" : "") + "</p>";
@@ -816,7 +797,6 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
   function drawAgent(aid) {
     var el = $("ag-" + aid), a = C.byId(aid); if (el && a) el.outerHTML = agentBlock(a, (V.resQ[aid] || "").trim());
     var ov = $("agov-" + aid); if (ov && a) ov.innerHTML = planCard(a);
-    var ri = $("ri-" + aid); if (ri && a && agState(aid).status !== "running") ri.innerHTML = resIndex(a);
   }
   /* Case › Overview: the AI resource plan, summarised. The full plan (every result, verdicts, sharing) is in the Resources tab. */
   function planCard(a) {
@@ -906,7 +886,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
   V.stepDone = function (aid, i) { var a = C.byId(aid), st = a.aiShared && a.aiShared.steps && a.aiShared.steps[i]; if (!st) return; act(a, st.done ? "Step reopened" : "Step done", function () { st.done = !st.done; }); };
   V.agentAsk = function (aid) {
     var a = C.byId(aid), first = a.name.split(" ")[0];
-    sheet({ title: "Find resources with AI", right: '<button type="button" class="btn sm pri" onclick="RXV.agentRun(\'' + aid + '\')">Run search</button>',
+    sheet({ title: "Build a resource plan for " + first, right: '<button type="button" class="btn sm pri" onclick="RXV.agentRun(\'' + aid + '\')">Run search</button>',
       body: '<p class="sdesc">A team of Claude agents reads ' + esc(first) + "'s sample record, searches public sources and the web, checks eligibility and ranks a plan. It takes about 90 seconds and covers California only.</p>" +
         '<p class="sdesc">The plan is a draft. Nothing is saved to the record unless you recommend a result, and only sample data is sent to Claude.</p>' });
   };

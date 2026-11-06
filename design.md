@@ -130,7 +130,7 @@ Inter (variable, from Google Fonts) with the system stack as fallback. Sizes are
 ## Layout
 
 - **Desktop sidebar (232px, `--side`, hairline on the right):** the TLM tile and "TLM Reentry" (links home), a small "Casework" (or "My reentry") label, the nav (grey 16px icons; the current page is a gold tint with a gold icon), and at the bottom an **account switcher** (avatar, name, role) that opens the Account sheet, where Sign out lives.
-- **Top bar (48px, `--bar`, hairline below):** the page title, or a back link on pushed pages; on the right a "Sample data" pill (or page actions such as Print sheet and Start call on the briefing), the theme switch and the avatar button.
+- **Top bar (48px, `--bar`, hairline below):** no page title (the h1 and the sidebar already say where you are). It holds a back link on pushed pages, page actions such as Print sheet on the briefing, the "Sample data" pill and the theme switch. The avatar button shows only on phones, where the sidebar's account switcher is hidden.
 - **Phone (≤760px):** the sidebar becomes a bottom tab bar (places plus Sign out), the pill hides, and sheets slide up from the bottom.
 - **Case manager:** Today, Alumni, Calendar, Resources, plus the Case page and the Briefing page (both pushed, with back).
 - **Alumnus:** Home, Tasks, Resources.
@@ -222,7 +222,7 @@ The notes feed and the caseload task list moved to each case (Activity and Tasks
 
 ### Resources page (`#/resources`)
 
-A wide page. From 1100px it has two columns: on the left (sticky) the **Recommending for** picker, **Open <name>'s case**, and a category index ("AI plan" categories with counts, then "General resources"; empty ones are disabled "None"). Selecting one opens that category on the right, scrolls to it and briefly tints it. Narrower screens show one column without the index.
+One column: the title, a single **For [alumnus] · Open case** line, then the same resource list as the case's Resources tab (search, AI plan, general categories). There is no separate category index; the categories are the list.
 
 ### Resources: AI search results and General resources
 
@@ -235,7 +235,7 @@ A wide page. From 1100px it has two columns: on the left (sticky) the **Recommen
 
   The search filters both sections.
 - **AI search results (case manager):**
-  - **No run yet:** an "AI deep search" row with **Find resources with AI**. Outside California it's disabled with the reason.
+  - **No run yet:** one line saying what the agents do, with **Build plan** (the same label as the Overview card). Outside California it's disabled with the reason.
   - **Running:** a progress group (one row per stage with a dot, live counts, Cancel).
   - **Done, in this order:**
     - the draft banner
