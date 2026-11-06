@@ -58,7 +58,7 @@ python3 scripts/build_snapshot.py --refresh   # downloads public sources into da
 python3 scripts/build_agent_data.py           # writes site/data/agent/snapshot/*.json and rules_ca.json
 ```
 
-The saved demo plans in `site/data/agent/demo-plans/` (Marcus, Anthony) come from live runs; re-record them after changing the agents (run the search, then save `RXV.agent[id].plan`).
+The saved demo plans in `site/data/agent/demo-plans/` (Marcus, Anthony) come from live runs. The search itself always starts from **Build plan**; a saved run loads from **Use saved run** when a live run fails, or on every case with `?saved` in the URL. Re-record them after changing the agents (run the search, then save `RXV.agent[id].plan`).
 
 ## Tests
 

@@ -180,7 +180,7 @@ All findings are from reading the saved HTML. Nothing below was run in a browser
   - Only a result the case manager recommends is stored, with Undo.
   - Alumni never see the AI search.
 - **The existing UI is the source of truth.** A pixel comparison of all 40 screen and theme combinations showed the only change is the new block inside Resources.
-- **Saved demo plans:** `site/data/agent/demo-plans/a-marcus.json` and `a-anthony.json` were recorded from live runs on Nov 5 and load on the case Overview so the panel doesn't wait 90 seconds. Re-record them after agent changes by running the search and saving `RXV.agent[id].plan`.
+- **Saved demo plans:** `site/data/agent/demo-plans/a-marcus.json` and `a-anthony.json` were recorded from live runs on Nov 5. They don't load on their own: the search starts from **Build plan**. They load from **Use saved run** after a failed live run, or for every case with `?saved` in the URL. Re-record them after agent changes by running the search and saving `RXV.agent[id].plan`.
 - **Sharing (added Nov 6):**
   - AI results reach the alumnus only when the case manager presses **Share with Marcus**, which stores a snapshot in `a.aiShared` (with Undo).
   - The alumnus sees results and "Bring", never eligibility verdicts or notes.
