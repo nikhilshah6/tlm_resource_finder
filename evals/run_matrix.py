@@ -26,7 +26,11 @@ ROOT = EVALS.parent
 M = {"fable": "claude-fable-5-1", "opus": "claude-opus-5-5", "sonnet": "claude-sonnet-5-5", "haiku": "claude-haiku-5-5"}
 COMBOS = ["fable-opus", "opus-opus", "opus-sonnet", "sonnet-sonnet", "sonnet-haiku"]  # lead-worker
 BASELINE = "opus-sonnet"
-PLANS_PER_MONTH = 1000 * 2  # ~1,000 alumni, 2 plans a month each
+RUNS_PER_YEAR = 12  # the resource finder runs once a month per returner
+RETURNERS = 1000
+# Demo assumption: optimized prompt caching at 50% of the uncached cost. Measured on opus-sonnet (4 presets):
+# $1.59 -> $0.84 per plan (-47.5%), about -42% for a plan running alone (evals/runs/cache-on, CACHE_PROMPTS=1).
+CACHE_FACTOR = 0.5
 
 
 def run_combo(combo: str, out: Path, passthrough: list[str]) -> int:
@@ -41,7 +45,7 @@ def run_combo(combo: str, out: Path, passthrough: list[str]) -> int:
 
 
 def money(x) -> str:
-    return "n/a" if x is None else (f"${x:.2f}" if x >= 1 else f"${x:.3f}")
+    return "n/a" if x is None else (f"${x:,.0f}" if x >= 1000 else f"${x:.2f}" if x >= 1 else f"${x:.3f}")
 
 
 def pct(x) -> str:
@@ -82,8 +86,8 @@ def build(out: Path) -> str:
 
     # cost: aggregate per-plan usage
     L.append("\n## Cost per plan\n")
-    L.append("| Combo | $ / plan | Input | Cache write | Cache read | Output | Web search | Lead $ | Workers $ | $ per 1,000 plans | TLM month (2,000 plans) |")
-    L.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
+    L.append("| Combo | $ / plan | Input | Cache write | Cache read | Output | Web search | Lead $ | Workers $ |")
+    L.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     agg = {}
     for c, r in rows.items():
         plans = [row["usage"] for row in r["rows"] if row.get("usage")]
@@ -99,7 +103,15 @@ def build(out: Path) -> str:
         agents = {a: {kk: v / n for kk, v in x.items()} for a, x in agents.items()}
         tok = {kk: sum(p["tokens"][kk] for p in plans) / n for kk in plans[0]["tokens"]} if plans else {}
         agg[c] = {"usd": k, "role": role, "agents": agents, "tokens": tok, "plans": len(plans)}
-        L.append(f"| {c} | **{money(k['total'])}** | {money(k['input'])} | {money(k['cache_write'])} | {money(k['cache_read'])} | {money(k['output'])} | {money(k['web_search'])} | {money(role['lead'])} | {money(role['worker'])} | {money(k['total'] * 1000)} | {money(k['total'] * PLANS_PER_MONTH)} |")
+        L.append(f"| {c} | **{money(k['total'])}** | {money(k['input'])} | {money(k['cache_write'])} | {money(k['cache_read'])} | {money(k['output'])} | {money(k['web_search'])} | {money(role['lead'])} | {money(role['worker'])} |")
+
+    L.append(f"\n## Demo cost (optimized prompt caching assumed at {int(CACHE_FACTOR * 100)}% of the uncached cost)\n")
+    L.append(f"Measured with caching on opus-sonnet: $1.59 → $0.84 per plan (−47.5%; about −42% for a plan running alone). The demo figures below apply {int((1 - CACHE_FACTOR) * 100)}% to every combo. The resource finder runs once a month ({RUNS_PER_YEAR} plans a year per returner).\n")
+    L.append(f"| Combo | $ / plan (uncached) | **$ / plan (cached)** | **Per returner per year** | {RETURNERS:,} returners per year |")
+    L.append("| --- | --- | --- | --- | --- |")
+    for c, a in agg.items():
+        u = a["usd"]["total"]
+        L.append(f"| {c} | {money(u)} | **{money(u * CACHE_FACTOR)}** | **{money(u * CACHE_FACTOR * RUNS_PER_YEAR)}** | {money(u * CACHE_FACTOR * RUNS_PER_YEAR * RETURNERS)} |")
 
     L.append("\n## Tokens per plan\n")
     L.append("| Combo | API calls | Input (uncached) | Cache write | Cache read | Output | Web searches | Web fetches |")
