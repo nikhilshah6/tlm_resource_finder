@@ -9,7 +9,7 @@ from typing import Any
 
 from pydantic import ValidationError
 
-from app.agents.base import OPUS, SONNET, Counters, Emit, Tool, run_agent, web_tools
+from app.agents.base import LEAD, WORKER, Counters, Emit, Tool, run_agent, web_tools
 from app.schemas import (
     ActStep, Candidate, JudgedCandidate, Need, NeedSection, OrchestratorPlan, Plan, Profile, Recommendation,
 )
@@ -63,7 +63,7 @@ async def intake(request: dict, emit: Emit, counters: Counters) -> Profile:
     else:
         schema = Profile.model_json_schema()
         out = await run_agent(
-            agent="intake", model=SONNET, effort="low", emit=emit, counters=counters,
+            agent="intake", model=WORKER, effort="low", emit=emit, counters=counters,
             system="You turn a case manager's plain-language description of a FICTIONAL formerly incarcerated person in California into a structured profile. "
                    "Infer the California county from the city. Code offense categories only as: drug, violent, property, sex_registration, dui, other. "
                    "Leave fields you don't know unset; do not guess income or offense. Then call submit.",
@@ -84,11 +84,37 @@ async def intake(request: dict, emit: Emit, counters: Counters) -> Profile:
     return profile
 
 
+# Models sometimes return a value outside a tool schema's enum ("legal" for "legal_id"). Map close names, drop the rest,
+# and keep a record (the eval matrix reports it per model). Same tolerance as the Cloudflare version.
+CATEGORY_ALIASES = {"legal": "legal_id", "id": "legal_id", "legal_and_id": "legal_id", "documents": "legal_id", "food": "food_benefits",
+                    "benefits": "food_benefits", "employment": "jobs", "work": "jobs", "job": "jobs", "healthcare": "health",
+                    "health_care": "health", "mental_health": "health", "shelter": "housing"}
+URGENCY_ALIASES = {"now": "today", "immediate": "today", "urgent": "today", "week": "this_week", "soon": "this_week", "month": "this_month", "later": "this_month"}
+
+
+def _repair(items: list, key: str, allowed: set, aliases: dict, counters: Counters, where: str) -> list:
+    out = []
+    for it in items or []:
+        if not isinstance(it, dict):
+            continue
+        v = str(it.get(key, "")).strip().lower().replace(" ", "_").replace("&", "and")
+        if v in allowed:
+            it[key] = v
+        elif aliases.get(v) in allowed:
+            counters.schema_repairs.append({"where": where, "field": key, "value": it.get(key), "fixed": aliases[v]})
+            it[key] = aliases[v]
+        else:
+            counters.schema_repairs.append({"where": where, "field": key, "value": it.get(key), "fixed": None})
+            continue
+        out.append(it)
+    return out
+
+
 # ------------------------------------------------------------------ 2. orchestrator
 async def orchestrate(profile: Profile, emit: Emit, counters: Counters) -> OrchestratorPlan:
     await emit({"type": "agent_start", "agent": "orchestrator", "message": "Ordering needs and briefing the finders"})
     out = await run_agent(
-        agent="orchestrator", model=OPUS, effort="low", emit=emit, counters=counters,
+        agent="orchestrator", model=LEAD, effort="low", emit=emit, counters=counters,
         system="You are the lead reentry navigator for The Last Mile. Given a FICTIONAL alumnus profile in California, decide what they need most, "
                "in order of urgency (safety, a place to sleep tonight, ID and documents, food and income, health coverage, supervision compliance, then work, legal and family). "
                "Then write a short, specific brief for each of the five finder agents (housing, health, food_benefits, jobs, legal_id). "
@@ -111,6 +137,10 @@ async def orchestrate(profile: Profile, emit: Emit, counters: Counters) -> Orche
         },
         submit_description="Submit the ordered needs and one brief per finder.",
     )
+    cats = {"housing", "health", "food_benefits", "jobs", "legal_id", "family", "clothing"}
+    out["needs"] = _repair(_repair(out.get("needs"), "category", cats, CATEGORY_ALIASES, counters, "orchestrator.needs"),
+                           "urgency", {"today", "this_week", "this_month"}, URGENCY_ALIASES, counters, "orchestrator.needs")
+    out["briefs"] = _repair(out.get("briefs"), "finder", {"housing", "health", "food_benefits", "jobs", "legal_id"}, CATEGORY_ALIASES, counters, "orchestrator.briefs")
     plan = OrchestratorPlan.model_validate(out)
     seen_needs, needs = set(), []
     for n in plan.needs:  # one need per category, first (most urgent) wins
@@ -184,7 +214,7 @@ async def find(finder: str, brief: dict, profile: Profile, emit: Emit, counters:
     label = FINDER_LABELS[finder]
     await emit({"type": "agent_start", "agent": finder, "message": f"{label}: {brief.get('focus', '')}"})
     out = await run_agent(
-        agent=finder, model=SONNET, effort="medium", emit=emit, counters=counters,
+        agent=finder, model=WORKER, effort="medium", emit=emit, counters=counters,
         tools=_finder_tools(finder, profile), server_tools=web_tools(profile.city, search_uses=6, fetch_uses=3),
         system=f"You are the {label} finder for The Last Mile's reentry team. Find real, current {label.lower()} resources in California for one person.\n"
                f"{SHARED_RULES}\n"
@@ -228,7 +258,7 @@ async def judge(finder: str, cands: list[Candidate], profile: Profile, emit: Emi
                      apis.lookup_rule, label=lambda i: f"Rule lookup: {i.get('topic', '')}", counts_as_source=False)
     listing = [{"index": i, **c.model_dump(exclude_none=True)} for i, c in enumerate(cands)]
     out = await run_agent(
-        agent="eligibility", model=OPUS, effort="low", emit=emit, counters=counters,
+        agent="eligibility", model=LEAD, effort="low", emit=emit, counters=counters,
         tools=[rule_tool], server_tools=web_tools(profile.city, search_uses=2, fetch_uses=1),
         system="You are the eligibility judge for The Last Mile's reentry team. For each program, decide whether this FICTIONAL person qualifies, "
                "reading the program's own listing first, then stored rules (lookup_rule), then official pages only when needed.\n"
@@ -269,7 +299,7 @@ async def rank(profile: Profile, orch: OrchestratorPlan, judged: list[JudgedCand
                 "confirm_question": j.confirm_question, "intake_requirements": j.intake_requirements, "distance_miles": j.distance_miles,
                 "city": j.city, "cost": j.cost, "tlm_network": j.tlm_network} for i, j in enumerate(keep)]
     out = await run_agent(
-        agent="ranker", model=OPUS, effort="medium", emit=emit, counters=counters,
+        agent="ranker", model=LEAD, effort="medium", emit=emit, counters=counters,
         system="You are the reentry planner for The Last Mile. Pick the best 2-3 programs per need for this FICTIONAL person, in the order of their needs, "
                "and write an 'act on today' list of 1-3 concrete steps (most urgent first). Explain 'why it fits' in one plain sentence tied to their situation. "
                "List what to bring (ID, release papers, proof of income, etc.). Prefer likely over worth_applying when equally good, but keep at least one "
@@ -385,7 +415,8 @@ async def run_pipeline(request: dict, emit: Emit) -> Plan:
         excluded=[j for j in judged if j.verdict == "not_eligible"],
         stats={"programs_checked": counters.programs_checked, "sources_searched": counters.sources_searched,
                "est_minutes_saved": counters.sources_searched * 3, "seconds": secs,
-               "candidates_judged": len(judged)},
+               "candidates_judged": len(judged),
+               "models": {"lead": LEAD, "worker": WORKER}, "calls": counters.calls, "schema_repairs": counters.schema_repairs},
     )
     await emit({"type": "done", "plan": plan.model_dump(mode="json")})
     return plan

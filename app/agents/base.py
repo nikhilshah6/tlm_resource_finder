@@ -14,8 +14,11 @@ from typing import Any, Awaitable, Callable, Optional
 
 import anthropic
 
-OPUS = os.getenv("OPUS_MODEL", "claude-opus-5-5")
-SONNET = os.getenv("SONNET_MODEL", "claude-sonnet-5-5")
+# Two roles: the lead (orchestrator, eligibility judge, ranker) and the workers (intake, finders).
+# LEAD_MODEL / WORKER_MODEL pick them (the eval matrix sets these); OPUS_MODEL / SONNET_MODEL still work.
+LEAD = os.getenv("LEAD_MODEL") or os.getenv("OPUS_MODEL", "claude-opus-5-5")
+WORKER = os.getenv("WORKER_MODEL") or os.getenv("SONNET_MODEL", "claude-sonnet-5-5")
+OPUS, SONNET = LEAD, WORKER  # older names
 USE_FALLBACKS = os.getenv("USE_FALLBACKS", "1") == "1"
 
 Emit = Callable[[dict], Awaitable[None]]
@@ -48,6 +51,34 @@ class Counters:
     programs_checked: int = 0
     sources_searched: int = 0
     seen_urls: set = field(default_factory=set)
+    calls: list = field(default_factory=list)  # one usage record per API call (agent, model, tokens, web requests)
+    schema_repairs: list = field(default_factory=list)  # out-of-schema values a model returned that the pipeline mapped or dropped
+
+
+# Models that reject the 20260209 web tools get the earlier versions (found on first use, then remembered).
+LEGACY_WEB_TOOLS: set = set()
+_LEGACY = {"web_search_20260209": "web_search_20250305", "web_fetch_20260209": "web_fetch_20250910"}
+
+
+def _tools_for(model: str, tools: list[dict]) -> list[dict]:
+    if model not in LEGACY_WEB_TOOLS:
+        return tools
+    return [dict(t, type=_LEGACY[t["type"]]) if t.get("type") in _LEGACY else t for t in tools]
+
+
+def record_usage(counters: Counters, agent: str, model: str, resp) -> None:
+    u = getattr(resp, "usage", None)
+    stu = getattr(u, "server_tool_use", None) if u else None
+    counters.calls.append({
+        "agent": agent, "model": model, "served_model": getattr(resp, "model", model),
+        "input_tokens": getattr(u, "input_tokens", 0) or 0,
+        "output_tokens": getattr(u, "output_tokens", 0) or 0,
+        "cache_creation_input_tokens": getattr(u, "cache_creation_input_tokens", 0) or 0,
+        "cache_read_input_tokens": getattr(u, "cache_read_input_tokens", 0) or 0,
+        "web_search_requests": getattr(stu, "web_search_requests", 0) or 0 if stu else 0,
+        "web_fetch_requests": getattr(stu, "web_fetch_requests", 0) or 0 if stu else 0,
+        "web_tools": "legacy" if model in LEGACY_WEB_TOOLS else "20260209",
+    })
 
 
 def web_tools(city: Optional[str], search_uses: int = 5, fetch_uses: int = 4) -> list[dict]:
@@ -88,6 +119,7 @@ async def run_agent(
     for _turn in range(max_turns):
         resp = await _create(model=model, system=system, messages=messages, tools=tool_specs,
                              effort=effort, max_tokens=max_tokens)
+        record_usage(counters, agent, model, resp)
         # Report server-side tool use (web search / fetch) to the feed, once per call.
         for b in resp.content:
             if b.type == "server_tool_use":
@@ -185,8 +217,20 @@ async def _call_tool(t: Tool, inp: dict, agent: str, emit: Emit, counters: Count
 
 
 async def _create(*, model, system, messages, tools, effort, max_tokens):
+    try:
+        return await _create_once(model=model, system=system, messages=messages, tools=tools, effort=effort, max_tokens=max_tokens)
+    except anthropic.BadRequestError as e:
+        msg = str(e).lower()
+        # a model that doesn't take the 20260209 web tools: switch it to the earlier versions and retry once
+        if model not in LEGACY_WEB_TOOLS and ("web_search" in msg or "web_fetch" in msg or "20260209" in msg):
+            LEGACY_WEB_TOOLS.add(model)
+            return await _create_once(model=model, system=system, messages=messages, tools=tools, effort=effort, max_tokens=max_tokens)
+        raise
+
+
+async def _create_once(*, model, system, messages, tools, effort, max_tokens):
     kwargs = dict(
-        model=model, max_tokens=max_tokens, system=system, messages=messages, tools=tools,
+        model=model, max_tokens=max_tokens, system=system, messages=messages, tools=_tools_for(model, tools),
         thinking={"type": "adaptive"}, output_config={"effort": effort},
     )
     global USE_FALLBACKS

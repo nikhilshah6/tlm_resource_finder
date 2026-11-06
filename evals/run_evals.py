@@ -36,6 +36,7 @@ except Exception:  # pragma: no cover
 import httpx  # noqa: E402
 
 from app.schemas import Plan, Profile  # noqa: E402
+from evals.pricing import call_cost, summarize  # noqa: E402
 
 GRADER_MODEL = "claude-opus-5-5"
 EXTRA_PROFILE_KEYS = ("preset", "label", "summary")
@@ -320,6 +321,7 @@ class Grader:
         self.enabled = enabled
         self.client = None
         self.note = ""
+        self.usd = 0.0
         if not enabled:
             self.note = "LLM grader disabled (--no-llm); heuristic used for wrong exclusions."
             return
@@ -377,6 +379,11 @@ class Grader:
                 # Fall back to plain JSON instructions if structured output is rejected.
                 base["messages"] = [{"role": "user", "content": msg[0]["content"] + "\n\nRespond with JSON matching: " + json.dumps(GRADER_SCHEMA)}]
                 resp = await self.client.messages.create(**base, output_config={"effort": "medium"})
+            u = resp.usage
+            self.usd += call_cost({"agent": "grader", "model": GRADER_MODEL, "served_model": getattr(resp, "model", GRADER_MODEL),
+                                   "input_tokens": u.input_tokens or 0, "output_tokens": u.output_tokens or 0,
+                                   "cache_creation_input_tokens": getattr(u, "cache_creation_input_tokens", 0) or 0,
+                                   "cache_read_input_tokens": getattr(u, "cache_read_input_tokens", 0) or 0})["total"]
             return self._parse(resp)
         except Exception as e:
             print(f"  [grader] {profile.get('id')}: {type(e).__name__}: {e}", flush=True)
@@ -384,6 +391,51 @@ class Grader:
 
 
 # ---------------------------------------------------------------- per-profile scoring
+
+
+# ---------------------------------------------------------------- alumni steps, reentry share, cost
+
+THIRD_PERSON_RE = re.compile(r"\b(he|him|his|she|her|hers)\b", re.I)
+STAFF_LEAK_RE = re.compile(r"likely eligible|worth applying|not eligible|eligibility verdict|case manager should|\bverdict\b", re.I)
+REENTRY_RE = re.compile(r"re-?entry|formerly incarcerated|incarcerat|parole|probation|justice[- ]involved|criminal record|record clear|expunge|second chance|returning (home|citizens)", re.I)
+
+
+def _syllables(word: str) -> int:
+    w = re.sub(r"[^a-z]", "", word.lower())
+    if not w:
+        return 0
+    groups = re.findall(r"[aeiouy]+", w)
+    n = len(groups) - (1 if w.endswith("e") and len(groups) > 1 and not w.endswith("le") else 0)
+    return max(1, n)
+
+
+def fk_grade(text: str) -> float | None:
+    """Flesch-Kincaid grade level (approximate syllable count)."""
+    words = re.findall(r"[A-Za-z][A-Za-z'-]*", text)
+    sentences = max(1, len(re.findall(r"[.!?]+(\s|$)", text)) or 1)
+    if not words:
+        return None
+    syl = sum(_syllables(w) for w in words)
+    return 0.39 * len(words) / sentences + 11.8 * syl / len(words) - 15.59
+
+
+def score_steps(plan: dict) -> dict:
+    steps = plan.get("act_today") or []
+    texts = [(s.get("for_alumnus") or "").strip() for s in steps]
+    have = [t for t in texts if t]
+    grades = [g for g in (fk_grade(t) for t in have) if g is not None]
+    return {
+        "steps_n": len(steps), "steps_missing_for_alumnus": len(texts) - len(have),
+        "steps_fk_sum": sum(grades), "steps_fk_n": len(grades),
+        "steps_third_person": sum(1 for t in have if THIRD_PERSON_RE.search(t)),
+        "steps_staff_leak": sum(1 for t in have if STAFF_LEAK_RE.search(t)),
+    }
+
+
+def score_reentry_share(plan: dict) -> dict:
+    recs = recommended(plan)
+    hits = sum(1 for c in recs if REENTRY_RE.search(_txt(c, "name", "description", "who_it_serves", "intake_requirements")))
+    return {"reentry_specific": hits, "reentry_total": len(recs)}
 
 
 async def score(result: dict, profile: dict, exp: dict, grader: Grader, links: LinkChecker | None) -> dict:
@@ -400,6 +452,15 @@ async def score(result: dict, profile: dict, exp: dict, grader: Grader, links: L
         return row
 
     row.update(score_includes(plan, exp))
+    row.update(score_steps(plan))
+    row.update(score_reentry_share(plan))
+    calls = (plan.get("stats") or {}).get("calls") or []
+    if calls:
+        u = summarize(calls)
+        row["usage"] = u
+        row["usd"] = u["usd"]["total"]
+        row["models"] = (plan.get("stats") or {}).get("models")
+    row["schema_repairs"] = len((plan.get("stats") or {}).get("schema_repairs") or [])
     row.update(score_gray(plan, exp))
     row.update(score_invented(plan, result["events"]))
     row["n_recommended"] = len(recommended(plan))
@@ -461,6 +522,21 @@ def build_report(rows: list[dict], meta: dict) -> tuple[str, dict]:
         "links": S("links_ok") / S("links_total") if S("links_total") else None,
         "seconds_avg": sum(times) / len(times) if times else None,
         "seconds_max": max(times) if times else None,
+        "seconds_p50": sorted(times)[len(times) // 2] if times else None,
+        "seconds_p90": sorted(times)[min(len(times) - 1, int(0.9 * len(times)))] if times else None,
+        "usd_total": sum(r.get("usd", 0.0) for r in rows),
+        "usd_per_plan": (sum(r.get("usd", 0.0) for r in rows) / sum(1 for r in rows if r.get("usd"))) if any(r.get("usd") for r in rows) else None,
+        "grader_usd": meta.get("grader_usd", 0.0),
+        "steps_fk_avg": (S("steps_fk_sum") / S("steps_fk_n")) if S("steps_fk_n") else None,
+        "steps_third_person": S("steps_third_person"),
+        "steps_staff_leak": S("steps_staff_leak"),
+        "steps_missing_for_alumnus": S("steps_missing_for_alumnus"),
+        "steps_n": S("steps_n"),
+        "reentry_share": S("reentry_specific") / S("reentry_total") if S("reentry_total") else None,
+        "schema_repairs": S("schema_repairs"),
+        "served_model_mismatches": sum((r.get("usage") or {}).get("served_model_mismatches", 0) for r in rows),
+        "legacy_web_tool_calls": sum((r.get("usage") or {}).get("legacy_web_tool_calls", 0) for r in rows),
+        "models": next((r.get("models") for r in rows if r.get("models")), None),
     }
 
     def mark(ok: bool | None) -> str:
@@ -490,6 +566,20 @@ def build_report(rows: list[dict], meta: dict) -> tuple[str, dict]:
     sa, sm = summary["seconds_avg"], summary["seconds_max"]
     L.append(f"| Seconds per run (avg / max) | {'n/a' if sa is None else f'{sa:.1f} / {sm:.1f}'} | <= 90s | {mark(None if sm is None else sm <= TARGETS['seconds'])} |")
     L.append(f"| Pipeline errors | {summary['errors']} | 0 | {mark(summary['errors'] == 0)} |\n")
+    if summary.get("usd_per_plan") is not None:
+        L.append("## Cost, speed and alumni steps\n")
+        L.append("| Metric | Value |\n| --- | --- |")
+        m = summary.get("models") or {}
+        L.append(f"| Models (lead / workers) | {m.get('lead', '?')} / {m.get('worker', '?')} |")
+        L.append(f"| Cost per plan (pipeline) | ${summary['usd_per_plan']:.3f} |")
+        L.append(f"| Pipeline cost, all profiles | ${summary['usd_total']:.2f} (grader ${summary['grader_usd']:.2f} extra) |")
+        L.append(f"| Seconds p50 / p90 / max | {summary['seconds_p50']:.0f} / {summary['seconds_p90']:.0f} / {summary['seconds_max']:.0f} |")
+        fk = summary.get("steps_fk_avg")
+        L.append(f"| Alumni steps: reading grade (FK) | {fk:.1f} |" if fk is not None else "| Alumni steps: reading grade (FK) | n/a |")
+        L.append(f"| Alumni steps: third-person / staff-only leaks / missing | {summary['steps_third_person']} / {summary['steps_staff_leak']} / {summary['steps_missing_for_alumnus']} of {summary['steps_n']} |")
+        rs = summary.get("reentry_share")
+        L.append(f"| Reentry-specific recommendations | {100 * rs:.0f}% |" if rs is not None else "| Reentry-specific recommendations | n/a |")
+        L.append(f"| Served-model mismatches / legacy web-tool calls | {summary['served_model_mismatches']} / {summary['legacy_web_tool_calls']} |\n")
 
     L.append("## Per profile\n")
     L.append("| Profile | Status | Cat recall | Group recall | Gray kept | Wrong excl. | Must-not | Invented | Links ok | Recs/Excl | Sec |")
@@ -552,7 +642,7 @@ async def main_async(args) -> int:
     if args.limit:
         profiles = profiles[: args.limit]
 
-    run_dir = EVALS_DIR / "runs" / datetime.now().strftime("%Y%m%d-%H%M%S")
+    run_dir = Path(args.out_dir).resolve() if args.out_dir else EVALS_DIR / "runs" / datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir.mkdir(parents=True, exist_ok=True)
     run_pipeline = get_pipeline(args.fake)
     grader = Grader(enabled=not args.no_llm)
@@ -579,10 +669,12 @@ async def main_async(args) -> int:
         "concurrency": args.concurrency,
         "grader_note": grader.note,
         "links": links is not None,
+        "grader_usd": grader.usd,
     }
     report, summary = build_report(rows, meta)
     (run_dir / "report.md").write_text(report)
-    (EVALS_DIR / "report.md").write_text(report)
+    if not args.no_latest:
+        (EVALS_DIR / "report.md").write_text(report)
     (run_dir / "summary.json").write_text(json.dumps({"summary": summary, "meta": meta, "rows": rows}, indent=2, default=str))
     print()
     print(report)
@@ -599,6 +691,8 @@ def main() -> None:
     ap.add_argument("--no-llm", action="store_true", help="skip the LLM grader (heuristic wrong-exclusion check)")
     ap.add_argument("--no-links", action="store_true", help="skip HTTP link checks")
     ap.add_argument("--timeout", type=float, default=300.0, help="per-profile pipeline timeout in seconds (default 300)")
+    ap.add_argument("--out-dir", help="write this run here instead of evals/runs/<timestamp> (used by run_matrix.py)")
+    ap.add_argument("--no-latest", action="store_true", help="don't overwrite evals/report.md")
     args = ap.parse_args()
     sys.exit(asyncio.run(main_async(args)))
 
