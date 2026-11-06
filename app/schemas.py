@@ -107,6 +107,7 @@ class NeedSection(BaseModel):
 
 class ActStep(BaseModel):
     step: str
+    for_alumnus: str = ""  # the same step written to the person ("you"); the case manager reviews it before sharing
     resource_name: Optional[str] = None
     what_to_bring: list[str] = Field(default_factory=list)
 

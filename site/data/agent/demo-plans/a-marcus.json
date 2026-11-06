@@ -1,0 +1,487 @@
+{
+ "savedAt": "Nov 5",
+ "plan": {
+  "sections": [
+   {
+    "need": {
+     "category": "housing",
+     "urgency": "this_week",
+     "why": "Staying with sister temporarily; Hope House bed not confirmed. Needs a backup plan in Alameda County and a path to his own place by January."
+    },
+    "recommendations": [
+     {
+      "candidate": {
+       "name": "Building Opportunities for Self-Sufficiency (BOSS)",
+       "description": "Listed by East Bay Housing Organizations as transitional housing for people leaving prison or hospital. Call to ask about men's beds, parole acceptance, curfew and whether a bed can open before January.",
+       "source": "web",
+       "source_url": "https://ebho.org/looking-for-housing/direct-support/",
+       "phone": "(510) 613-0330",
+       "city": "Oakland",
+       "county": "Alameda",
+       "who_it_serves": "People discharged from prison or hospital",
+       "intake_requirements": "Not confirmed. Ask about parole approval, curfew and waitlist.",
+       "cost": "Not listed",
+       "tlm_network": false,
+       "category": "housing",
+       "verdict": "worth_applying",
+       "reason": "The listing serves people leaving prison, but intake rules for parolees and curfew aren't confirmed.",
+       "confirm_question": "Do you accept parolees with a 10pm curfew, and can a men's bed open before January?",
+       "rule_cited": "EBHO listing",
+       "rule_url": "https://ebho.org/looking-for-housing/direct-support/"
+      },
+      "why_it_fits": "Marcus needs a backup transitional bed in Alameda County because his Hope House bed isn't confirmed, and BOSS serves people leaving prison. Ask whether they accept parolees with a 10pm curfew and whether a bed can open before January.",
+      "what_to_bring": [
+       "State ID",
+       "Release/parole papers",
+       "Parole officer D. Alvarez's contact info"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Center Point Inc. - Oakland",
+       "description": "Reentry case coordinators who give referrals for housing and employment. This is a referral and support agency, not a bed provider. It is near Telegraph Ave and MacArthur BART.",
+       "source": "careeronestop",
+       "source_url": "https://www.careeronestop.org/TridionMultimedia/tcm24-63015_XLS_Service_Provider_Reentry_Youth_ACC.xlsx",
+       "phone": "(510) 496-5140",
+       "address": "3333 Telegraph Ave., Oakland, CA 94609",
+       "city": "Oakland",
+       "county": "Alameda",
+       "url": "https://www.cpinc.org/",
+       "who_it_serves": "Adults returning from incarceration",
+       "tlm_network": false,
+       "category": "housing",
+       "verdict": "likely",
+       "reason": "Reentry case coordination for adults returning from incarceration, in Oakland.",
+       "rule_cited": "CareerOneStop reentry provider list",
+       "rule_url": "https://www.careeronestop.org/TridionMultimedia/tcm24-63015_XLS_Service_Provider_Reentry_Youth_ACC.xlsx"
+      },
+      "why_it_fits": "Center Point's reentry case coordinators can work on several housing referrals at once while Hope House is pending, and the office is near MacArthur BART, so he can get there without a car.",
+      "what_to_bring": [
+       "State ID",
+       "SSN card",
+       "Release/parole papers",
+       "Hope House application details"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Money Management International - Oakland (HUD-approved housing counseling)",
+       "description": "Free HUD-approved counseling on rental help and finding housing. Can help him find first-month and deposit assistance and build a budget for a January move. It is about 1.1 miles from 94607 and is a counseling agency, not a bed or funds provider.",
+       "source": "hud",
+       "source_url": "https://data.hud.gov/Housing_Counselor/",
+       "phone": "866-232-9080",
+       "address": "1901 Harrison St Ste 1100, Oakland, CA 94612",
+       "city": "Oakland",
+       "county": "Alameda",
+       "distance_miles": 1.1,
+       "url": "http://www.moneymanagement.org",
+       "cost": "Typically free",
+       "tlm_network": false,
+       "category": "housing",
+       "verdict": "likely",
+       "reason": "Free HUD-approved housing counseling is open to the public. It fits his budget and move-in plan for January.",
+       "rule_cited": "HUD housing counselor list",
+       "rule_url": "https://data.hud.gov/Housing_Counselor/"
+      },
+      "why_it_fits": "Free housing counseling about a mile from his sister's place can help him plan a budget and find first-month and deposit help so he can get his own place by January.",
+      "what_to_bring": [
+       "State ID",
+       "Any pay stubs or job offer letter once he has one",
+       "List of monthly expenses"
+      ]
+     }
+    ]
+   },
+   {
+    "need": {
+     "category": "food_benefits",
+     "urgency": "this_week",
+     "why": "No income yet while job searching. CalFresh and General Assistance would cover food and basic costs."
+    },
+    "recommendations": [
+     {
+      "candidate": {
+       "name": "CalFresh (apply via GetCalFresh)",
+       "description": "Online CalFresh (food benefits on an EBT card) application in about 10 minutes. Ask for expedited processing; ID and income proof can follow after applying. Prior drug felony convictions do not bar eligibility in California.",
+       "source": "state",
+       "source_url": "https://www.getcalfresh.org/",
+       "url": "https://www.getcalfresh.org/",
+       "phone": "(877) 847-3663",
+       "cost": "Free",
+       "intake_requirements": "County interview; proof of identity, income and expenses (can be submitted after applying). Marcus has state ID and SSN card.",
+       "who_it_serves": "Low-income Californians, including people recently released",
+       "county": "Alameda",
+       "category": "food_benefits",
+       "tlm_network": false,
+       "verdict": "likely",
+       "reason": "Low-income Oakland resident, recently released, no income yet. The listing says prior drug felonies don't bar eligibility, and he has ID and an SSN card.",
+       "rule_cited": "GetCalFresh listing",
+       "rule_url": "https://www.getcalfresh.org/"
+      },
+      "why_it_fits": "Marcus has no income while he looks for work, so CalFresh with expedited processing can put food money on an EBT card quickly. He already has the ID and SSN card it asks for.",
+      "what_to_bring": [
+       "State ID",
+       "SSN card",
+       "Sister's address for mail",
+       "Release papers"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Alameda County General Assistance (GA)",
+       "description": "Cash aid for Alameda County adults with no other means of support. Apply online or at an SSA office such as Eastmont Town Center in Oakland. GA cash is treated as a loan under the application's reimbursement agreement, so read that before signing.",
+       "source": "county",
+       "source_url": "https://socialservices.alamedacountyca.gov/our-services/Work-and-Money/General-Assistance/index",
+       "url": "https://socialservices.alamedacountyca.gov/our-services/Work-and-Money/General-Assistance/index",
+       "cost": "Free (cash treated as a loan)",
+       "who_it_serves": "Alameda County resident adults without dependent children",
+       "county": "Alameda",
+       "city": "Oakland",
+       "category": "food_benefits",
+       "tlm_network": false,
+       "verdict": "worth_applying",
+       "reason": "He is an Alameda adult with no dependents and is job searching. But he lives with his sister, and support from her could affect whether he has 'no other means of support.' The aid is also treated as a loan.",
+       "confirm_question": "Does his sister provide free room and board, and would that count as support that reduces or blocks GA?",
+       "rule_cited": "Alameda County GA listing",
+       "rule_url": "https://socialservices.alamedacountyca.gov/our-services/Work-and-Money/General-Assistance/index"
+      },
+      "why_it_fits": "General Assistance could cover basic costs until his first paycheck. Ask first whether staying with his sister counts as support, and read the repayment terms before signing.",
+      "what_to_bring": [
+       "State ID",
+       "SSN card",
+       "Release papers",
+       "Statement of current income (none)"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Clipper START (50% transit fare discount)",
+       "description": "Gives adults a discount on single-ride fares across Bay Area transit systems. Apply at clipperstartcard.com. Proof of income can be an EBT card, Medi-Cal card or county benefits letter, so applying for CalFresh first helps. Check the site for current rules, because the source describes the pilot years ago.",
+       "source": "web",
+       "source_url": "https://mtc.ca.gov/news/clipperr-start-program-offers-discounts-transit",
+       "url": "https://clipperstartcard.com",
+       "cost": "Free to apply; 50% off fares",
+       "intake_requirements": "Age 19-64, Bay Area resident, household income up to 200% of the federal poverty level; proof of income such as an EBT card or Medi-Cal card",
+       "who_it_serves": "Low-income Bay Area adults",
+       "county": "Alameda",
+       "category": "food_benefits",
+       "tlm_network": false,
+       "verdict": "worth_applying",
+       "reason": "He is a Bay Area resident with no current income, and transportation is one of his barriers. Age isn't in his profile, and the listing's rules may be out of date.",
+       "confirm_question": "Is Marcus between 19 and 64, and does he have an EBT or Medi-Cal card to prove income yet?",
+       "rule_cited": "Clipper START listing",
+       "rule_url": "https://clipperstartcard.com"
+      },
+      "why_it_fits": "Transportation is one of his barriers, and Clipper START cuts transit fares in half once he has an EBT or Medi-Cal card to show as proof of income.",
+      "what_to_bring": [
+       "State ID",
+       "EBT card or Medi-Cal card (once received)"
+      ]
+     }
+    ]
+   },
+   {
+    "need": {
+     "category": "health",
+     "urgency": "this_week",
+     "why": "26 days out with no coverage noted. He needs Medi-Cal enrollment and a primary care link."
+    },
+    "recommendations": [
+     {
+      "candidate": {
+       "name": "BenefitsCal \u2013 Medi-Cal application",
+       "url": "https://benefitscal.com/",
+       "description": "Free online application for Medi-Cal, CalFresh and General Assistance. Apply here, then choose or confirm Alameda Alliance for Health as the plan. I did not find an Alameda Alliance page this run, so confirm the plan and the clinic's network status by phone. In person, use the Alameda County social services office at Eastmont Town Center.",
+       "cost": "Free",
+       "source": "state",
+       "source_url": "https://benefitscal.com/",
+       "tlm_network": false,
+       "category": "health",
+       "verdict": "likely",
+       "reason": "Medi-Cal and CalFresh applications are open to Alameda County residents. Marcus has a state ID and SSN card, and his income is likely low while he job searches.",
+       "confirm_question": "What is Marcus's current income, if any?",
+       "rule_cited": "Program listing / BenefitsCal"
+      },
+      "why_it_fits": "At 26 days out he has no health coverage on record, and one BenefitsCal application can start Medi-Cal along with CalFresh and General Assistance.",
+      "what_to_bring": [
+       "State ID",
+       "SSN card",
+       "Release papers",
+       "Sister's address"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "LifeLong Medical Care \u2013 Transitions Clinic (Downtown Oakland)",
+       "address": "616 16th Street, Oakland, CA 94612",
+       "city": "Oakland",
+       "county": "Alameda",
+       "phone": "(510) 981-4100",
+       "url": "https://www.lifelongmedical.org/",
+       "description": "Primary care built for people recently released from incarceration, with case management and linkage to community resources. Also offers MAT for opioid use. Accepts Medi-Cal and sliding scale. Near 16th St BART, so reachable without a car from West Oakland.",
+       "who_it_serves": "People on parole/probation or returning from incarceration",
+       "cost": "Medi-Cal accepted; sliding fee",
+       "source": "cdcr_dapo",
+       "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+       "tlm_network": false,
+       "category": "health",
+       "verdict": "likely",
+       "reason": "Serves people on parole or returning from incarceration. Marcus is on parole and was released 26 days ago, and the clinic is in Oakland.",
+       "rule_cited": "Program listing: who_it_serves"
+      },
+      "why_it_fits": "This clinic does primary care built for people recently released, and it is near 16th St BART, which helps with his transportation barrier.",
+      "what_to_bring": [
+       "State ID",
+       "Medi-Cal card or application confirmation",
+       "Release papers",
+       "Any medication list from prison"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Order of Malta Clinic",
+       "address": "2121 Harrison Street, Suite #120, Oakland, CA 94612",
+       "city": "Oakland",
+       "county": "Alameda",
+       "phone": "(510) 587-3000",
+       "url": "https://www.orderofmaltaclinic.com/",
+       "description": "Free health care for uninsured adults, open to anyone. Useful as a bridge until Medi-Cal is active.",
+       "cost": "Free",
+       "source": "cdcr_dapo",
+       "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+       "tlm_network": false,
+       "category": "health",
+       "verdict": "worth_applying",
+       "reason": "Free care for uninsured adults. We don't know if Marcus has insurance yet.",
+       "confirm_question": "Is Marcus currently uninsured (Medi-Cal not yet active)?",
+       "rule_cited": "Program listing"
+      },
+      "why_it_fits": "This free clinic can see him if he needs care before his Medi-Cal is active.",
+      "what_to_bring": [
+       "State ID"
+      ]
+     }
+    ]
+   },
+   {
+    "need": {
+     "category": "jobs",
+     "urgency": "this_week",
+     "why": "Has an Amazon warehouse interview and wants a supervisor role. Transportation is a barrier."
+    },
+    "recommendations": [
+     {
+      "candidate": {
+       "name": "West Oakland Job and Resource Center (AJCC)",
+       "description": "Free employment services in West Oakland, near 94607. Complete the online intake first. Ask about interview prep and training funds for forklift/OSHA-type certifications.",
+       "address": "1801 Adeline Street, 2nd Floor, Oakland, CA 94607",
+       "city": "Oakland",
+       "county": "Alameda",
+       "phone": "(510) 419-0509",
+       "url": "https://www.wojrc.org/",
+       "source": "cdcr_dapo",
+       "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+       "intake_requirements": "Online intake form",
+       "tlm_network": false,
+       "category": "jobs",
+       "verdict": "likely",
+       "reason": "Free public job center in 94607. The only step is the online intake form.",
+       "rule_cited": "Program listing: intake_requirements"
+      },
+      "why_it_fits": "This center is close to his ZIP and can help him prepare for the Amazon interview now, and it may also pay for forklift or OSHA certifications that support a supervisor role.",
+      "what_to_bring": [
+       "State ID",
+       "SSN card",
+       "Resume or work history",
+       "Amazon interview details"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Center for Employment Opportunities (CEO) - Oakland",
+       "description": "Immediate, paid transitional work and job placement for people returning from prison. Good first step for work history and references; ask staff about warehouse/logistics placements and interview coaching on talking about your record.",
+       "address": "464 7th Street, Oakland, CA 94607",
+       "city": "Oakland",
+       "county": "Alameda",
+       "phone": "(510) 251-2240",
+       "url": "https://www.ceoworks.org/locations/oakland",
+       "source": "careeronestop",
+       "source_url": "https://www.careeronestop.org/TridionMultimedia/tcm24-63015_XLS_Service_Provider_Reentry_Youth_ACC.xlsx",
+       "who_it_serves": "Adults returning from incarceration",
+       "tlm_network": false,
+       "category": "jobs",
+       "verdict": "likely",
+       "reason": "Serves adults returning from incarceration; Marcus was released 26 days ago, is on parole, and lives in 94607 near the office.",
+       "rule_cited": "Program listing: who_it_serves"
+      },
+      "why_it_fits": "CEO offers paid transitional work right away, which gives him income and recent references if the Amazon job is delayed.",
+      "what_to_bring": [
+       "State ID",
+       "SSN card",
+       "Release/parole papers",
+       "Parole officer contact info"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "College of Alameda - Trade & Logistics (Warehouse Operation and Forklift)",
+       "description": "Training in warehouse operations and forklift, plus logistics office skills. Financial assistance available. Confirm current schedule, and pick day classes that end well before 10pm curfew.",
+       "address": "555 Ralph Appezzato Memorial Parkway, Alameda, CA 94501",
+       "city": "Alameda",
+       "county": "Alameda",
+       "phone": "(510) 748-5251",
+       "url": "https://alameda.edu/contacts/",
+       "source": "cdcr_dapo",
+       "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+       "cost": "Financial assistance available",
+       "tlm_network": false,
+       "category": "jobs",
+       "verdict": "likely",
+       "reason": "Open community college training in Alameda County, so it fits his county restriction and warehouse goal. Pick day classes to keep his 10pm curfew.",
+       "rule_cited": "Program listing"
+      },
+      "why_it_fits": "Training in warehouse operations and logistics would build toward his goal of becoming a warehouse operations supervisor. He should choose day classes that end well before his 10pm curfew.",
+      "what_to_bring": [
+       "State ID",
+       "SSN card",
+       "Any school transcripts or GED"
+      ]
+     }
+    ]
+   },
+   {
+    "need": {
+     "category": "legal_id",
+     "urgency": "this_month",
+     "why": "Already has state ID and SSN card. Needs a bank account for direct deposit and could look into record relief later."
+    },
+    "recommendations": [
+     {
+      "candidate": {
+       "name": "Bank of America \u2013 Oakland Chinatown Branch",
+       "description": "FDIC-insured branch at 388 9th St, walkable from 94607. Ask about low-fee checking with direct deposit; terms not verified in this search.",
+       "address": "388 9th St, Oakland, CA",
+       "city": "Oakland",
+       "county": "Alameda",
+       "cost": "Ask about monthly fees",
+       "intake_requirements": "State ID and SSN card",
+       "source": "fdic",
+       "source_url": "https://banks.data.fdic.gov/bankfind-suite/",
+       "tlm_network": false,
+       "category": "legal_id",
+       "verdict": "worth_applying",
+       "reason": "He has the ID documents and the branch is walkable. Account terms aren't verified.",
+       "confirm_question": "Is there a low-fee or Bank On checking account, and does the bank screen with ChexSystems?",
+       "rule_cited": "Program listing",
+       "rule_url": "https://banks.data.fdic.gov/bankfind-suite/"
+      },
+      "why_it_fits": "He needs a bank account for direct deposit, and this branch is within walking distance with the state ID and SSN card he already has. Ask about low-fee or Bank On accounts and ChexSystems screening.",
+      "what_to_bring": [
+       "State ID",
+       "SSN card",
+       "Small opening deposit if required"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Root & Rebound",
+       "description": "Free legal guide and direct services on record clearance, employment rights, housing, benefits and ID restoration for people returning home. Good for a parole-specific relief screening.",
+       "address": "1730 Franklin St, Oakland, CA",
+       "city": "Oakland",
+       "county": "Alameda",
+       "phone": "(510) 279-4662",
+       "cost": "Free",
+       "who_it_serves": "People with records and their families",
+       "intake_requirements": "Self-referral works",
+       "source": "tlm",
+       "source_url": "https://www.rootandrebound.org/",
+       "url": "https://www.rootandrebound.org/",
+       "tlm_network": true,
+       "category": "legal_id",
+       "verdict": "likely",
+       "reason": "Serves people with records. He can refer himself, and it's free and in Oakland.",
+       "rule_cited": "Program listing",
+       "rule_url": "https://www.rootandrebound.org/"
+      },
+      "why_it_fits": "Root & Rebound is in the TLM network and offers free screening for record relief while he is on parole, plus help with employment rights as he job hunts.",
+      "what_to_bring": [
+       "State ID",
+       "Release/parole papers",
+       "Any court case numbers"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Alameda County Public Defender \u2013 Clean Slate Program",
+       "description": "Free record relief for Alameda County convictions (dismissals, felony reductions, early termination, certificates of rehabilitation). Most dismissals need you to be off parole/probation with no pending cases, so Marcus can attend a clinic to learn what he qualifies for now and what must wait until parole ends.",
+       "address": "545 4th Street, Oakland, CA 94607",
+       "city": "Oakland",
+       "county": "Alameda",
+       "phone": "510-268-7400 (select Clean Slate)",
+       "hours": "Walk-in clinics 9:00 AM; intakes stop at 11:00 AM. Dates listed: 11/5/26, 11/19/26, 12/3/26 (Thursdays)",
+       "cost": "Free",
+       "who_it_serves": "People with Alameda County convictions",
+       "intake_requirements": "Complete intake at walk-in clinic; long waits expected. Bring a short letter to the court about positive changes. Alameda County convictions only.",
+       "source": "county",
+       "source_url": "https://publicdefender.acgov.org/CleanSlate.page",
+       "url": "https://publicdefender.acgov.org/CleanSlate.page",
+       "tlm_network": false,
+       "category": "legal_id",
+       "verdict": "worth_applying",
+       "reason": "Free clinic for Alameda County convictions. Most dismissals (PC 1203.4) need him off parole, but the clinic can screen for relief he can get now and plan what comes after parole.",
+       "confirm_question": "Are Marcus's convictions from Alameda County?",
+       "rule_cited": "Program listing: Alameda County convictions only; PC 1203.4 is not available while on parole",
+       "rule_url": "https://publicdefender.acgov.org/CleanSlate.page"
+      },
+      "why_it_fits": "If his convictions are from Alameda County, this clinic can tell him what record relief he can get now and what has to wait until parole ends.",
+      "what_to_bring": [
+       "State ID",
+       "Release/parole papers",
+       "Short letter to the court about positive changes"
+      ]
+     }
+    ]
+   }
+  ],
+  "act_today": [
+   {
+    "step": "Sit with Marcus and file the GetCalFresh application and ask for expedited processing. Then use BenefitsCal to apply for Medi-Cal and General Assistance in the same session. Before he signs, go over the GA repayment agreement and whether his sister's support counts against GA.",
+    "for_alumnus": "Today, apply online for CalFresh food benefits and ask for the fast (expedited) option. While you're online, also apply for Medi-Cal health coverage and General Assistance cash aid. It takes about 10 minutes for each one.",
+    "what_to_bring": [
+     "State ID",
+     "SSN card",
+     "Sister's address for mail",
+     "Release papers"
+    ],
+    "resource_name": "CalFresh (apply via GetCalFresh)"
+   },
+   {
+    "step": "Call BOSS about a backup transitional bed, since Hope House is unconfirmed. Ask about men's beds, whether they accept parole with a 10pm curfew, and whether a bed can open before January. Get approval from PO Alvarez for any move.",
+    "for_alumnus": "Call BOSS today about a backup housing bed in case Hope House doesn't come through. Ask if they take people on parole with a 10pm curfew and if a bed could open before January. Before you move anywhere, tell your parole officer.",
+    "what_to_bring": [
+     "State ID",
+     "Release/parole papers",
+     "Parole officer contact info"
+    ],
+    "resource_name": "Building Opportunities for Self-Sufficiency (BOSS)"
+   },
+   {
+    "step": "Complete the West Oakland Job and Resource Center online intake and request interview prep before the Amazon interview. Also ask about training funds for forklift and OSHA certifications and about help with transportation.",
+    "for_alumnus": "Fill out the West Oakland Job and Resource Center's online form today, and ask for help getting ready for your Amazon interview. Also ask if they can help pay for forklift training and for getting to work.",
+    "what_to_bring": [
+     "State ID",
+     "SSN card",
+     "Resume or work history",
+     "Amazon interview date and details"
+    ],
+    "resource_name": "West Oakland Job and Resource Center (AJCC)"
+   }
+  ],
+  "excluded": [],
+  "stats": {
+   "programs_checked": 350,
+   "sources_searched": 27,
+   "seconds": 100
+  }
+ }
+}

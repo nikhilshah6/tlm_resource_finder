@@ -1,0 +1,9 @@
+# Cloudflare Pages project for the Reentry Hub prototype (sample data only). Deployed as tlm-reentry-agents.
+name = "tlm-reentry-agents"
+pages_build_output_dir = "public"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+# Secrets (set with `wrangler pages secret put NAME`): ANTHROPIC_API_KEY (required),
+# SITE_PASSWORD (required: the shared password checked by functions/_middleware.js; without it the site returns 503;
+# a project that has DEMO_USER + DEMO_PASSWORD instead, like tlm-reentry-agents, works too)
+# Optional connector keys: COS_USERID + COS_TOKEN (CareerOneStop), USAJOBS_KEY + USAJOBS_EMAIL
