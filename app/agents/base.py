@@ -20,6 +20,11 @@ LEAD = os.getenv("LEAD_MODEL") or os.getenv("OPUS_MODEL", "claude-opus-5-5")
 WORKER = os.getenv("WORKER_MODEL") or os.getenv("SONNET_MODEL", "claude-sonnet-5-5")
 OPUS, SONNET = LEAD, WORKER  # older names
 USE_FALLBACKS = os.getenv("USE_FALLBACKS", "1") == "1"
+# Opt-in prompt caching (off by default). When on, every request gets an explicit 5-minute breakpoint on the
+# system prompt (caches tools + system, shared by repeated calls of the same agent) plus top-level automatic
+# caching for the growing message history. With caching on, the API also caches server tool results
+# (web search / fetch) between the server-side iterations of a single request.
+CACHE_PROMPTS = os.getenv("CACHE_PROMPTS", "0") == "1"
 
 Emit = Callable[[dict], Awaitable[None]]
 
@@ -233,6 +238,9 @@ async def _create_once(*, model, system, messages, tools, effort, max_tokens):
         model=model, max_tokens=max_tokens, system=system, messages=messages, tools=_tools_for(model, tools),
         thinking={"type": "adaptive"}, output_config={"effort": effort},
     )
+    if CACHE_PROMPTS:
+        kwargs["system"] = [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}]
+        kwargs["cache_control"] = {"type": "ephemeral"}  # automatic breakpoint on the last block of messages
     global USE_FALLBACKS
     if USE_FALLBACKS:
         try:
