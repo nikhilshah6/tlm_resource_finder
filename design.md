@@ -202,7 +202,7 @@ The notes feed and the caseload task list moved to each case (Activity and Tasks
   - **Resources:** the full AI plan (verdicts, sharing, Run again) above the general directory.
   - **Tasks** (open count) and **Activity** (Coming up and Notes; note count).
   - **Profile:** an icon fact list, two columns on wide screens (Housing, Supervision, Employment, Contact, Goals, Barriers, Release), each with a 16px grey icon, a small label, the value and a detail line. No box.
-- **Saved demo plans:** `site/data/agent/demo-plans/<id>.json` (Marcus and Anthony, recorded from live runs on Nov 5) load when that case opens and no run exists, labelled "Saved run from Nov 5". **Run again** always runs live.
+- **Saved demo plans:** `site/data/agent/demo-plans/<id>.json` (Marcus and Anthony, recorded from live runs on Nov 5) are a fallback, not the default: the case opens with **Build plan**, which runs the search live. If a live run fails, **Use saved run** loads the saved one, labelled "Saved run from Nov 5". Adding `?saved` to the URL loads saved runs on every case for rehearsal.
 
 ### Resources
 

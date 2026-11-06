@@ -340,7 +340,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       fact(I.calendar, "Release", "Released " + esc(C.fmShort(a.releaseDate)) + " · day " + a.dayN, esc(a.facility || "")) +
       "</div>";
     h += panel("overview", ov) + panel("resources", rs) + panel("tasks", gh("Tasks", open.length + " open") + tk) + panel("activity", ac) + panel("profile", pr);
-    return { title: a.name, back: [back, V.from || "#/today"], html: h, after: function () { loadRes(a); loadDemoPlan(a); } };
+    return { title: a.name, back: [back, V.from || "#/today"], html: h, after: function () { loadRes(a); if (SAVED_MODE) loadDemoPlan(a); } };
   }
   function stat(label, value, tone, sub) { return '<div class="stat"><div class="sl">' + esc(label) + '</div><div class="sv' + (tone ? " " + tone + "text" : "") + '">' + value + "</div>" + onlyIf(sub, '<div class="ss">' + sub + "</div>") + "</div>"; }
   function noteRow(n) { return '<div class="row"><div class="body"><div class="sec">' + esc(C.fmShort(n.date)) + " · " + esc(n.kind) + " · " + esc(C.who(n.by)) + (n.twoWay ? "" : " · not reached") + '</div><div>' + esc(n.text) + "</div></div></div>"; }
@@ -681,7 +681,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       '<div class="group forpick"><div class="field"><label for="rfor">Recommending for</label><select id="rfor" onchange="RXV.setResFor(this.value)">' + mine.map(function (x) { return '<option value="' + x.id + '"' + (x.id === id ? " selected" : "") + ">" + esc(x.name) + " · " + esc(x.loc) + "</option>"; }).join("") + '</select></div><a class="row" href="#/case/' + a.id + '"><div class="body"><div class="ttl">Open ' + esc(a.name) + "'s case</div></div>" + I.chev + "</a></div>" +
       '<nav class="res-index" id="ri-' + a.id + '" aria-label="Jump to a category">' + resIndex(a) + "</nav></aside>" +
       '<div class="res-main"><div id="res-' + a.id + '">' + resourcesHtml(a, "cm") + "</div></div></div>";
-    return { title: "Resources", html: h, wide: true, after: function () { loadRes(a); loadDemoPlan(a); } };
+    return { title: "Resources", html: h, wide: true, after: function () { loadRes(a); if (SAVED_MODE) loadDemoPlan(a); } };
   }
   function resIndex(a) {
     var g = agState(a.id), st = C.resState(a), list = st.data ? C.rank(a, st.data.items || []) : [], h = "";
@@ -764,7 +764,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
         return '<div class="row"><span class="dot ' + dot + '" aria-hidden="true"></span><div class="body"><div class="ttl">' + s[1] + '</div>' + (g.notes[s[0]] ? '<div class="sec">' + esc(g.notes[s[0]]) + "</div>" : "") + "</div>" + (v === "done" ? '<span class="trail oktext">Done</span>' : v === "running" ? '<span class="trail">Working…</span>' : "") + "</div>";
       }).join("") + '<div class="row"><div class="body"><div class="sec">' + g.programs + " programs checked · " + g.sources + " sources searched" + (g.last ? " · " + esc(g.last) : "") + '</div></div><button type="button" class="btn sm" onclick="RXV.agentCancel(\'' + a.id + '\')">Cancel</button></div></div>';
     } else if (g.status === "error") {
-      h += gh("AI plan") + '<div class="note err">' + esc(g.err) + '</div><p class="gf"><button type="button" class="linkbtn" onclick="RXV.agentAsk(\'' + a.id + '\')">Try again</button></p>';
+      h += gh("AI plan") + '<div class="note err">' + esc(g.err) + '</div><p class="gf"><button type="button" class="linkbtn" onclick="RXV.agentAsk(\'' + a.id + '\')">Try again</button> · <button type="button" class="linkbtn" onclick="RXV.useSaved(\'' + a.id + '\')">Use saved run</button></p>';
     } else if (g.status === "done") {
       var cats = aiCats(a, g.plan, "cm", q), sh = a.aiShared, cur2 = sh && sh.runId === g.runId;
       if (q && !cats) return h + "</div>";
@@ -836,7 +836,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       var secs = Math.round((Date.now() - g.t0) / 1000), now = AG_STAGES.filter(function (x) { return g.stages[x[0]] === "running"; })[0];
       h += '<p class="sec" role="status">Searching for ' + esc(first) + " · " + secs + " s" + (now ? " · " + esc(now[1]) : "") + "</p></div><div class=\"pc-a\">" + toTab + "View progress</button></div></div>";
     } else if (g.status === "error") {
-      h += '<p class="sec warntext">' + esc(g.err) + '</p></div><div class="pc-a"><button type="button" class="btn" onclick="RXV.agentAsk(\'' + a.id + '\')">Try again</button></div></div>';
+      h += '<p class="sec warntext">' + esc(g.err) + '</p></div><div class="pc-a"><button type="button" class="btn" onclick="RXV.useSaved(\'' + a.id + '\')">Use saved run</button><button type="button" class="btn" onclick="RXV.agentAsk(\'' + a.id + '\')">Try again</button></div></div>';
     } else {
       h += '<p class="sec">' + (ca ? "Claude agents find programs that fit " + esc(first) + "'s situation, check eligibility and rank a plan. About 90 seconds." : "AI search covers California only.") + "</p></div>" +
         '<div class="pc-a"><button type="button" class="btn"' + (ca ? ' onclick="RXV.agentAsk(\'' + a.id + '\')"' : " disabled") + ">" + I.spark + "Build plan</button></div></div>";
@@ -844,18 +844,22 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     return h + "</section>";
   }
   V.openPlanCat = function (aid, cid) { var k = okey(aid), o = V.openCats[k] = V.openCats[k] || {}; o["ai:" + cid] = true; drawRes(C.byId(aid)); V.tab(aid, "resources"); var el = $("ag-" + aid); if (el && el.scrollIntoView) el.scrollIntoView({ block: "start" }); };
-  /* A saved run per demo alumnus (site/data/agent/demo-plans/<id>.json), so the plan is there without waiting 90 seconds. "Run again" still runs live. */
-  var demoTried = {};
-  function loadDemoPlan(a) {
-    if (demoTried[a.id] || agState(a.id).status !== "idle" || !window.fetch) return; demoTried[a.id] = 1;
+  /* Saved runs per demo alumnus (site/data/agent/demo-plans/<id>.json). The AI search is started by hand for the demo;
+     a saved run loads only on request: from "Use saved run" when a live run fails, or for every case with ?saved in the URL. */
+  var SAVED_MODE = /[?&]saved\b/.test(location.search), demoTried = {};
+  function loadDemoPlan(a, force) {
+    if ((!force && demoTried[a.id]) || (!force && agState(a.id).status !== "idle") || !window.fetch) return; demoTried[a.id] = 1;
     try {
       fetch("/data/agent/demo-plans/" + a.id + ".json").then(function (r) { return r.ok ? r.json() : null; }).then(function (p) {
-        var g = agState(a.id); if (!p || !p.plan || !p.plan.sections || g.status !== "idle") return;
+        var g = agState(a.id);
+        if (!p || !p.plan || !p.plan.sections) { if (force) say("No saved run for " + a.name.split(" ")[0]); return; }
+        if (!force && g.status !== "idle") return;
         V.agent[a.id] = { status: "done", plan: p.plan, saved: p.savedAt || "an earlier run", runId: "saved-" + a.id, errors: [], stages: {}, notes: {}, programs: (p.plan.stats || {}).programs_checked || 0, sources: (p.plan.stats || {}).sources_searched || 0 };
-        drawAgent(a.id);
-      }).catch(function () {});
+        drawAgent(a.id); if (force) say("Showing the saved run from " + (p.savedAt || "earlier"));
+      }).catch(function () { if (force) say("No saved run for " + a.name.split(" ")[0]); });
     } catch (e) {}
   }
+  V.useSaved = function (aid) { loadDemoPlan(C.byId(aid), true); };
   /* keep an AI result's details on the record's resource actions, so pin / save / used work like any other resource */
   function ensureAgentItem(a, rid) {
     var acts = a.resourceActions = a.resourceActions || {}, x = acts[rid] = acts[rid] || {};
