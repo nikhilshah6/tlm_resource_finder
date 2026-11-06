@@ -242,9 +242,12 @@ export async function judge(ctx: Ctx, body: any) {
   });
   // A supervision county restriction is a written condition: in-person programs elsewhere are excluded.
   const restrict = String(profile.supervision?.county_restriction || "").replace(/ County$/i, "").trim().toLowerCase();
+  // A program reachable without travelling (phone, online, video, statewide) isn't limited by a county travel restriction.
+  const remote = /by phone|over the phone|phone line|hotline|helpline|\bonline\b|virtual|remotely|\bremote\b|telehealth|video (visit|call)|statewide/i;
   for (const j of judged) {
     const county = String(j.county || "").replace(/ County$/i, "").trim().toLowerCase();
-    if (restrict && county && !["statewide", "california", "online", restrict].includes(county) && j.verdict !== "not_eligible") {
+    const reachable = remote.test([j.name, j.description, j.who_it_serves, j.intake_requirements, j.hours].filter(Boolean).join(" "));
+    if (restrict && county && !reachable && !["statewide", "california", "online", restrict].includes(county) && j.verdict !== "not_eligible") {
       j.verdict = "not_eligible";
       j.reason = `In-person program in ${j.county} County; supervision conditions limit travel to ${profile.supervision.county_restriction} County.`;
       j.rule_cited = "Supervision county restriction (conditions of parole/probation)";

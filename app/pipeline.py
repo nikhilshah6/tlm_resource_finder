@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 import os
 import time
 from typing import Any
@@ -346,11 +347,16 @@ async def rank(profile: Profile, orch: OrchestratorPlan, judged: list[JudgedCand
     return sections, act
 
 
+# A program reachable without travelling (phone, online, video, statewide) isn't limited by a county travel restriction.
+REMOTE_RE = re.compile(r"by phone|over the phone|phone line|hotline|helpline|\bonline\b|virtual|remotely|\bremote\b|telehealth|video (visit|call)|statewide", re.I)
+
+
 def _enforce_county(j: JudgedCandidate, profile: Profile) -> JudgedCandidate:
     """A supervision county restriction is a written condition: in-person programs elsewhere are excluded."""
     restrict = (profile.supervision.county_restriction or "").replace(" County", "").strip().lower()
     county = (j.county or "").replace(" County", "").strip().lower()
-    if restrict and county and county not in (restrict, "statewide", "california", "online") and j.verdict != "not_eligible":
+    remote = REMOTE_RE.search(" ".join(filter(None, [j.name, j.description, j.who_it_serves, j.intake_requirements, j.hours])))
+    if restrict and county and not remote and county not in (restrict, "statewide", "california", "online") and j.verdict != "not_eligible":
         return j.model_copy(update={"verdict": "not_eligible",
             "reason": f"In-person program in {j.county} County; supervision conditions limit travel to {profile.supervision.county_restriction} County.",
             "rule_cited": "Supervision county restriction (conditions of parole/probation)"})
