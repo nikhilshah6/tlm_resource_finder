@@ -1,0 +1,478 @@
+{
+ "savedAt": "Nov 5",
+ "plan": {
+  "sections": [
+   {
+    "need": {
+     "category": "housing",
+     "urgency": "today",
+     "why": "Unhoused, sleeping in car or on a couch with no bed lined up; GPS needs daily charging and the 8pm curfew needs a fixed address he can reach by then."
+    },
+    "recommendations": [
+     {
+      "candidate": {
+       "name": "Episcopal Community Services \u2013 Connect to Services (311 / resource center shelter access)",
+       "description": "ECS says to call 311 for a 90-day shelter reservation or Homeless Outreach Team help. For a one-night bed, go to the nearest resource center. Use this to get a bed tonight.",
+       "address": "165 8th St, San Francisco, CA 94103",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "phone": "311",
+       "url": "https://www.ecs-sf.org/connect-to-services",
+       "source": "web",
+       "source_url": "https://www.ecs-sf.org/connect-to-services",
+       "tlm_network": false,
+       "category": "housing",
+       "verdict": "likely",
+       "reason": "Adult unhoused SF resident; 311 shelter reservation/resource center open to homeless adults.",
+       "rule_cited": "ECS Connect to Services page",
+       "rule_url": "https://www.ecs-sf.org/connect-to-services"
+      },
+      "why_it_fits": "Calling 311 or going to a resource center is the fastest way to get Anthony a bed tonight instead of his car, with a place to charge his GPS and be in by 8pm.",
+      "what_to_bring": [
+       "GPS charger",
+       "Phone",
+       "Officer Kim's name and phone number",
+       "Copy of parole/release papers if he can get one from Officer Kim"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Episcopal Community Services \u2013 Adult Coordinated Reentry / Interim Housing",
+       "description": "Offers adult coordinated reentry, supportive housing, interim housing and workforce development; explicitly serves people on parole/probation. Call first and ask about same-day beds, outlet for GPS charging, and ID-free intake.",
+       "address": "165 8th St, San Francisco, CA 94103",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "phone": "(415) 487-3300",
+       "url": "https://ecs-sf.org/",
+       "who_it_serves": "People on parole/probation or returning from incarceration",
+       "source": "cdcr_dapo",
+       "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+       "tlm_network": false,
+       "category": "housing",
+       "verdict": "likely",
+       "reason": "Listing explicitly serves people on parole; Anthony is on parole in SF and unhoused.",
+       "rule_cited": "Program listing (CDCR DAPO Northern Region Resource Guide)",
+       "rule_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf"
+      },
+      "why_it_fits": "ECS runs interim housing for people on parole, so it can move him from a one-night bed to a steadier place that works with his GPS and curfew.",
+      "what_to_bring": [
+       "GPS charger",
+       "Officer Kim's contact info",
+       "Any release or parole paperwork available"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Multi Service Center (MSC) South Shelter",
+       "description": "Large adult homeless shelter with meals and clothing. Go early in the day and ask staff about outlet access for the GPS monitor, and tell them about the 8pm curfew.",
+       "address": "525 5th St, San Francisco, CA 94107",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "phone": "(415) 597-7960",
+       "url": "https://svdp-sf.org/contact/",
+       "source": "cdcr_dapo",
+       "source_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf",
+       "tlm_network": false,
+       "category": "housing",
+       "verdict": "worth_applying",
+       "reason": "Adult homeless shelter in SF; fits, but intake rules on ID and curfew/GPS compatibility unknown.",
+       "confirm_question": "Can he get a bed without ID and charge his GPS monitor overnight?",
+       "rule_cited": "Program listing (CDCR DAPO guide)",
+       "rule_url": "https://www.cdcr.ca.gov/parole/wp-content/uploads/sites/166/2026/08/Resource-Guide-Northern-Region.pdf"
+      },
+      "why_it_fits": "MSC South is a large SoMa shelter near 94103 with meals, a backup if 311 has no bed; first confirm he can get in without ID and charge his monitor overnight.",
+      "what_to_bring": [
+       "GPS charger",
+       "Officer Kim's contact info"
+      ]
+     }
+    ]
+   },
+   {
+    "need": {
+     "category": "legal_id",
+     "urgency": "this_week",
+     "why": "Holds no documents at all. Needs a CA ID, his birth certificate and his SS card to get benefits, a job and housing."
+    },
+    "recommendations": [
+     {
+      "candidate": {
+       "name": "DMV ID Card (reduced-fee and no-fee ID)",
+       "description": "California ID card at a DMV office. No-fee for people experiencing homelessness; reduced-fee with form DL 937 from a public assistance program. Make a daytime appointment and bring the homeless verification from a shelter or county provider.",
+       "source": "state",
+       "source_url": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/identification-id-cards/",
+       "url": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/identification-id-cards/",
+       "cost": "Free if homeless-verified; reduced with DL 937",
+       "intake_requirements": "ID application, SSN, identity document, residency documents if first CA card; homeless verification (no fee) or DL 937 (reduced)",
+       "county": "San Francisco",
+       "city": "San Francisco",
+       "category": "legal_id",
+       "tlm_network": false,
+       "verdict": "likely",
+       "reason": "Unhoused, no ID; qualifies for no-fee homeless ID with shelter/provider verification.",
+       "rule_cited": "DMV no-fee ID for homeless (listing)",
+       "rule_url": "https://www.dmv.ca.gov/portal/driver-licenses-identification-cards/identification-id-cards/"
+      },
+      "why_it_fits": "He has no ID at all, and a free homeless-verified California ID unlocks benefits, jobs and housing.",
+      "what_to_bring": [
+       "Homeless verification letter from shelter or ECS",
+       "Birth certificate (once obtained)",
+       "Social Security number/card",
+       "Release/parole document from Officer Kim or CDCR"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Housing California: Get my CA Birth Certificate (free fee-waiver)",
+       "description": "Under AB 1733, people experiencing homelessness born in California can get a free certified birth certificate. Ask a local shelter or county human services office for a birth certificate fee waiver and help with the form. Needed first for the ID and SS card. Check with the provider by phone for SF locations and hours.",
+       "source": "web",
+       "source_url": "https://housingca.org/resources/community/individuals/get-ca-birthcert/",
+       "url": "https://housingca.org/resources/community/individuals/get-ca-birthcert/",
+       "cost": "Free with homeless affidavit",
+       "who_it_serves": "California-born people experiencing homelessness",
+       "county": "San Francisco",
+       "city": "San Francisco",
+       "category": "legal_id",
+       "tlm_network": false,
+       "verdict": "worth_applying",
+       "reason": "Unhoused qualifies under AB 1733, but birthplace unknown.",
+       "confirm_question": "Was Anthony born in California?",
+       "rule_cited": "AB 1733 (listing)",
+       "rule_url": "https://housingca.org/resources/community/individuals/get-ca-birthcert/"
+      },
+      "why_it_fits": "A free birth certificate under the homeless fee waiver is the first document he needs for both the ID and the SS card, if he was born in California.",
+      "what_to_bring": [
+       "Homeless affidavit/verification from shelter",
+       "Full name, date and place of birth, parents' names"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Social Security Administration, 1098 Valencia St, San Francisco",
+       "description": "Local SSA office listing found in search for replacement Social Security card. Confirm hours and what proof is accepted by calling SSA or checking ssa.gov. Replacement card is free. Go in daytime, home before 8pm.",
+       "source": "web",
+       "source_url": "https://www.mapquest.com/us/ca",
+       "address": "1098 Valencia St, San Francisco, CA",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "cost": "Free",
+       "intake_requirements": "Not verified; confirm with SSA which ID is needed",
+       "category": "legal_id",
+       "tlm_network": false,
+       "verdict": "worth_applying",
+       "reason": "Replacement SS card free; he has no ID yet, so proof accepted is unclear.",
+       "confirm_question": "Will SSA accept his CDCR release/parole documents as identity proof?",
+       "rule_url": "https://www.ssa.gov"
+      },
+      "why_it_fits": "The Valencia St SSA office can replace his Social Security card for free during daytime hours, well before curfew.",
+      "what_to_bring": [
+       "Birth certificate",
+       "Release/parole document",
+       "Any ID he has obtained"
+      ]
+     }
+    ]
+   },
+   {
+    "need": {
+     "category": "food_benefits",
+     "urgency": "this_week",
+     "why": "No income. Needs CalFresh, General Assistance (CAAP) and meals now."
+    },
+    "recommendations": [
+     {
+      "candidate": {
+       "name": "San Francisco County Adult Assistance Programs (CAAP / General Assistance)",
+       "description": "San Francisco's General Assistance: cash aid and employment services for adults with no dependent children. Apply on BenefitsCal.com or in person at 1235 Mission St, which is in 94103. Ask staff about Expedited CalFresh at the same visit.",
+       "address": "1235 Mission Street",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "phone": "(833) 879-1365",
+       "url": "https://www.sfhsa.org/services/financial-assistance/county-adult-assistance-programs-caap",
+       "who_it_serves": "Low-income San Francisco adults with no dependent children",
+       "intake_requirements": "Not confirmed this run. Ask about alternate ID verification and using a shelter or mailing address.",
+       "cost": "Free",
+       "source": "county",
+       "source_url": "https://www.sfhsa.org/services/financial-assistance/county-adult-assistance-programs-caap",
+       "tlm_network": false,
+       "distance_miles": 0.5,
+       "category": "food_benefits",
+       "verdict": "likely",
+       "reason": "He's a low-income San Francisco adult with no dependents and no income, so he matches CAAP's stated population. He doesn't have an ID yet, so ask about alternate ways to verify identity.",
+       "confirm_question": "Can I verify my identity without a photo ID, and can I use a shelter or mailing address?",
+       "rule_cited": "SFHSA CAAP listing",
+       "rule_url": "https://www.sfhsa.org/services/financial-assistance/county-adult-assistance-programs-caap"
+      },
+      "why_it_fits": "The CAAP office at 1235 Mission is a short walk in his zip and can start General Assistance cash and Expedited CalFresh in one visit, since he has no income.",
+      "what_to_bring": [
+       "Any release/parole papers",
+       "Shelter or mailing address",
+       "Social Security number if known"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "St. Anthony's Dining Room",
+       "description": "Serves three free meals a day and welcomes everyone. A dinner seating is listed in the afternoon, so it ends well before an 8pm curfew. The times come from an SFSU summary page, so call to confirm them.",
+       "address": "121 Golden Gate Ave (1st floor)",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "phone": "(415) 241-2600",
+       "url": "https://www.stanthonysf.org/services/dining-room/",
+       "who_it_serves": "Everyone; no ID listed as required",
+       "intake_requirements": "None listed",
+       "hours": "Per SFSU page: breakfast 7-10am, lunch 10am-1:30pm, dinner 2-3pm (confirm)",
+       "cost": "Free",
+       "source": "web",
+       "source_url": "https://basicneeds.sfsu.edu/news/spotlight-free-low-cost-grocery-programs",
+       "tlm_network": false,
+       "category": "food_benefits",
+       "verdict": "likely",
+       "reason": "Open to everyone with no ID listed. Dinner is listed at 2-3pm, well before his 8pm curfew. The hours come from a secondary source, so confirm them.",
+       "rule_cited": "St. Anthony's listing / SFSU summary",
+       "rule_url": "https://www.stanthonysf.org/services/dining-room/"
+      },
+      "why_it_fits": "St. Anthony's serves free meals with no paperwork, and its afternoon dinner ends well before his 8pm curfew.",
+      "what_to_bring": []
+     },
+     {
+      "candidate": {
+       "name": "San Francisco\u2013Marin Food Bank (pantry finder)",
+       "description": "Runs 240+ weekly grocery pantries. No documentation is required at most sites. Use the Find Food page or call to pick a daytime pantry near 94103.",
+       "address": "900 Pennsylvania Ave",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "phone": "(415) 282-1900",
+       "url": "https://www.sfmfoodbank.org/find-food/",
+       "who_it_serves": "Anyone needing food",
+       "intake_requirements": "No documentation at most sites. Confirm site hours.",
+       "cost": "Free",
+       "source": "tlm",
+       "source_url": "https://www.sfmfoodbank.org/find-food/",
+       "tlm_network": true,
+       "category": "food_benefits",
+       "verdict": "likely",
+       "reason": "Open to anyone who needs food, and most sites don't ask for documents.",
+       "rule_cited": "SF-Marin Food Bank listing",
+       "rule_url": "https://www.sfmfoodbank.org/find-food/"
+      },
+      "why_it_fits": "Most food bank pantries ask for no documents, which fits while he has no ID.",
+      "what_to_bring": [
+       "Bag to carry groceries"
+      ]
+     }
+    ]
+   },
+   {
+    "need": {
+     "category": "health",
+     "urgency": "this_week",
+     "why": "Needs Medi-Cal enrollment so he is covered after release."
+    },
+    "recommendations": [
+     {
+      "candidate": {
+       "name": "HealthRIGHT 360 Integrated Care Center",
+       "description": "Community health center (FQHC) in the 94103 zip: primary care, with behavioral health often on site. Accepts Medi-Cal and uninsured patients; sliding fee. Call to ask about same-day Medi-Cal enrollment help.",
+       "address": "1563 Mission St, #2",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "phone": "(415) 746-1940",
+       "url": "https://www.healthright360.org",
+       "hours": "about 42.5 hrs/week",
+       "who_it_serves": "Anyone, insured or uninsured",
+       "cost": "Sliding fee scale; Medi-Cal accepted",
+       "source": "hrsa",
+       "source_url": "https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv",
+       "tlm_network": false,
+       "category": "health",
+       "verdict": "likely",
+       "reason": "The listing says it serves anyone, insured or uninsured, with a sliding fee. The clinic is in his zip code (94103).",
+       "rule_cited": "Program listing (HRSA)"
+      },
+      "why_it_fits": "HealthRIGHT 360 is a clinic in his zip that takes uninsured patients and can help him enroll in Medi-Cal.",
+      "what_to_bring": [
+       "Any release/parole papers",
+       "List of medications"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "San Francisco County Adult Assistance Programs (CAAP) \u2013 HSA office",
+       "description": "Apply for cash aid and benefits at the county office in 94103. Apply in person or at BenefitsCal.com. Ask staff about applying for Medi-Cal at the same visit and what to do with no ID yet.",
+       "address": "1235 Mission St",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "phone": "(833) 879-1365",
+       "url": "https://www.sfhsa.org/services/financial-assistance/county-adult-assistance-programs-caap",
+       "who_it_serves": "Low-income SF adults with no dependent children",
+       "cost": "Free",
+       "source": "county",
+       "source_url": "https://www.sfhsa.org/services/financial-assistance/county-adult-assistance-programs-caap",
+       "tlm_network": false,
+       "category": "health",
+       "verdict": "worth_applying",
+       "reason": "He is a low-income single adult with no dependents who lives in SF, which fits the listing. Having no ID yet and having no fixed address may affect how he applies.",
+       "confirm_question": "What can Anthony use to verify who he is and that he lives in SF, given he has no ID and is unhoused?",
+       "rule_cited": "Program listing (SF HSA CAAP)",
+       "rule_url": "https://www.sfhsa.org/services/financial-assistance/county-adult-assistance-programs-caap"
+      },
+      "why_it_fits": "He can apply for Medi-Cal at the same county office visit where he applies for cash aid and CalFresh.",
+      "what_to_bring": [
+       "Any release/parole papers",
+       "Shelter or mailing address"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Tom Waddell Urban Health Clinic",
+       "description": "Primary care clinic in the Tenderloin/Civic Center area, close to 94103 and on transit. Medi-Cal accepted; sliding fee.",
+       "address": "230 Golden Gate Ave",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "phone": "(415) 355-7400",
+       "who_it_serves": "Anyone, insured or uninsured",
+       "cost": "Sliding fee scale",
+       "hours": "about 40 hrs/week",
+       "source": "hrsa",
+       "source_url": "https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv",
+       "tlm_network": false,
+       "category": "health",
+       "verdict": "likely",
+       "reason": "The listing says it serves anyone, insured or uninsured, with a sliding fee. It is near transit.",
+       "rule_cited": "Program listing (HRSA)"
+      },
+      "why_it_fits": "Tom Waddell is a nearby primary care clinic by transit that takes Medi-Cal and has a sliding fee while coverage is pending.",
+      "what_to_bring": [
+       "Medi-Cal application confirmation",
+       "Any ID or release papers"
+      ]
+     }
+    ]
+   },
+   {
+    "need": {
+     "category": "jobs",
+     "urgency": "this_month",
+     "why": "Wants construction or day labor. Shifts must end in time to get back by the 8pm curfew."
+    },
+    "recommendations": [
+     {
+      "candidate": {
+       "name": "Arriba Juntos - Mission Office",
+       "description": "Direct job placement for people returning from incarceration. Offers a subsidized-wage and on-the-job training program that gives employers an incentive to hire people with records. Near 94103.",
+       "source": "careeronestop",
+       "source_url": "https://www.careeronestop.org/TridionMultimedia/tcm24-63015_XLS_Service_Provider_Reentry_Youth_ACC.xlsx",
+       "url": "https://www.arribajuntos.org/location/career-link-center-mission",
+       "address": "1850 Mission St, San Francisco, CA 94103",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "phone": "(415) 487-3240",
+       "who_it_serves": "Adults and youth returning from incarceration",
+       "tlm_network": false,
+       "category": "jobs",
+       "verdict": "likely",
+       "reason": "It serves adults coming home from prison or jail, is near 94103, and has subsidized on-the-job training.",
+       "rule_cited": "CareerOneStop listing",
+       "rule_url": "https://www.arribajuntos.org/location/career-link-center-mission"
+      },
+      "why_it_fits": "Arriba Juntos places people coming home from prison into subsidized on-the-job training near 94103, a quick path to steady work.",
+      "what_to_bring": [
+       "ID once obtained",
+       "Social Security card once obtained",
+       "Parole officer contact info for schedule questions"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "Mission Hiring Hall",
+       "description": "Employment services that connect low-income, unemployed SF residents in the Mission and SoMa with employers. Call to ask about day work, fair-chance employers, and GPS monitors.",
+       "source": "web",
+       "source_url": "https://www.linkedin.com/company/mission-hiring-hall",
+       "url": "https://missionhiringhall.org/",
+       "address": "169 11th St, San Francisco, CA",
+       "city": "San Francisco",
+       "county": "San Francisco",
+       "who_it_serves": "Low-income unemployed and underemployed SF residents",
+       "tlm_network": false,
+       "category": "jobs",
+       "verdict": "likely",
+       "reason": "He's a low-income, unemployed SF resident in SoMa (94103), which is who they serve.",
+       "rule_cited": "Mission Hiring Hall listing",
+       "rule_url": "https://missionhiringhall.org/"
+      },
+      "why_it_fits": "Mission Hiring Hall serves unemployed people in SoMa and the Mission and can point him to day work with fair-chance employers that ends before 8pm.",
+      "what_to_bring": [
+       "ID once obtained",
+       "Any work history notes"
+      ]
+     },
+     {
+      "candidate": {
+       "name": "CityBuild Academy (CCSF / SF OEWD)",
+       "description": "18-week construction pre-apprenticeship for SF residents. Listed requirements include a valid driver's license, GED/diploma, and a drug test, so get an ID first and ask staff what is flexible.",
+       "source": "web",
+       "source_url": "https://www.ccsf.edu/academics/career-education/citybuild-academy",
+       "url": "https://www.ccsf.edu/academics/career-education/citybuild-academy",
+       "county": "San Francisco",
+       "city": "San Francisco",
+       "who_it_serves": "SF residents 18+",
+       "intake_requirements": "SF residency proof, HS diploma/GED, driver's license, 8th-grade reading/math, lift 70 lbs, pass drug test",
+       "cost": "Free (program run with SF OEWD)",
+       "tlm_network": false,
+       "category": "jobs",
+       "verdict": "worth_applying",
+       "reason": "He's an SF resident and wants construction work. But the listing requires a driver's license, a diploma or GED, and a drug test, and he has no ID yet. Ask staff which requirements they can be flexible on.",
+       "confirm_question": "Can he enroll or start intake before he has a driver's license, and does he have a diploma or GED?",
+       "rule_cited": "CityBuild listing intake requirements",
+       "rule_url": "https://www.ccsf.edu/academics/career-education/citybuild-academy"
+      },
+      "why_it_fits": "CityBuild is a free construction pre-apprenticeship, the field he wants, once he has ID and confirms the license and diploma rules.",
+      "what_to_bring": [
+       "California ID or driver's license",
+       "Diploma or GED",
+       "Proof of SF residency (shelter letter)"
+      ]
+     }
+    ]
+   }
+  ],
+  "act_today": [
+   {
+    "step": "This morning, call 311 for a 90-day shelter reservation, or go to the nearest resource center for a one-night bed tonight. Confirm an outlet for GPS charging and that he can be in by the 8pm curfew. Tell Officer Kim the address.",
+    "for_alumnus": "This morning, call 311 and ask for a shelter bed, or go to the nearest resource center for a bed tonight. Ask if there's an outlet to charge your GPS monitor, and make sure you can get in before your 8pm curfew. Once you have a bed, give the address to Officer Kim.",
+    "what_to_bring": [
+     "GPS charger",
+     "Phone",
+     "Officer Kim's phone number"
+    ],
+    "resource_name": "Episcopal Community Services \u2013 Connect to Services (311 / resource center shelter access)"
+   },
+   {
+    "step": "Call ECS Adult Coordinated Reentry about interim housing for parolees. Ask about same-day beds, GPS charging, intake without ID, and whether they can write a homeless verification letter for a free DMV ID and birth certificate.",
+    "for_alumnus": "Call Episcopal Community Services and ask about their reentry housing for people on parole. Ask if they have a bed today, if you can charge your GPS there, and if you can sign up without an ID. Also ask them for a letter saying you're homeless. That letter gets you a free ID and a free birth certificate.",
+    "what_to_bring": [
+     "GPS charger",
+     "Officer Kim's phone number"
+    ],
+    "resource_name": "Episcopal Community Services \u2013 Adult Coordinated Reentry / Interim Housing"
+   },
+   {
+    "step": "Go to the CAAP office at 1235 Mission St in the daytime to apply for General Assistance, Expedited CalFresh and Medi-Cal. Ask how he can prove who he is without a photo ID, and whether he can use a shelter or mailing address.",
+    "for_alumnus": "Go to the county office at 1235 Mission St in the daytime and apply for cash aid, food benefits (CalFresh) and Medi-Cal. Ask them how you can prove who you are without a photo ID, and if you can use a shelter address.",
+    "what_to_bring": [
+     "Any release or parole papers you can get from Officer Kim",
+     "Your Social Security number if you know it",
+     "Shelter or mailing address"
+    ],
+    "resource_name": "San Francisco County Adult Assistance Programs (CAAP / General Assistance)"
+   }
+  ],
+  "excluded": [],
+  "stats": {
+   "programs_checked": 340,
+   "sources_searched": 31,
+   "seconds": 117.2
+  }
+ }
+}

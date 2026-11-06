@@ -5,6 +5,7 @@ data/raw/
 *.pyc
 runs/
 evals/runs/
-cf/node_modules/
-cf/.dev.vars
-cf/.wrangler/
+site/node_modules/
+site/public/
+site/.wrangler/
+site/.dev.vars

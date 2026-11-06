@@ -1,0 +1,12 @@
+{
+  "name": "tlm-reentry-hub-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && wrangler pages dev public",
+    "deploy": "node build.js && wrangler pages deploy public --project-name tlm-reentry-agents --branch main"
+  },
+  "dependencies": { "@anthropic-ai/sdk": "1.6.0" },
+  "devDependencies": { "wrangler": "4.158.0" }
+}

@@ -273,7 +273,9 @@ async def rank(profile: Profile, orch: OrchestratorPlan, judged: list[JudgedCand
         system="You are the reentry planner for The Last Mile. Pick the best 2-3 programs per need for this FICTIONAL person, in the order of their needs, "
                "and write an 'act on today' list of 1-3 concrete steps (most urgent first). Explain 'why it fits' in one plain sentence tied to their situation. "
                "List what to bring (ID, release papers, proof of income, etc.). Prefer likely over worth_applying when equally good, but keep at least one "
-               "worth_applying option when it could matter. Use only the given indexes. Call submit.",
+               "worth_applying option when it could matter. Use only the given indexes. "
+               "For each act_today step also write for_alumnus: the same step addressed to the person as 'you', in plain words a tired reader gets on first read, "
+               "without staff-only detail (no eligibility verdicts, no instructions meant for the case manager, no internal notes). Call submit.",
         user=f"Profile:\n{_profile_text(profile)}\n\nNeeds in order:\n{json.dumps([n.model_dump() for n in orch.needs])}\n\nPrograms:\n{json.dumps(listing, indent=1)}",
         submit_schema={"type": "object", "properties": {
             "sections": {"type": "array", "items": {"type": "object", "properties": {
@@ -283,8 +285,10 @@ async def rank(profile: Profile, orch: OrchestratorPlan, judged: list[JudgedCand
                     "what_to_bring": {"type": "array", "items": {"type": "string"}}}, "required": ["index", "why_it_fits"]}}},
                 "required": ["category", "picks"]}},
             "act_today": {"type": "array", "items": {"type": "object", "properties": {
-                "step": {"type": "string"}, "resource_index": {"type": "integer"},
-                "what_to_bring": {"type": "array", "items": {"type": "string"}}}, "required": ["step"]}, "maxItems": 3}},
+                "step": {"type": "string", "description": "For the case manager"},
+                "for_alumnus": {"type": "string", "description": "The same step, written to the person as 'you'"},
+                "resource_index": {"type": "integer"},
+                "what_to_bring": {"type": "array", "items": {"type": "string"}}}, "required": ["step", "for_alumnus"]}, "maxItems": 3}},
             "required": ["sections", "act_today"]},
         submit_description="Submit the ranked sections and today's steps.",
     )
@@ -307,7 +311,7 @@ async def rank(profile: Profile, orch: OrchestratorPlan, judged: list[JudgedCand
     for a in out.get("act_today", [])[:3]:
         i = a.get("resource_index")
         name = keep[i].name if isinstance(i, int) and 0 <= i < len(keep) else None
-        act.append(ActStep(step=a.get("step", ""), resource_name=name, what_to_bring=a.get("what_to_bring") or []))
+        act.append(ActStep(step=a.get("step", ""), for_alumnus=a.get("for_alumnus", ""), resource_name=name, what_to_bring=a.get("what_to_bring") or []))
     await emit({"type": "found", "agent": "ranker", "message": f"Plan ready: {sum(len(s.recommendations) for s in sections)} recommendations, {len(act)} steps for today", "count": len(act)})
     return sections, act
 
