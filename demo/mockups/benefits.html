@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Mockup: Benefits tiles and Act today</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap">
+<link rel="stylesheet" href="../app.css">
+<!--
+  MOCKUP ONLY. Static page, hard-coded Marcus Johnson sample data, no app logic.
+  It uses the real tokens and components from ../app.css. Styles below marked "new" are what the build would add to app.css.
+  Phone numbers and links were checked on 2026-11-12 (sources listed at the bottom of the page).
+-->
+<style>
+  /* ---- mockup chrome (not part of the build) ---- */
+  .mk-bar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 10px 20px; background: var(--bar); backdrop-filter: blur(12px); border-bottom: 1px solid var(--separator); }
+  .mk-bar .lbl { font-weight: 600; }
+  .mk-bar .muted { color: var(--secondary); font-size: var(--fs-sm); }
+  .mk-seg { display: inline-flex; background: var(--fill); border-radius: var(--r-ctl); padding: 2px; }
+  .mk-seg button { border: 0; background: none; color: var(--label); font: inherit; font-size: var(--fs-sm); font-weight: 500; padding: 4px 10px; border-radius: 6px; cursor: pointer; }
+  .mk-seg button[aria-pressed="true"] { background: var(--surface); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+  .mk-content { max-width: 800px; margin: 0 auto; padding: 24px 20px 96px; }
+  .mk-note { font-size: var(--fs-sm); color: var(--secondary); border-left: 3px solid var(--accent); padding: 6px 12px; margin: 10px 0 0; background: var(--accent-tint); border-radius: 0 var(--r-s) var(--r-s) 0; }
+  body[data-view="cm"] .al-only, body[data-view="al"] .cm-only { display: none !important; }
+  .mk-src { margin-top: 40px; font-size: var(--fs-xs); color: var(--secondary); }
+  .mk-src a { color: inherit; }
+  .mk-before { margin-top: 10px; font-size: var(--fs-sm); color: var(--secondary); }
+  .mk-before summary { cursor: pointer; }
+  .mk-before ol { margin: 8px 0 0; padding-left: 20px; }
+  .mk-before li + li { margin-top: 6px; }
+
+  /* ---- new: Benefits tiles (2 across, 1 across on phones) ---- */
+  .btiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btile { display: flex; align-items: flex-start; gap: 10px; padding: 12px 12px 12px 14px; border: 0; width: 100%; text-align: left; font: inherit; color: inherit; background: var(--surface); border-radius: var(--r-group); box-shadow: inset 0 0 0 1px var(--separator); cursor: pointer; transition: background-color .15s; }
+  .btile:hover { background: var(--surface2); }
+  .btile .ctile { width: 32px; height: 32px; }
+  .btile .ctile svg { width: 18px; height: 18px; }
+  .btile .body { flex: 1; min-width: 0; }
+  .btile .ttl { font-weight: 600; font-size: var(--fs-md); }
+  .btile .sec { color: var(--secondary); font-size: var(--fs-sm); margin: 1px 0 6px; }
+  .btile .chev { width: 16px; height: 16px; color: var(--tertiary); flex: none; margin-top: 8px; }
+  .tag.check { color: var(--check); background: var(--check-bg); white-space: normal; }
+  @media (max-width: 480px) { .btiles { grid-template-columns: 1fr; } }
+
+  /* ---- new: one step = bold title, one action link, short bullets, Bring ---- */
+  .step { display: flex; gap: 12px; padding: 12px 14px; position: relative; }
+  .step + .step::before { content: ""; position: absolute; top: 0; left: 14px; right: 14px; height: 1px; background: var(--separator); }
+  .step .num { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--fill2); font-size: var(--fs-xs); font-weight: 600; margin-top: 1px; }
+  .step .tx { flex: 1; min-width: 0; }
+  .step .st { font-weight: 600; font-size: var(--fs-md); line-height: 1.35; }
+  .step ul { margin: 6px 0 0; padding-left: 18px; color: var(--label); }
+  .step li + li { margin-top: 2px; }
+  .step .bring { color: var(--secondary); font-size: var(--fs-sm); margin-top: 6px; }
+  .acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .act { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: var(--r-ctl); background: var(--accent-tint); color: var(--accent); font-weight: 600; font-size: var(--fs-sm); text-decoration: none; border: 0; cursor: pointer; font-family: inherit; }
+  .act:hover { filter: brightness(.96); }
+  .act svg { width: 15px; height: 15px; }
+  .act.sec2 { background: var(--fill); color: var(--label); font-weight: 500; }
+  body[data-view="al"] .act { min-height: 44px; font-size: var(--fs-base); padding: 0 16px; }  /* bigger tap targets for alumni */
+  .step .warnline { color: var(--warn); font-size: var(--fs-sm); margin-top: 6px; }
+
+  /* ---- new: benefit sheet sections ---- */
+  .bsh h3 { font-size: var(--fs-sm); font-weight: 600; color: var(--secondary); text-transform: none; margin: 18px 0 6px; }
+  .bsh h3:first-child { margin-top: 4px; }
+  .bsh .big { font-size: var(--fs-lg); font-weight: 600; letter-spacing: -0.01em; }
+  .bsh .elig { margin: 0; padding-left: 18px; }
+  .bsh .elig li + li { margin-top: 4px; }
+  .bsh .elig a { font-size: var(--fs-xs); color: var(--secondary); }
+  .bsh .statusrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .bsh select { font: inherit; font-size: var(--fs-sm); padding: 4px 8px; border-radius: var(--r-ctl); border: 1px solid var(--line-strong); background: var(--surface); color: var(--label); }
+  .bsh .group { box-shadow: inset 0 0 0 1px var(--separator); }
+  .bsh .src { font-size: var(--fs-xs); color: var(--secondary); margin-top: 14px; }
+</style>
+</head>
+<body data-view="cm">
+
+<div class="mk-bar">
+  <span class="lbl">Mockup</span>
+  <div class="mk-seg" role="group" aria-label="Whose view">
+    <button type="button" aria-pressed="true" data-v="cm">Case manager (John)</button>
+    <button type="button" aria-pressed="false" data-v="al">Alumnus (Marcus)</button>
+  </div>
+  <span class="muted">Sample data. Static page: only the tiles open.</span>
+</div>
+
+<main class="mk-content">
+
+  <!-- ================= header ================= -->
+  <div class="page-head"><div>
+    <h1 class="ltitle cm-only">Resources</h1>
+    <h1 class="ltitle al-only">My resources</h1>
+    <p class="subtitle cm-only">For Marcus Johnson · Oakland, CA · released 25 days ago</p>
+    <p class="subtitle al-only">From John, your case manager</p>
+  </div></div>
+
+  <!-- ================= Act today ================= -->
+  <div class="gh"><h2 class="cm-only">Act today</h2><h2 class="al-only">Your steps</h2><span class="muted cm-only">Most urgent first</span><span class="muted al-only">In order</span></div>
+  <div class="group">
+
+    <!-- 1. CalFresh (fixed step from the tile, not AI) -->
+    <div class="step"><span class="num">1</span><div class="tx">
+      <div class="st cm-only">Get Marcus's CalFresh interview result</div>
+      <div class="st al-only">Find out if your CalFresh was approved</div>
+      <ul>
+        <li class="cm-only">Interview was Oct 30. No result on file.</li>
+        <li class="al-only">Ask: “Was my CalFresh approved?”</li>
+      </ul>
+      <div class="acts">
+        <a class="act" href="tel:+18889994772"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call 1-888-999-4772</a>
+        <button type="button" class="act sec2" data-open="calfresh">See CalFresh</button>
+      </div>
+    </div></div>
+
+    <!-- 2. Medi-Cal (fixed step from the tile, not AI) -->
+    <div class="step"><span class="num">2</span><div class="tx">
+      <div class="st cm-only">Check if Marcus already has Medi-Cal</div>
+      <div class="st al-only">Check if you already have Medi-Cal</div>
+      <ul>
+        <li class="cm-only">Prison usually signs people up before release (CalAIM).</li>
+        <li class="al-only">Look in your release papers for a Medi-Cal card.</li>
+        <li class="al-only">Or call and ask: “Am I enrolled in Medi-Cal?”</li>
+      </ul>
+      <div class="acts">
+        <a class="act" href="tel:+18005415555"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call 1-800-541-5555</a>
+        <button type="button" class="act sec2" data-open="medical">See Medi-Cal</button>
+      </div>
+    </div></div>
+
+    <!-- 3. AI step: housing (contact attached from data, not model text) -->
+    <div class="step"><span class="num">3</span><div class="tx">
+      <div class="st cm-only">Call BOSS about a backup bed</div>
+      <div class="st al-only">Call BOSS about a backup bed</div>
+      <ul>
+        <li class="cm-only">Ask: men's bed open before January?</li>
+        <li class="cm-only">Ask: do they take parole with a 10pm curfew?</li>
+        <li class="cm-only">Clear any move with PO Alvarez first.</li>
+        <li class="al-only">Ask if a bed can open before January.</li>
+        <li class="al-only">Ask if they take people on parole.</li>
+        <li class="al-only">Tell your parole officer before you move.</li>
+      </ul>
+      <div class="acts">
+        <a class="act" href="tel:+15106491930"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call (510) 649-1930</a>
+      </div>
+      <div class="bring">Bring: State ID, parole papers</div>
+    </div></div>
+
+    <!-- 4. AI step: jobs -->
+    <div class="step"><span class="num">4</span><div class="tx">
+      <div class="st cm-only">Sign Marcus up at West Oakland Job Center</div>
+      <div class="st al-only">Sign up at West Oakland Job Center</div>
+      <ul>
+        <li class="cm-only">Ask for Amazon interview prep (interview in 4 days).</li>
+        <li class="cm-only">Ask about money for forklift training.</li>
+        <li class="al-only">Ask for help with your Amazon interview.</li>
+        <li class="al-only">Ask if they pay for forklift training.</li>
+      </ul>
+      <div class="acts">
+        <a class="act" href="https://wojrc.tfaforms.net/f/interest?campID=701Kc000000oyEl" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>Fill out the form online</a>
+        <a class="act sec2" href="tel:+15104190509">Call (510) 419-0509</a>
+      </div>
+      <div class="bring">Bring: State ID, Social Security card, work history</div>
+    </div></div>
+  </div>
+
+  <p class="mk-note cm-only">Steps 1–2 are fixed steps from the benefits tiles, not written by AI. They show while a program is still open. Steps 3–4 come from the AI plan: one program per step, and the phone number or link is copied from the program's record, not written by the model.</p>
+  <details class="mk-before cm-only"><summary>What “Act today” said before</summary>
+    <ol>
+      <li>Sit with Marcus and file the GetCalFresh application and ask for expedited processing. Then use BenefitsCal to apply for Medi-Cal and General Assistance in the same session. Before he signs, go over the GA repayment agreement and whether his sister's support counts against GA.</li>
+      <li>Call BOSS about a backup transitional bed, since Hope House is unconfirmed. Ask about men's beds, whether they accept parole with a 10pm curfew… <strong>(no number; the saved plan's number for BOSS, (510) 613-0330, belongs to a different agency)</strong></li>
+      <li>Complete the West Oakland Job and Resource Center online intake and request interview prep… (no link)</li>
+    </ol>
+  </details>
+
+  <!-- ================= Benefits tiles ================= -->
+  <div class="gh"><h2>Benefits</h2><span class="muted cm-only">Rules from CA state sources · no AI</span></div>
+  <div class="btiles">
+    <button type="button" class="btile" data-open="calfresh" aria-haspopup="dialog">
+      <span class="ctile c-food" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18l-2 9H5z"/><path d="M8 11l4-7l4 7"/></svg></span>
+      <span class="body">
+        <span class="ttl">CalFresh</span>
+        <span class="sec" style="display:block">Food money (SNAP)</span>
+        <span class="tag check cm-only">Interview done · result not recorded</span>
+        <span class="tag check al-only">Waiting on a result</span>
+      </span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6l-6 6"/></svg>
+    </button>
+    <button type="button" class="btile" data-open="medical" aria-haspopup="dialog">
+      <span class="ctile c-health" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12.57L12 20l-7.5-7.43A5 5 0 1 1 12 6.01a5 5 0 1 1 7.5 6.57"/><path d="M8 12h2l1.5-2l1.5 4l1.5-2h1.5"/></svg></span>
+      <span class="body">
+        <span class="ttl">Medi-Cal</span>
+        <span class="sec" style="display:block">Free health care (Medicaid)</span>
+        <span class="tag check cm-only">Not confirmed · may be enrolled</span>
+        <span class="tag check al-only">Check if you have it</span>
+      </span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6l-6 6"/></svg>
+    </button>
+  </div>
+
+  <!-- ================= rest of the page, unchanged ================= -->
+  <div class="gh cm-only"><h2>AI plan</h2><span class="muted">unchanged</span></div>
+  <div class="group cm-only">
+    <div class="row cat"><span class="ctile c-housing" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H3l9-9l9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M10 12h4v4h-4z"/></svg></span><span class="body ttl">Housing</span><span class="tag warn">Today</span><span class="trail">3</span></div>
+    <div class="row cat"><span class="ctile c-jobs" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13a20 20 0 0 0 18 0"/></svg></span><span class="body ttl">Jobs and training</span><span class="tag accent">This week</span><span class="trail">3</span></div>
+  </div>
+
+  <p class="mk-src">Checked 2026-11-12. CalFresh Info Line 1-877-847-3663 (<a href="https://www.cdss.ca.gov/inforesources/calfresh/contact-numbers-and-information">CDSS</a>). Medi-Cal Helpline 1-800-541-5555 (<a href="https://www.dhcs.ca.gov/individuals/Pages/Medi-CalMemberHelpline.aspx">DHCS</a>). Alameda County Social Services 1-888-999-4772 (<a href="https://socialservices.alamedacountyca.gov/contact-us/hotlines">county hotlines</a>). BOSS (510) 649-1930 (<a href="https://self-sufficiency.org/">self-sufficiency.org</a>). West Oakland Job Resource Center (510) 419-0509 and form (<a href="https://www.wojrc.org/">wojrc.org</a>). CalFresh amounts are USDA FY2027 (from Oct 1, 2026); <code>data/rules_ca.json</code> still has FY2026 figures and needs a refresh. Drug-felony rule and CalAIM from <code>data/rules_ca.json</code>.</p>
+</main>
+
+<!-- ================= CalFresh sheet ================= -->
+<dialog class="sheet bsh-dlg" id="dlg-calfresh" aria-labelledby="t-cf">
+  <div class="sh"><h2 id="t-cf">CalFresh · food money</h2><button type="button" class="iconbtn sh-x" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="sb bsh">
+    <!-- case manager -->
+    <div class="cm-only">
+      <h3>Status</h3>
+      <div class="statusrow"><span class="tag check">Interview done · result not recorded</span>
+        <label class="muted" style="font-size:var(--fs-sm)">Update <select aria-label="CalFresh status"><option>Not started</option><option>Applied</option><option selected>Interview done</option><option>Approved</option><option>Denied</option></select></label></div>
+      <p class="muted" style="font-size:var(--fs-sm);margin:6px 0 0">Interview was Oct 30 (from John's note, Oct 25).</p>
+
+      <h3>What he can get</h3>
+      <div class="big">Up to $306 a month</div>
+      <div class="muted" style="font-size:var(--fs-sm)">On an EBT card, for a household of 1.</div>
+
+      <h3>Eligibility <span class="tag ok" style="margin-left:6px">Likely eligible</span> <span class="tag">Confirm income</span></h3>
+      <ul class="elig">
+        <li>Income under $2,660 a month before tax (1 person; CA uses 200% of the poverty line). <a href="https://www.fns.usda.gov/snap/allotment/cola" target="_blank" rel="noopener">USDA FY2027 limits ↗</a></li>
+        <li>A drug felony does not disqualify him in California. <a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=WIC&amp;sectionNum=18901.3" target="_blank" rel="noopener">W&amp;I 18901.3 ↗</a></li>
+        <li>He must keep following his parole terms. <a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=WIC&amp;sectionNum=18901.3" target="_blank" rel="noopener">W&amp;I 18901.3 ↗</a></li>
+      </ul>
+
+      <h3>Next steps</h3>
+      <div class="group">
+        <div class="step"><span class="num">1</span><div class="tx"><div class="st">Call Alameda County for the result</div><ul><li>Mon–Fri, 7:30–5. Have his name and birth date ready.</li></ul>
+          <div class="acts"><a class="act" href="tel:+18889994772">Call 1-888-999-4772</a></div></div></div>
+        <div class="step"><span class="num">2</span><div class="tx"><div class="st">If denied or lost, apply again online</div><ul><li>About 10 minutes. Ask for expedited (fast) benefits.</li></ul>
+          <div class="acts"><a class="act" href="https://www.getcalfresh.org/" target="_blank" rel="noopener">Apply at GetCalFresh ↗</a><a class="act sec2" href="https://benefitscal.com/" target="_blank" rel="noopener">BenefitsCal ↗</a></div></div></div>
+        <div class="step"><span class="num">3</span><div class="tx"><div class="st">Questions? State CalFresh line</div>
+          <div class="acts"><a class="act sec2" href="tel:+18778473663">Call 1-877-847-3663</a></div></div></div>
+      </div>
+      <div class="bring" style="margin-top:10px;color:var(--secondary);font-size:var(--fs-sm)">Bring: State ID, proof of address (his sister's), release papers</div>
+    </div>
+
+    <!-- alumnus -->
+    <div class="al-only">
+      <div class="big">Money for food, every month</div>
+      <p style="margin:4px 0 0">Up to $306 a month on a card you use at stores.</p>
+      <p style="margin:8px 0 0">Most people leaving prison can get it. A drug conviction does not stop you in California.</p>
+
+      <h3>What to do</h3>
+      <div class="group">
+        <div class="step"><span class="num">1</span><div class="tx"><div class="st">Find out if you were approved</div><ul><li>Ask: “Was my CalFresh approved?”</li></ul>
+          <div class="acts"><a class="act" href="tel:+18889994772">Call 1-888-999-4772</a></div></div></div>
+        <div class="step"><span class="num">2</span><div class="tx"><div class="st">Not approved? Apply again online</div><ul><li>Takes about 10 minutes.</li><li>Ask for the fast (expedited) option.</li></ul>
+          <div class="acts"><a class="act" href="https://www.getcalfresh.org/" target="_blank" rel="noopener">Apply online ↗</a></div></div></div>
+      </div>
+      <div class="bring" style="margin-top:10px;color:var(--secondary);font-size:var(--fs-sm)">Bring: State ID, proof of address, release papers</div>
+    </div>
+  </div>
+  <div class="sbf"><button type="button" class="btn" data-close>Close</button></div>
+</dialog>
+
+<!-- ================= Medi-Cal sheet ================= -->
+<dialog class="sheet bsh-dlg" id="dlg-medical" aria-labelledby="t-mc">
+  <div class="sh"><h2 id="t-mc">Medi-Cal · health care</h2><button type="button" class="iconbtn sh-x" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+  <div class="sb bsh">
+    <div class="cm-only">
+      <h3>Status</h3>
+      <div class="statusrow"><span class="tag check">Not confirmed · may be enrolled</span>
+        <label class="muted" style="font-size:var(--fs-sm)">Update <select aria-label="Medi-Cal status"><option selected>Not confirmed</option><option>Not started</option><option>Applied</option><option>Enrolled</option><option>Denied</option></select></label></div>
+      <p class="muted" style="font-size:var(--fs-sm);margin:6px 0 0">Under CalAIM, CDCR files a Medi-Cal application about 135 days before release. Marcus left San Quentin 25 days ago, so he may already be enrolled.</p>
+
+      <h3>What he can get</h3>
+      <div class="big">Free health care</div>
+      <div class="muted" style="font-size:var(--fs-sm)">Doctor visits, prescriptions, mental health and substance use care. A care manager is assigned after release.</div>
+
+      <h3>Eligibility <span class="tag ok" style="margin-left:6px">Likely eligible</span> <span class="tag">Confirm income</span></h3>
+      <ul class="elig">
+        <li>Ages 19–64 with income under $1,836 a month (1 person, 138% of poverty level). <a href="https://stgenssa.sccgov.org/debs/program_handbooks/charts/assets/5MediCal/FPLMonthIncomeCompare.htm" target="_blank" rel="noopener">2026 chart ↗</a></li>
+        <li>People leaving state prison are signed up before release under CalAIM. <a href="https://www.cdcr.ca.gov/bph/wp-content/uploads/sites/161/2025/10/pv-3.-Calaims-Justice-Involved-Reentry-Initiative-Implementation.pdf" target="_blank" rel="noopener">CDCR CalAIM ↗</a></li>
+      </ul>
+
+      <h3>Next steps</h3>
+      <div class="group">
+        <div class="step"><span class="num">1</span><div class="tx"><div class="st">Ask Marcus to check his release papers</div><ul><li>Look for a Medi-Cal card or a “Reentry Care Plan”.</li></ul></div></div>
+        <div class="step"><span class="num">2</span><div class="tx"><div class="st">Call the Medi-Cal Helpline to check</div><ul><li>Mon–Fri. Ask if he is enrolled and who his care manager is.</li></ul>
+          <div class="acts"><a class="act" href="tel:+18005415555">Call 1-800-541-5555</a></div></div></div>
+        <div class="step"><span class="num">3</span><div class="tx"><div class="st">Not enrolled? Apply</div>
+          <div class="acts"><a class="act" href="https://benefitscal.com/" target="_blank" rel="noopener">Apply at BenefitsCal ↗</a><a class="act sec2" href="tel:+18889994772">Alameda County 1-888-999-4772</a></div></div></div>
+      </div>
+      <div class="bring" style="margin-top:10px;color:var(--secondary);font-size:var(--fs-sm)">Bring: State ID, release papers, Social Security number</div>
+    </div>
+
+    <div class="al-only">
+      <div class="big">Free health care</div>
+      <p style="margin:4px 0 0">Doctor visits, medicine, and help with mental health or drugs and alcohol.</p>
+      <p style="margin:8px 0 0">You may already have it. Prison often signs you up before you leave.</p>
+
+      <h3>What to do</h3>
+      <div class="group">
+        <div class="step"><span class="num">1</span><div class="tx"><div class="st">Look in your release papers</div><ul><li>Find a Medi-Cal card or a “Reentry Care Plan”.</li></ul></div></div>
+        <div class="step"><span class="num">2</span><div class="tx"><div class="st">Call and ask if you have Medi-Cal</div><ul><li>Ask: “Am I enrolled in Medi-Cal?”</li></ul>
+          <div class="acts"><a class="act" href="tel:+18005415555">Call 1-800-541-5555</a></div></div></div>
+        <div class="step"><span class="num">3</span><div class="tx"><div class="st">Don't have it? Apply online</div>
+          <div class="acts"><a class="act" href="https://benefitscal.com/" target="_blank" rel="noopener">Apply online ↗</a></div></div></div>
+      </div>
+      <div class="bring" style="margin-top:10px;color:var(--secondary);font-size:var(--fs-sm)">Bring: State ID, release papers</div>
+    </div>
+  </div>
+  <div class="sbf"><button type="button" class="btn" data-close>Close</button></div>
+</dialog>
+
+<script>
+  /* mockup only: switch view, open/close the two sheets */
+  document.querySelectorAll(".mk-seg button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.body.dataset.view = b.dataset.v;
+      document.querySelectorAll(".mk-seg button").forEach(function (x) { x.setAttribute("aria-pressed", x === b); });
+    });
+  });
+  document.querySelectorAll("[data-open]").forEach(function (b) {
+    b.addEventListener("click", function () { var d = document.getElementById("dlg-" + b.dataset.open); if (d.showModal) d.showModal(); else d.setAttribute("open", ""); });
+  });
+  document.querySelectorAll("[data-close]").forEach(function (b) { b.addEventListener("click", function () { b.closest("dialog").close(); }); });
+  document.querySelectorAll("dialog").forEach(function (d) { d.addEventListener("click", function (e) { if (e.target === d) d.close(); }); });
+  if (/[?&]view=al\b/.test(location.search)) document.querySelector('[data-v="al"]').click();
+</script>
+</body>
+</html>
