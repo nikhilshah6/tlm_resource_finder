@@ -26,6 +26,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUnti
   try { body = JSON.parse(raw); } catch { return Response.json({ error: "bad json" }, { status: 400 }); }
   if (body?.stage === "intake" && (!body.profile || typeof body.profile !== "object")) return Response.json({ error: "intake needs a structured profile" }, { status: 400 });
   if (body?.stage !== "intake" && (!body?.profile || typeof body.profile !== "object")) return Response.json({ error: "missing profile" }, { status: 400 });
+  // TLM: the case manager's choice of searches; only known finder names and category ids get through
+  if (body.focus != null) {
+    const finders = Array.isArray(body.focus?.finders) ? body.focus.finders.filter((f: any) => ["housing", "health", "food_benefits", "jobs", "legal_id"].includes(f)) : [];
+    const categories = Array.isArray(body.focus?.categories) ? body.focus.categories.filter((c: any) => ["housing", "food", "id", "jobs", "health", "legal", "money"].includes(c)) : [];
+    body.focus = finders.length ? { finders, categories } : null;
+  }
   const handler = STAGES[body?.stage];
   if (!handler) return Response.json({ error: "unknown stage" }, { status: 400 });
   if (!env.ANTHROPIC_API_KEY) return Response.json({ error: "ANTHROPIC_API_KEY is not set for this Pages project" }, { status: 500 });

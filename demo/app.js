@@ -754,6 +754,9 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
   var AG_VERDICT = { likely: ["ok", "Likely eligible"], worth_applying: ["accent", "Worth applying"], not_eligible: ["warn", "Not eligible"] };
   var AG_CAT = { housing: "Housing", health: "Health", food_benefits: "Food and benefits", jobs: "Jobs and training", legal_id: "Legal, ID and records", family: "Family", clothing: "Clothing" };
   function agState(aid) { return V.agent[aid] || (V.agent[aid] = { status: "idle" }); }
+  function stageLabel(g, s) { return s[0] === "finders" && g.finders && g.finders.length < C.FINDERS.length ? "Searching " + words(g.finders.map(function (f) { return FINDER_WORD[f]; })) : s[1]; }
+  /* "Searched Oct 30" on a category kept from an earlier search (case manager only) */
+  function searchedTag(G, c) { return G.lastSearch && c.searchedAt && c.searchedAt !== G.lastSearch.at ? '<span class="sdate">Searched ' + esc(C.fmShort(c.searchedAt)) + "</span>" : ""; }
   function urgTag(u) { return u ? '<span class="tag' + (u === "today" ? " warn" : u === "this_week" ? " accent" : "") + '">' + esc(AG_URG[u] || u) + "</span>" : ""; }
   /* AI results as collapsible categories (same rows as General resources), for the case manager ("cm") or the alumnus ("me") */
   function aiCats(a, plan, view, q) {
@@ -771,7 +774,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       var items = (q ? c.items.filter(function (e) { return C.agentMatch(e, q); }) : c.items).filter(function (e) { var x = (a.resourceActions || {})[e.item.id]; return cm || !(x && x.pinnedBy); }); /* alumni: already under Recommended */
       if (!items.length) return; any = true;
       var isOpen = !!q || !!open["ai:" + c.id];
-      h += row(c.id, '<span class="ctile c-' + c.id + '" aria-hidden="true">' + CI[c.id] + "</span>", c.label, urgTag(c.urgency), items.length, isOpen, !!q);
+      h += row(c.id, '<span class="ctile c-' + c.id + '" aria-hidden="true">' + CI[c.id] + "</span>", c.label, urgTag(c.urgency) + (cm ? searchedTag(G, c) : ""), items.length, isOpen, !!q);
       if (isOpen) h += '<div class="catbody">' + items.map(function (e) { return cm ? agentRow(a, e.c, e.why, e.bring) : aiAlumRow(a, e); }).join("") + "</div>";
     });
     if (cm && !q && G.excluded.length) {
@@ -805,7 +808,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       var secs = Math.round((Date.now() - g.t0) / 1000);
       h += gh("AI plan", "searching · " + secs + " s") + '<div class="group">' + AG_STAGES.map(function (s) {
         var v = g.stages[s[0]] || "", dot = v === "done" ? "ok" : v === "error" ? "warn" : v === "running" ? "info" : "";
-        return '<div class="row"><span class="dot ' + dot + '" aria-hidden="true"></span><div class="body"><div class="ttl">' + s[1] + '</div>' + (g.notes[s[0]] ? '<div class="sec">' + esc(g.notes[s[0]]) + "</div>" : "") + "</div>" + (v === "done" ? '<span class="trail oktext">Done</span>' : v === "running" ? '<span class="trail">Working…</span>' : "") + "</div>";
+        return '<div class="row"><span class="dot ' + dot + '" aria-hidden="true"></span><div class="body"><div class="ttl">' + esc(stageLabel(g, s)) + '</div>' + (g.notes[s[0]] ? '<div class="sec">' + esc(g.notes[s[0]]) + "</div>" : "") + "</div>" + (v === "done" ? '<span class="trail oktext">Done</span>' : v === "running" ? '<span class="trail">Working…</span>' : "") + "</div>";
       }).join("") + '<div class="row"><div class="body"><div class="sec">' + g.programs + " programs checked · " + g.sources + " sources searched" + (g.last ? " · " + esc(g.last) : "") + '</div></div><button type="button" class="btn sm" onclick="RXV.agentCancel(\'' + a.id + '\')">Cancel</button></div></div>';
     } else if (g.status === "error") {
       h += gh("AI plan") + '<div class="note err">' + esc(g.err) + '</div><p class="gf"><button type="button" class="linkbtn" onclick="RXV.agentAsk(\'' + a.id + '\')">Try again</button> · <button type="button" class="linkbtn" onclick="RXV.useSaved(\'' + a.id + '\')">Use saved run</button></p>';
@@ -873,7 +876,8 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     var h = '<section class="plan-card" aria-labelledby="pc-' + a.id + '"><div class="pc-h"><div class="pc-t"><h2 id="pc-' + a.id + '">Resource plan</h2>';
     if (g.status === "done") {
       var G = C.agentGroups(g.plan), sh = a.aiShared, cur2 = sh && sh.runId === g.runId;
-      h += '<p class="sec">' + (g.saved ? "Saved run from " + esc(g.saved) + ". " : "") + G.count + " programs from public sources and the web. Draft: check before use.</p></div>" +
+      h += '<p class="sec">' + (g.saved ? "Saved run from " + esc(g.saved) + ". " : "") + G.count + " programs from public sources and the web. Draft: check before use.</p>" +
+        onlyIf(G.lastSearch && G.lastSearch.finders.length < C.FINDERS.length, '<p class="sec">Last search: ' + esc(G.lastSearch ? words(G.lastSearch.finders.map(function (f) { return FINDER_WORD[f]; })) : "") + " · " + esc(G.lastSearch ? C.fmShort(G.lastSearch.at) : "") + "</p>") + "</div>" +
         '<div class="pc-a">' + (cur2 ? '<span class="tag ok">Shared with ' + esc(first) + "</span>" : '<button type="button" class="btn" onclick="RXV.agentShare(\'' + a.id + '\')">Share with ' + esc(first) + "</button>") + toTab + "Open full plan</button></div></div>";
       var TS = todaySteps(a, g.plan, "cm");
       if (TS.length) h += '<div class="pc-sub">Act today</div><div class="pc-steps">' + TS.map(function (n, i) { return stepHtml(a, n, i, "cm"); }).join("") + "</div>";
@@ -883,7 +887,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       }).join("") + "</div>";
     } else if (g.status === "running") {
       var secs = Math.round((Date.now() - g.t0) / 1000), now = AG_STAGES.filter(function (x) { return g.stages[x[0]] === "running"; })[0];
-      h += '<p class="sec" role="status">Searching for ' + esc(first) + " · " + secs + " s" + (now ? " · " + esc(now[1]) : "") + "</p></div><div class=\"pc-a\">" + toTab + "View progress</button></div></div>";
+      h += '<p class="sec" role="status">Searching for ' + esc(first) + " · " + secs + " s" + (now ? " · " + esc(stageLabel(g, now)) : "") + "</p></div><div class=\"pc-a\">" + toTab + "View progress</button></div></div>";
     } else if (g.status === "error") {
       h += '<p class="sec warntext">' + esc(g.err) + '</p></div><div class="pc-a"><button type="button" class="btn" onclick="RXV.useSaved(\'' + a.id + '\')">Use saved run</button><button type="button" class="btn" onclick="RXV.agentAsk(\'' + a.id + '\')">Try again</button></div></div>';
     } else {
@@ -958,11 +962,27 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
   V.agentUnshare = function (aid) { var a = C.byId(aid); act(a, "No longer shared with " + a.name.split(" ")[0], function () { delete a.aiShared; }); };
   /* the alumnus ticks a shared step off (either side can undo, like tasks) */
   V.stepDone = function (aid, i) { var a = C.byId(aid), st = a.aiShared && a.aiShared.steps && a.aiShared.steps[i]; if (!st) return; act(a, st.done ? "Step reopened" : "Step done", function () { st.done = !st.done; }); };
+  /* Build plan: the case manager picks which categories to search (all on a first plan, then last time's picks) */
+  var FINDER_WORD = { housing: "housing", health: "health", food_benefits: "food and benefits", jobs: "jobs", legal_id: "ID, legal and banking" };
+  function words(list) { return list.length < 2 ? list.join("") : list.slice(0, -1).join(", ") + " and " + list[list.length - 1]; }
   V.agentAsk = function (aid) {
-    var a = C.byId(aid), first = a.name.split(" ")[0];
-    sheet({ title: "Build a resource plan for " + first, right: '<button type="button" class="btn sm pri" onclick="RXV.agentRun(\'' + aid + '\')">Run search</button>',
-      body: '<p class="sdesc">A team of Claude agents reads ' + esc(first) + "'s sample record, searches public sources and the web, checks eligibility and ranks a plan. It takes about 90 seconds and covers California only.</p>" +
+    var a = C.byId(aid), first = a.name.split(" ")[0], on = C.defaultFocus(a), had = agState(aid).plan;
+    sheet({ title: "Build a resource plan for " + first, right: '<button type="button" class="btn sm pri" id="fcGo" onclick="RXV.agentRun(\'' + aid + '\')">Run search</button>',
+      body: '<p class="sdesc">A team of Claude agents reads ' + esc(first) + "'s sample record, searches public sources and the web, checks eligibility and ranks a plan. It takes up to 90 seconds and covers California only.</p>" +
+        gh("What to search", a.aiFocus ? "last time's picks" : "everything for a first plan") +
+        '<div class="group fcl">' + C.CATS.map(function (c) {
+          return '<label class="row fc"><input type="checkbox" id="fc-' + c.id + '" value="' + c.id + '"' + (on.indexOf(c.id) >= 0 ? " checked" : "") + ' onchange="RXV.focusChange()"><span class="ctile c-' + c.id + '" aria-hidden="true">' + CI[c.id] + '</span><span class="body ttl">' + esc(c.label) + "</span></label>";
+        }).join("") + "</div>" +
+        '<p class="gf" id="fcCount" aria-live="polite"></p>' +
+        '<p class="sdesc">ID, legal and banking share one search. ' + (had ? "Categories you leave unticked keep their earlier results, marked with the date they were searched." : "") + "</p>" +
         '<p class="sdesc">The plan is a draft. Nothing is saved to the record unless you recommend a result, and only sample data is sent to Claude.</p>' });
+    V.focusChange();
+  };
+  function tickedFocus() { return C.CATS.map(function (c) { return c.id; }).filter(function (id) { var el = $("fc-" + id); return el && el.checked; }); }
+  V.focusChange = function () {
+    var n = C.focusFinders(tickedFocus()).length, go = $("fcGo"), el = $("fcCount");
+    if (el) el.innerHTML = n ? n + " of " + C.FINDERS.length + " searches" + (n < C.FINDERS.length ? " · fewer searches cost less" : "") : '<span class="warntext">Tick at least one category to search.</span>';
+    if (go) { go.disabled = !n; go.title = n ? "" : "Tick at least one category"; }
   };
   V.agentCancel = function (aid) { var g = agState(aid); if (g.ctl) g.ctl.abort(); g.status = "idle"; clearInterval(g.tick); drawAgent(aid); say("AI search stopped"); };
   function readSSE(body, onEvent) {
@@ -985,8 +1005,13 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     });
   }
   V.agentRun = function (aid) {
+    var a = C.byId(aid), cats = $("fc-housing") ? tickedFocus() : C.defaultFocus(a), finders = C.focusFinders(cats);
+    if (!finders.length) { V.focusChange(); return; }
     V.close();
-    var a = C.byId(aid), st = C.resState(a), g = V.agent[aid] = { status: "running", t0: Date.now(), stages: {}, notes: {}, programs: 0, sources: 0, errors: [], ctl: new AbortController() };
+    var prevG = V.agent[aid], prev = prevG && prevG.status === "done" ? prevG.plan : null;
+    C.setFocus(a, cats);
+    var focus = finders.length < C.FINDERS.length ? { finders: finders, categories: cats } : null;
+    var st = C.resState(a), g = V.agent[aid] = { status: "running", t0: Date.now(), stages: {}, notes: {}, programs: 0, sources: 0, errors: [], ctl: new AbortController(), finders: finders };
     g.tick = setInterval(function () { if (g.status === "running" && V.agent[aid] === g) drawAgent(aid); else clearInterval(g.tick); }, 1000);
     function mark(s, v, note) { g.stages[s] = v; if (note) g.notes[s] = note; drawAgent(aid); }
     function alive() { return V.agent[aid] === g && g.status === "running"; }
@@ -995,8 +1020,10 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     mark("intake", "running");
     agStep(aid, { stage: "intake", profile: profile0 }, "intake").then(function (r) {
       profile = r.profile; mark("intake", "done", "Read " + a.name.split(" ")[0] + "'s record"); mark("orchestrator", "running");
-      return agStep(aid, { stage: "orchestrator", profile: profile }, "orchestrator");
+      return agStep(aid, focus ? { stage: "orchestrator", profile: profile, focus: focus } : { stage: "orchestrator", profile: profile }, "orchestrator");
     }).then(function (o) {
+      /* only the searches the case manager asked for run, whatever the orchestrator returned */
+      o.briefs = (o.briefs || []).filter(function (b) { return finders.indexOf(b.finder) >= 0; });
       orch = o; mark("orchestrator", "done", (o.needs || []).length + " needs named"); mark("finders", "running"); mark("judge", "running");
       var left = (o.briefs || []).length;
       return Promise.all((o.briefs || []).map(function (brief) {
@@ -1010,10 +1037,11 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       }));
     }).then(function (lists) {
       var judged = [].concat.apply([], lists); mark("finders", "done"); mark("judge", "done", judged.length + " programs checked for eligibility"); mark("ranker", "running");
-      return agStep(aid, { stage: "ranker", profile: profile, needs: orch.needs, judged: judged }, "ranker").then(function (rk) {
+      return agStep(aid, focus ? { stage: "ranker", profile: profile, needs: orch.needs, judged: judged, focus: focus } : { stage: "ranker", profile: profile, needs: orch.needs, judged: judged }, "ranker").then(function (rk) {
         if (!alive()) return;
         clearInterval(g.tick); g.status = "done"; g.runId = g.t0;
-        g.plan = { profile: profile, sections: rk.sections, act_today: rk.act_today, excluded: judged.filter(function (j) { return j.verdict === "not_eligible"; }), stats: { programs_checked: g.programs, sources_searched: g.sources, seconds: Math.round((Date.now() - g.t0) / 100) / 10 } };
+        g.plan = C.mergePlan(prev, { profile: profile, sections: rk.sections, act_today: rk.act_today, excluded: judged.filter(function (j) { return j.verdict === "not_eligible"; }) }, finders, C.today());
+        g.plan.stats = { programs_checked: g.programs, sources_searched: g.sources, seconds: Math.round((Date.now() - g.t0) / 100) / 10 };
         drawAgent(aid); say("AI plan ready for " + a.name.split(" ")[0]);
       });
     }).catch(function (e) {

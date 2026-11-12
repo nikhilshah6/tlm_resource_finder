@@ -237,6 +237,7 @@ One column: the title, a single **For [alumnus] · Open case** line, then the sa
   The search filters the last three sections. The alumnus's page has the same Benefits tiles in the same place.
 - **AI search results (case manager):**
   - **No run yet:** one line saying what the agents do, with **Build plan** (the same label as the Overview card). Outside California it's disabled with the reason.
+  - **Choosing what to search:** Build plan and Run again open one sheet with a **What to search** checklist of the 7 categories (icon tile and label, one row each). A person's first plan has all 7 ticked; after that the sheet starts from the case manager's last picks for that person (`a.aiFocus`). ID, legal and banking share one search, so the count line reads "N of 5 searches". With nothing ticked, Run search is disabled and says why. Only the chosen searches run: the browser filters the orchestrator's briefs, and `focusBriefs` in `stages.ts` cuts them on the server too. A partial run replaces only those categories; the rest keep their earlier results (`C.mergePlan`), and their rows show a muted "Searched Oct 30". The Overview card adds "Last search: housing and jobs · Nov 12" after a partial run. Act today comes from the latest search.
   - **Running:** a progress group (one row per stage with a dot, live counts, Cancel).
   - **Done, in this order:**
     - the draft banner
