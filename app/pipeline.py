@@ -293,6 +293,42 @@ async def judge(finder: str, cands: list[Candidate], profile: Profile, emit: Emi
 
 
 # ------------------------------------------------------------------ 5. ranker
+# Act today: one action per step. The model writes the words; phone, URL and address are copied from the program it points at.
+# CalFresh/SNAP and Medi-Cal/Medicaid steps are dropped because the UI adds them from the benefits tiles (same rules as stages.ts).
+_BENEFIT_RE = re.compile(r"\b(cal ?fresh|snap|food stamps|medi-?cal|medicaid)\b", re.I)
+_URL_RE = re.compile(r"https?://\S+|www\.\S+", re.I)
+_PHONE_RE = re.compile(r"\+?1?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b")
+
+
+def _clip(t, n: int) -> str:
+    """Model text never carries contact details: phone numbers and web addresses are removed (the real ones come from the record)."""
+    t = _PHONE_RE.sub("", _URL_RE.sub("", str(t or "")))
+    t = re.sub(r"\(\s*\)", "", re.sub(r"\s+([.,;:!?)])", r"\1", t))
+    return re.sub(r"\s{2,}", " ", t).strip()[:n]
+
+
+def act_today_steps(raw: list, keep: list) -> list[ActStep]:
+    out = []
+    for a in raw or []:
+        i = a.get("resource_index")
+        c = keep[i] if isinstance(i, int) and 0 <= i < len(keep) else None
+        how = a.get("how") if a.get("how") in ("call", "apply_online", "visit") else "call"
+        phone = getattr(c, "phone", None) if c else None
+        url = (getattr(c, "url", None) or (None if phone else getattr(c, "source_url", None))) if c else None
+        title = _clip(a.get("title") or a.get("step"), 80)
+        bullets = [_clip(b, 120) for b in (a.get("bullets") or [])[:3]]
+        al_title = _clip(a.get("for_alumnus_title") or a.get("for_alumnus"), 80)
+        al_bullets = [_clip(b, 120) for b in (a.get("for_alumnus_bullets") or [])[:3]]
+        name = c.name if c else None
+        if not title or _BENEFIT_RE.search(f"{title} {name or ''}"):
+            continue
+        out.append(ActStep(title=title, how=how, bullets=bullets, for_alumnus_title=al_title, for_alumnus_bullets=al_bullets,
+                           resource_name=name, phone=phone, url=url, address=getattr(c, "address", None) if c else None,
+                           missing_contact=not phone and not url, what_to_bring=a.get("what_to_bring") or [],
+                           step=". ".join([title] + bullets), for_alumnus=". ".join([al_title] + al_bullets) if al_title else ""))
+    return out[:3]
+
+
 async def rank(profile: Profile, orch: OrchestratorPlan, judged: list[JudgedCandidate], emit: Emit, counters: Counters):
     await emit({"type": "agent_start", "agent": "ranker", "message": "Ranking options and writing the plan for today"})
     keep = [j for j in judged if j.verdict != "not_eligible"]
@@ -305,7 +341,12 @@ async def rank(profile: Profile, orch: OrchestratorPlan, judged: list[JudgedCand
                "and write an 'act on today' list of 1-3 concrete steps (most urgent first). Explain 'why it fits' in one plain sentence tied to their situation. "
                "List what to bring (ID, release papers, proof of income, etc.). Prefer likely over worth_applying when equally good, but keep at least one "
                "worth_applying option when it could matter. Use only the given indexes. "
-               "For each act_today step also write for_alumnus: the same step addressed to the person as 'you', in plain words a tired reader gets on first read, "
+               "Each act_today step is ONE action at ONE program (resource_index): never combine programs or applications in a step. "
+               "title: a verb first, 8 words or fewer (e.g. 'Call BOSS about a backup bed'). how: call, apply_online or visit. "
+               "bullets: at most 3, each under 12 words: what to ask or say, and anything to clear with the parole or probation officer. "
+               "Do NOT write phone numbers, addresses or URLs anywhere: they are added from the program's record. "
+               "Do NOT write steps for CalFresh/SNAP or Medi-Cal/Medicaid: those come from the benefits tiles. Pick other programs for today. "
+               "For each step also write for_alumnus_title and for_alumnus_bullets: the same step addressed to the person as 'you', in plain words a tired reader gets on first read, "
                "without staff-only detail (no eligibility verdicts, no instructions meant for the case manager, no internal notes). Call submit.",
         user=f"Profile:\n{_profile_text(profile)}\n\nNeeds in order:\n{json.dumps([n.model_dump() for n in orch.needs])}\n\nPrograms:\n{json.dumps(listing, indent=1)}",
         submit_schema={"type": "object", "properties": {
@@ -316,10 +357,13 @@ async def rank(profile: Profile, orch: OrchestratorPlan, judged: list[JudgedCand
                     "what_to_bring": {"type": "array", "items": {"type": "string"}}}, "required": ["index", "why_it_fits"]}}},
                 "required": ["category", "picks"]}},
             "act_today": {"type": "array", "items": {"type": "object", "properties": {
-                "step": {"type": "string", "description": "For the case manager"},
-                "for_alumnus": {"type": "string", "description": "The same step, written to the person as 'you'"},
+                "title": {"type": "string", "description": "For the case manager: verb first, 8 words or fewer, one program"},
+                "how": {"type": "string", "enum": ["call", "apply_online", "visit"]},
                 "resource_index": {"type": "integer"},
-                "what_to_bring": {"type": "array", "items": {"type": "string"}}}, "required": ["step", "for_alumnus"]}, "maxItems": 3}},
+                "bullets": {"type": "array", "items": {"type": "string"}, "maxItems": 3},
+                "for_alumnus_title": {"type": "string", "description": "The same title, written to the person as 'you'"},
+                "for_alumnus_bullets": {"type": "array", "items": {"type": "string"}, "maxItems": 3},
+                "what_to_bring": {"type": "array", "items": {"type": "string"}}}, "required": ["title", "how", "resource_index", "for_alumnus_title"]}, "maxItems": 3}},
             "required": ["sections", "act_today"]},
         submit_description="Submit the ranked sections and today's steps.",
     )
@@ -338,11 +382,7 @@ async def rank(profile: Profile, orch: OrchestratorPlan, judged: list[JudgedCand
     sections = [s for s in by_cat.values() if s.recommendations]
     order = {n.category: k for k, n in enumerate(orch.needs)}
     sections.sort(key=lambda s: order.get(s.need.category, 99))
-    act = []
-    for a in out.get("act_today", [])[:3]:
-        i = a.get("resource_index")
-        name = keep[i].name if isinstance(i, int) and 0 <= i < len(keep) else None
-        act.append(ActStep(step=a.get("step", ""), for_alumnus=a.get("for_alumnus", ""), resource_name=name, what_to_bring=a.get("what_to_bring") or []))
+    act = act_today_steps(out.get("act_today", []), keep)
     await emit({"type": "found", "agent": "ranker", "message": f"Plan ready: {sum(len(s.recommendations) for s in sections)} recommendations, {len(act)} steps for today", "count": len(act)})
     return sections, act
 

@@ -12,11 +12,11 @@
      {
       "candidate": {
        "name": "Building Opportunities for Self-Sufficiency (BOSS)",
-       "description": "Listed by East Bay Housing Organizations as transitional housing for people leaving prison or hospital. Call to ask about men's beds, parole acceptance, curfew and whether a bed can open before January.",
+       "description": "Listed by East Bay Housing Organizations as transitional housing for people leaving prison or hospital. Main office in Berkeley. Call to ask about men's beds, parole acceptance, curfew and whether a bed can open before January.",
        "source": "web",
        "source_url": "https://ebho.org/looking-for-housing/direct-support/",
-       "phone": "(510) 613-0330",
-       "city": "Oakland",
+       "phone": "(510) 649-1930",
+       "city": "Berkeley",
        "county": "Alameda",
        "who_it_serves": "People discharged from prison or hospital",
        "intake_requirements": "Not confirmed. Ask about parole approval, curfew and waitlist.",
@@ -27,7 +27,9 @@
        "reason": "The listing serves people leaving prison, but intake rules for parolees and curfew aren't confirmed.",
        "confirm_question": "Do you accept parolees with a 10pm curfew, and can a men's bed open before January?",
        "rule_cited": "EBHO listing",
-       "rule_url": "https://ebho.org/looking-for-housing/direct-support/"
+       "rule_url": "https://ebho.org/looking-for-housing/direct-support/",
+       "url": "https://self-sufficiency.org/",
+       "address": "1918 University Ave, Suite 2A, Berkeley, CA 94704"
       },
       "why_it_fits": "Marcus needs a backup transitional bed in Alameda County because his Hope House bed isn't confirmed, and BOSS serves people leaving prison. Ask whether they accept parolees with a 10pm curfew and whether a bed can open before January.",
       "what_to_bring": [
@@ -143,7 +145,8 @@
        "reason": "He is an Alameda adult with no dependents and is job searching. But he lives with his sister, and support from her could affect whether he has 'no other means of support.' The aid is also treated as a loan.",
        "confirm_question": "Does his sister provide free room and board, and would that count as support that reduces or blocks GA?",
        "rule_cited": "Alameda County GA listing",
-       "rule_url": "https://socialservices.alamedacountyca.gov/our-services/Work-and-Money/General-Assistance/index"
+       "rule_url": "https://socialservices.alamedacountyca.gov/our-services/Work-and-Money/General-Assistance/index",
+       "phone": "1-888-999-4772"
       },
       "why_it_fits": "General Assistance could cover basic costs until his first paycheck. Ask first whether staying with his sister counts as support, and read the repayment terms before signing.",
       "what_to_bring": [
@@ -189,7 +192,7 @@
     "recommendations": [
      {
       "candidate": {
-       "name": "BenefitsCal \u2013 Medi-Cal application",
+       "name": "BenefitsCal – Medi-Cal application",
        "url": "https://benefitscal.com/",
        "description": "Free online application for Medi-Cal, CalFresh and General Assistance. Apply here, then choose or confirm Alameda Alliance for Health as the plan. I did not find an Alameda Alliance page this run, so confirm the plan and the clinic's network status by phone. In person, use the Alameda County social services office at Eastmont Town Center.",
        "cost": "Free",
@@ -212,7 +215,7 @@
      },
      {
       "candidate": {
-       "name": "LifeLong Medical Care \u2013 Transitions Clinic (Downtown Oakland)",
+       "name": "LifeLong Medical Care – Transitions Clinic (Downtown Oakland)",
        "address": "616 16th Street, Oakland, CA 94612",
        "city": "Oakland",
        "county": "Alameda",
@@ -358,7 +361,7 @@
     "recommendations": [
      {
       "candidate": {
-       "name": "Bank of America \u2013 Oakland Chinatown Branch",
+       "name": "Bank of America – Oakland Chinatown Branch",
        "description": "FDIC-insured branch at 388 9th St, walkable from 94607. Ask about low-fee checking with direct deposit; terms not verified in this search.",
        "address": "388 9th St, Oakland, CA",
        "city": "Oakland",
@@ -412,7 +415,7 @@
      },
      {
       "candidate": {
-       "name": "Alameda County Public Defender \u2013 Clean Slate Program",
+       "name": "Alameda County Public Defender – Clean Slate Program",
        "description": "Free record relief for Alameda County convictions (dismissals, felony reductions, early termination, certificates of rehabilitation). Most dismissals need you to be off parole/probation with no pending cases, so Marcus can attend a clinic to learn what he qualifies for now and what must wait until parole ends.",
        "address": "545 4th Street, Oakland, CA 94607",
        "city": "Oakland",
@@ -445,36 +448,73 @@
   ],
   "act_today": [
    {
-    "step": "Sit with Marcus and file the GetCalFresh application and ask for expedited processing. Then use BenefitsCal to apply for Medi-Cal and General Assistance in the same session. Before he signs, go over the GA repayment agreement and whether his sister's support counts against GA.",
-    "for_alumnus": "Today, apply online for CalFresh food benefits and ask for the fast (expedited) option. While you're online, also apply for Medi-Cal health coverage and General Assistance cash aid. It takes about 10 minutes for each one.",
+    "title": "Call BOSS about a backup bed",
+    "how": "call",
+    "bullets": [
+     "Ask: men's bed open before January?",
+     "Ask: do they take parole with a 10pm curfew?",
+     "Clear any move with PO Alvarez first."
+    ],
+    "for_alumnus_title": "Call BOSS about a backup bed",
+    "for_alumnus_bullets": [
+     "Ask if a bed can open before January.",
+     "Ask if they take people on parole.",
+     "Tell your parole officer before you move."
+    ],
     "what_to_bring": [
      "State ID",
-     "SSN card",
-     "Sister's address for mail",
-     "Release papers"
+     "Release/parole papers"
     ],
-    "resource_name": "CalFresh (apply via GetCalFresh)"
+    "resource_name": "Building Opportunities for Self-Sufficiency (BOSS)",
+    "phone": "(510) 649-1930",
+    "url": "https://self-sufficiency.org/",
+    "address": "1918 University Ave, Suite 2A, Berkeley, CA 94704",
+    "missing_contact": false
    },
    {
-    "step": "Call BOSS about a backup transitional bed, since Hope House is unconfirmed. Ask about men's beds, whether they accept parole with a 10pm curfew, and whether a bed can open before January. Get approval from PO Alvarez for any move.",
-    "for_alumnus": "Call BOSS today about a backup housing bed in case Hope House doesn't come through. Ask if they take people on parole with a 10pm curfew and if a bed could open before January. Before you move anywhere, tell your parole officer.",
+    "title": "Sign Marcus up at West Oakland Job Center",
+    "how": "apply_online",
+    "bullets": [
+     "Ask for Amazon interview prep (interview in 4 days).",
+     "Ask about money for forklift training."
+    ],
+    "for_alumnus_title": "Sign up at West Oakland Job Center",
+    "for_alumnus_bullets": [
+     "Ask for help with your Amazon interview.",
+     "Ask if they pay for forklift training."
+    ],
     "what_to_bring": [
      "State ID",
-     "Release/parole papers",
-     "Parole officer contact info"
+     "Social Security card",
+     "Work history"
     ],
-    "resource_name": "Building Opportunities for Self-Sufficiency (BOSS)"
+    "resource_name": "West Oakland Job and Resource Center (AJCC)",
+    "phone": "(510) 419-0509",
+    "url": "https://www.wojrc.org/",
+    "address": "1801 Adeline Street, 2nd Floor, Oakland, CA 94607",
+    "missing_contact": false
    },
    {
-    "step": "Complete the West Oakland Job and Resource Center online intake and request interview prep before the Amazon interview. Also ask about training funds for forklift and OSHA certifications and about help with transportation.",
-    "for_alumnus": "Fill out the West Oakland Job and Resource Center's online form today, and ask for help getting ready for your Amazon interview. Also ask if they can help pay for forklift training and for getting to work.",
+    "title": "Apply for General Assistance (cash aid)",
+    "how": "call",
+    "bullets": [
+     "Alameda GA is a loan: go over repayment.",
+     "Ask if his sister's support counts against GA."
+    ],
+    "for_alumnus_title": "Apply for General Assistance (cash aid)",
+    "for_alumnus_bullets": [
+     "Ask how paying it back works."
+    ],
     "what_to_bring": [
      "State ID",
-     "SSN card",
-     "Resume or work history",
-     "Amazon interview date and details"
+     "Release papers",
+     "Proof of address"
     ],
-    "resource_name": "West Oakland Job and Resource Center (AJCC)"
+    "resource_name": "Alameda County General Assistance (GA)",
+    "phone": "1-888-999-4772",
+    "url": "https://socialservices.alamedacountyca.gov/our-services/Work-and-Money/General-Assistance/index",
+    "address": null,
+    "missing_contact": false
    }
   ],
   "excluded": [],
@@ -483,5 +523,6 @@
    "sources_searched": 27,
    "seconds": 100
   }
- }
+ },
+ "note": "Act today rewritten by hand on 2026-11-12 in the new step format (no live run: no API key). BOSS phone corrected to (510) 649-1930 (self-sufficiency.org); the run had returned another agency's number. Alameda GA phone added (county hotline)."
 }

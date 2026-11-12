@@ -1,9 +1,9 @@
 [
   {
     "topic": "calfresh_income",
-    "rule": "CalFresh monthly income limits effective Oct 1, 2025 - Sep 30, 2026 (CDSS). Gross monthly income: 1 person $2,610; 2 people $3,526; 3 people $4,442; 4 people $5,360 (+$918 each additional member). Net monthly income: 1 person $1,305; 2 people $1,763; 3 people $2,221; 4 people $2,680 (+$459 each additional member). Maximum monthly allotment: 1 person $298; 2 people $546; 3 people $785; 4 people $994. Apply at BenefitsCal.com or call 1-877-847-3663.",
-    "source_url": "https://www.cdss.ca.gov/portals/9/calfreshoutreach/220000_English_Income_Inserts_FFY2026%20-%20ADA%20-%20FINAL.pdf",
-    "as_of": "2026-11-05"
+    "rule": "CalFresh monthly income limits for Oct 1, 2026 - Sep 30, 2027 (USDA FNS FY2027). California uses broad-based categorical eligibility, so the gross limit is 200% of the federal poverty line: 1 person $2,660; 2 people $3,608; 3 people $4,554; 4 people $5,500 (computed as 2x the FNS 100% figures). Net monthly income (100% FPL): 1 person $1,330; 2 people $1,804; 3 people $2,277; 4 people $2,750. Maximum monthly allotment: 1 person $306; 2 people $562; 3 people $808; 4 people $1,023. Apply at GetCalFresh.org or BenefitsCal.com, or call 1-877-847-3663.",
+    "source_url": "https://www.fns.usda.gov/snap/allotment/cola",
+    "as_of": "2026-11-12"
   },
   {
     "topic": "calfresh_drug_felony",
@@ -22,6 +22,12 @@
     "rule": "CalAIM Justice-Involved Reentry Initiative (as implemented in CDCR): about 135 days before release, benefit workers at each prison submit a Medi-Cal application; about 90 days before release the Medi-Cal Justice-Involved aid code is activated and pre-release services begin (health risk assessment, ASAM substance use level-of-care assessment). The person's Medi-Cal managed care plan assigns an Enhanced Care Manager (ECM); 30-20 days before release there is a virtual warm hand-off with the pre-release care manager and ECM (behavioral health invited when applicable). At release the person gets a Reentry Care Plan with the ECM contact, confirmed appointments, medications/prescriptions, durable medical equipment, Community Supports referrals, and naloxone education.",
     "source_url": "https://www.cdcr.ca.gov/bph/wp-content/uploads/sites/161/2025/10/pv-3.-Calaims-Justice-Involved-Reentry-Initiative-Implementation.pdf",
     "as_of": "2026-11-05"
+  },
+  {
+    "topic": "medicaid_work_requirements",
+    "rule": "Federal Medicaid work requirements apply to expansion adults ages 19-64 (Medi-Cal's adult group). Most states, including California, must start them by January 1, 2027. People who were incarcerated within the last three months are exempt, so someone just released should apply for Medi-Cal right away; the exemption covers their first three months.",
+    "source_url": "https://www.aapd.com/medicaid-work-requirements-faq/",
+    "as_of": "2026-11-12"
   },
   {
     "topic": "cal_id",

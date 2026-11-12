@@ -129,7 +129,11 @@
     a.notes.push({ id: "N" + (a.notes.length + 1), date: today(), by: from, kind: "handoff", twoWay: false, text: "Handoff from " + who(from) + " to " + who(to) + ": " + note, ts: tick() });
     a.cm = to;
   }
-  function toggleTask(a, t) { setStatus(t, t.status === "done" ? "open" : "done", actor()); if (t.status === "done" && actor() === "alumnus") logPortal(a, "task_done", "Marked done: " + t.title, t.std ? "first30" : "custom", 1, { task: t.id }); }
+  function toggleTask(a, t) { setStatus(t, t.status === "done" ? "open" : "done", actor()); if (t.status === "done" && actor() === "alumnus") logPortal(a, "task_done", "Marked done: " + t.title, t.std ? "first30" : "custom", 1, { task: t.id });
+    /* standard tasks 3 and 4 are the CalFresh and Medi-Cal tasks: keep the benefits tiles in step with the checklist */
+    var si = t.std ? (a.tasks || []).filter(function (x) { return x.std; }).indexOf(t) : -1, prog = si === 2 ? "calfresh" : si === 3 ? "medi_cal" : null;
+    if (prog) { var b = benefitOf(a, prog), B = BENEFITS[prog]; if (t.status === "done") { b.status = B.done; b.date = today(); b.by = actor(); } else if (b.status === B.done) { b.status = "applied"; b.date = today(); b.by = actor(); } }
+  }
 
   /* ---------- briefing ---------- */
   var SOURCE_HOOKS = [];
@@ -391,6 +395,129 @@
       phone: c.phone || null, url: c.url || c.source_url || null, hours: c.hours || null, distanceMi: c.distance_miles != null ? c.distance_miles : null, notes: c.description || null,
       source: { name: c.source ? "AI search · " + c.source : "AI search", url: c.source_url || c.url || null, trust: "directory" } };
   }
+  /* ---------- Benefits: CalFresh (SNAP) and Medi-Cal (Medicaid) ----------
+   * Fixed content, no AI. Rules come from state and federal sources (see data/rules_ca.json); every phone number and
+   * link was checked on 2026-11-12. County numbers are from the CDSS county contact list. */
+  var STATEWIDE = { calfresh: { name: "CalFresh Info Line", phone: "1-877-847-3663" }, medi_cal: { name: "Medi-Cal Helpline", phone: "1-800-541-5555" } };
+  var COUNTY_SS = {
+    "Alameda": { name: "Alameda County Social Services", phone: "1-888-999-4772" },
+    "Contra Costa": { name: "Contra Costa Social Services, Richmond office", phone: "(510) 412-3280" },
+    "Sacramento": { name: "Sacramento County Human Assistance", phone: "(916) 874-3100" },
+    "San Francisco": { name: "San Francisco Human Services Agency", phone: "(415) 558-1001" },
+    "San Joaquin": { name: "San Joaquin County Human Services", phone: "(209) 468-1000" },
+    "Santa Clara": { name: "Santa Clara County Social Services", phone: "1-877-962-3633" }
+  };
+  var CITY_COUNTY = { "Oakland": "Alameda", "Hayward": "Alameda", "San Leandro": "Alameda", "Fremont": "Alameda", "Berkeley": "Alameda", "Richmond": "Contra Costa",
+    "Sacramento": "Sacramento", "San Francisco": "San Francisco", "San Jose": "Santa Clara", "Stockton": "San Joaquin" };
+  /* the person's county social services office (it handles both CalFresh and Medi-Cal), or the statewide line */
+  function benefitOffice(a, prog) {
+    var county = CITY_COUNTY[(a.loc || "").split(",")[0].trim()];
+    return county && COUNTY_SS[county] ? Object.assign({ county: county }, COUNTY_SS[county]) : STATEWIDE[prog];
+  }
+  var BENEFITS = {
+    calfresh: {
+      id: "calfresh", name: "CalFresh", plain: "Food money (SNAP)", tile: "food",
+      get: "Up to $306 a month", getSub: "On an EBT card, for a household of 1.", alGet: "Money for food, every month", alGetSub: "Up to $306 a month on a card you use at stores.",
+      alWho: "Most people leaving prison can get it. A drug conviction does not stop you in California.",
+      rules: [
+        { text: "Income under $2,660 a month before tax (1 person). California uses 200% of the poverty line.", src: "USDA FY2027 limits", url: "https://www.fns.usda.gov/snap/allotment/cola" },
+        { text: "A drug felony does not disqualify anyone in California.", src: "W&I 18901.3", url: "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=WIC&sectionNum=18901.3" },
+        { text: "People on parole or probation must keep following their terms.", src: "W&I 18901.3", url: "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=WIC&sectionNum=18901.3" }
+      ],
+      verdict: "Likely eligible", verdictNote: "Confirm income",
+      bring: ["State ID", "proof of address", "release papers"],
+      apply: { label: "Apply at GetCalFresh", alLabel: "Apply online", url: "https://www.getcalfresh.org/" },
+      statuses: [["not_started", "Not started"], ["applied", "Applied"], ["interview_done", "Interview done"], ["approved", "Approved"], ["denied", "Denied"]],
+      done: "approved"
+    },
+    medi_cal: {
+      id: "medi_cal", name: "Medi-Cal", plain: "Free health care (Medicaid)", tile: "health",
+      get: "Free health care", getSub: "Doctor visits, prescriptions, mental health and substance use care.", alGet: "Free health care", alGetSub: "Doctor visits, medicine, and help with mental health or drugs and alcohol.",
+      alWho: "You may already have it. Prison often signs you up before you leave.",
+      rules: [
+        { text: "Ages 19–64 with income under $1,836 a month (1 person, 138% of the poverty line).", src: "2026 Medi-Cal chart", url: "https://stgenssa.sccgov.org/debs/program_handbooks/charts/assets/5MediCal/FPLMonthIncomeCompare.htm" },
+        { text: "People leaving state prison are signed up before release (CalAIM). Look for a Reentry Care Plan in their release papers.", src: "CDCR CalAIM", url: "https://www.cdcr.ca.gov/bph/wp-content/uploads/sites/161/2025/10/pv-3.-Calaims-Justice-Involved-Reentry-Initiative-Implementation.pdf" },
+        { text: "Work requirements start Jan 1, 2027. Anyone released in the last 3 months is exempt, so apply early.", src: "AAPD FAQ", url: "https://www.aapd.com/medicaid-work-requirements-faq/" }
+      ],
+      verdict: "Likely eligible", verdictNote: "Confirm income",
+      bring: ["State ID", "release papers", "Social Security number"],
+      apply: { label: "Apply at BenefitsCal", alLabel: "Apply online", url: "https://benefitscal.com/" },
+      statuses: [["not_confirmed", "Not confirmed"], ["applied", "Applied"], ["enrolled", "Enrolled"], ["denied", "Denied"]],
+      done: "enrolled"
+    }
+  };
+  var BEN_ORDER = ["calfresh", "medi_cal"];
+  function benefitOf(a, prog) { a.benefits = a.benefits || {}; return a.benefits[prog] || (a.benefits[prog] = { status: BENEFITS[prog].statuses[0][0], date: null }); }
+  /* status tag: [tone, case manager label, alumnus label] */
+  function benefitTag(a, prog) {
+    var s = benefitOf(a, prog).status;
+    return {
+      not_started: ["pend", "Not started", "Not started"],
+      not_confirmed: ["pend", "Not confirmed · may be enrolled", "Check if you have it"],
+      applied: ["pend", "Applied · waiting", "Waiting to hear back"],
+      interview_done: ["pend", "Interview done · result not recorded", "Waiting on a result"],
+      approved: ["ok", "Approved", "Approved"],
+      enrolled: ["ok", "Enrolled", "You have it"],
+      denied: ["warn", "Denied", "Denied"]
+    }[s] || ["pend", s, s];
+  }
+  /* tel: link: US 10-digit numbers get +1; short codes such as 311 or 211 stay as they are */
+  function phoneHref(p) { var d = String(p).split(/ext|x|\(select/i)[0].replace(/[^\d]/g, ""); return "tel:" + (d.length === 10 ? "+1" + d : d.length === 11 && d[0] === "1" ? "+" + d : d); }
+  /* the next steps for a program in its current status, in the shared step shape:
+     { title, bullets, links: [{kind:'call'|'web'|'tile', label, href, prog}] } for "cm" (staff voice) or "me" (the person, as "you") */
+  function benefitSteps(a, prog, view) {
+    var B = BENEFITS[prog], b = benefitOf(a, prog), me = view === "me", first = a.name.split(" ")[0], off = benefitOffice(a, prog), sw = STATEWIDE[prog];
+    var call = function (o, ask) { return { kind: "call", label: "Call " + o.phone, href: phoneHref(o.phone), note: ask || "" }; };
+    var web = function (u, l) { return { kind: "web", label: l, href: u }; };
+    var when = b.date ? fmShort(b.date) : null, out = [];
+    if (prog === "calfresh") {
+      if (b.status === "not_started") out.push({ title: me ? "Apply for CalFresh (food money)" : "Apply for CalFresh with " + first, bullets: me ? ["Takes about 10 minutes.", "Ask for the fast (expedited) option."] : ["About 10 minutes online.", "Ask for expedited (fast) benefits."], links: [web(B.apply.url, me ? B.apply.alLabel : B.apply.label), call(off)] });
+      if (b.status === "applied") out.push({ title: me ? "Check on your CalFresh application" : "Check on " + first + "'s CalFresh application", bullets: me ? ["Ask: “When is my CalFresh interview?”"] : ["Ask the county when the interview is."], links: [call(off)] });
+      if (b.status === "interview_done") out.push({ title: me ? "Find out if your CalFresh was approved" : "Get " + first + "'s CalFresh interview result", bullets: me ? ["Ask: “Was my CalFresh approved?”"] : [(when ? "Interview was " + when + ". " : "") + "No result on file."], links: [call(off)] });
+      if (b.status === "denied") out.push({ title: me ? "Ask why your CalFresh was denied" : "Ask why " + first + "'s CalFresh was denied", bullets: me ? ["You can apply again or ask for a hearing."] : ["Get the reason in writing.", first + " can apply again or ask for a hearing."], links: [call(off), web(B.apply.url, me ? "Apply again" : "Apply again at GetCalFresh")] });
+    } else {
+      if (b.status === "not_confirmed") out.push({ title: me ? "Check if you already have Medi-Cal" : "Check if " + first + " already has Medi-Cal", bullets: me ? ["Look in your release papers for a Medi-Cal card.", "Or call and ask: “Am I enrolled in Medi-Cal?”"] : ["Prison usually signs people up before release (CalAIM).", "Ask who " + first + "'s care manager is."], links: [call(sw)] });
+      if (b.status === "applied") out.push({ title: me ? "Check on your Medi-Cal application" : "Check on " + first + "'s Medi-Cal application", bullets: me ? ["Ask: “Is my Medi-Cal approved?”"] : ["Ask the county if it's approved."], links: [call(off)] });
+      if (b.status === "denied") out.push({ title: me ? "Ask why your Medi-Cal was denied" : "Ask why " + first + "'s Medi-Cal was denied", bullets: me ? ["You can apply again or ask for a hearing."] : ["Get the reason in writing.", first + " can apply again or ask for a hearing."], links: [call(off), web(B.apply.url, me ? "Apply again" : "Apply again at BenefitsCal")] });
+      if (b.status === "not_confirmed") out.push({ title: me ? "Don't have it? Apply online" : "Not enrolled? Apply", bullets: [], links: [web(B.apply.url, me ? B.apply.alLabel : B.apply.label), call(off)], followUp: true });
+    }
+    return out;
+  }
+  /* "Act today" steps that come from the tiles (not AI): the first open step of each program, linking to its tile */
+  function benefitTodaySteps(a, view) {
+    var out = [];
+    BEN_ORDER.forEach(function (p) {
+      var s = benefitSteps(a, p, view).filter(function (x) { return !x.followUp; })[0];
+      if (s) out.push(Object.assign({ kind: "benefit", prog: p, what_to_bring: [] }, s, { links: s.links.slice(0, 1).concat([{ kind: "tile", label: "See " + BENEFITS[p].name, prog: p }]) }));
+    });
+    return out;
+  }
+  /* the case manager (or the person) updates a status; standard tasks 3 and 4 follow so the checklist agrees */
+  function setBenefit(a, prog, status) {
+    var B = BENEFITS[prog]; if (!B || !B.statuses.some(function (s) { return s[0] === status; })) return false;
+    var b = benefitOf(a, prog); b.status = status; b.date = today(); b.by = actor();
+    var t = (a.tasks || []).filter(function (x) { return x.std; })[prog === "calfresh" ? 2 : 3];
+    if (t) setStatus(t, status === B.done ? "done" : status === "applied" || status === "interview_done" ? "in_progress" : "open", actor());
+    S.ver++;
+    return true;
+  }
+  /* any act-today step (fixed benefit step, new AI step, old AI step, shared step) in one shape for display */
+  function normStep(x, view) {
+    var me = view === "me";
+    if (x.kind === "benefit") return { title: x.title, bullets: x.bullets || [], links: x.links || [], bring: x.what_to_bring || [], prog: x.prog, benefit: true };
+    if (x.text != null) return { title: x.text, bullets: x.bullets || [], links: x.links || [], bring: x.bring || [], done: !!x.done, prog: x.prog || null, benefit: !!x.prog };
+    if (x.title) {
+      var links = [];
+      if (x.how === "call" && x.phone) links.push({ kind: "call", label: "Call " + x.phone, href: phoneHref(x.phone) });
+      if (x.url) links.push({ kind: "web", label: x.how === "apply_online" ? "Apply online" : "Open website", href: x.url });
+      if (x.how !== "call" && x.phone) links.push({ kind: "call", label: "Call " + x.phone, href: phoneHref(x.phone) });
+      if (x.how === "visit" && x.address) links.push({ kind: "map", label: "Map", href: "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(x.address) });
+      return { title: me ? x.for_alumnus_title || x.title : x.title, bullets: (me ? x.for_alumnus_bullets : x.bullets) || [], links: links.slice(0, 2), bring: x.what_to_bring || [], missing: !!x.missing_contact || !links.length };
+    }
+    /* plans saved before the new format: one paragraph, no links */
+    return { title: me ? x.for_alumnus || toYou(x.step) : x.step, bullets: [], links: [], bring: x.what_to_bring || [], legacy: true };
+  }
+
   window.RXC = {
     S: S, R: R, iso: iso, esc: esc, fm: fm, fmShort: fmShort, fmDay: fmDay, ft: ft, initials: initials, days: days, today: today, ago: ago, hd: hd,
     byId: byId, cmById: cmById, mine: mine, myAlumnus: myAlumnus, actor: actor, stageOf: stageOf, who: who,
@@ -401,6 +528,7 @@
     sources: sources, briefPrompt: briefPrompt, validateBrief: validateBrief, digest: digest,
     diffPrompt: diffPrompt, validateDiff: validateDiff, applyChange: applyChange, sample: sample, whyFailed: whyFailed,
     priorities: priorities, toYou: toYou, toAgentProfile: toAgentProfile, agentItem: agentItem, agentNeed: agentNeed, agentGroups: agentGroups, agentMatch: agentMatch, AG_NEED: AG_NEED,
+    BENEFITS: BENEFITS, BEN_ORDER: BEN_ORDER, benefitOf: benefitOf, benefitTag: benefitTag, benefitOffice: benefitOffice, benefitSteps: benefitSteps, benefitTodaySteps: benefitTodaySteps, setBenefit: setBenefit, normStep: normStep, phoneHref: phoneHref,
     NEEDS: NEEDS, CATS: CATS, catOf: catOf, summaryOf: summaryOf, TRUST_L: TRUST_L, zipOf: zipOf, rank: rank, searchRes: searchRes, resState: resState, loadResources: loadResources, Res: Res
   };
 })();

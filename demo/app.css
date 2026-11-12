@@ -670,3 +670,57 @@ table.caseload { width: 100%; border-collapse: collapse; font-size: var(--fs-sm)
 .forbar .linkbtn { margin-left: auto; font-weight: 500; }
 .tabnote { margin: 18px 0 12px; color: var(--secondary); font-size: var(--fs-sm); }
 .tabp > .facts:first-child, .tabp > .group:first-child { margin-top: 16px; }
+
+/* ---------- Benefits tiles (CalFresh, Medi-Cal): 2 across, 1 across on phones ---------- */
+.btiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btile { display: flex; align-items: flex-start; gap: 10px; padding: 12px 12px 12px 14px; border: 0; width: 100%; text-align: left; font: inherit; color: inherit; background: var(--surface); border-radius: var(--r-group); box-shadow: inset 0 0 0 1px var(--separator); cursor: pointer; transition: background-color .15s; }
+.btile:hover { background: var(--surface2); }
+.btile .ctile { width: 32px; height: 32px; }
+.btile .ctile svg { width: 18px; height: 18px; }
+.btile .body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
+.btile .ttl { font-weight: 600; font-size: var(--fs-md); }
+.btile .sec { color: var(--secondary); font-size: var(--fs-sm); margin: 1px 0 6px; }
+.btile .chev { width: 16px; height: 16px; color: var(--tertiary); flex: none; margin-top: 8px; }
+.tag.pend { color: var(--check); background: var(--check-bg); white-space: normal; }
+@media (max-width: 480px) { .btiles { grid-template-columns: 1fr; } }
+
+/* ---------- one step: bold title, short bullets, action links, Bring (Act today, Your steps, benefit sheets) ---------- */
+.step { display: flex; gap: 12px; padding: 12px 14px; position: relative; align-items: flex-start; }
+.step + .step::before { content: ""; position: absolute; top: 0; left: 14px; right: 14px; height: 1px; background: var(--separator); }
+.step .num { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--fill2); font-size: var(--fs-xs); font-weight: 600; margin-top: 1px; }
+.step .check { margin-top: 2px; }
+.step .tx { flex: 1; min-width: 0; }
+.step .st { font-weight: 600; font-size: var(--fs-md); line-height: 1.35; overflow-wrap: anywhere; }
+.step .st.legacy { font-weight: 400; font-size: var(--fs-base); }
+.step ul { margin: 6px 0 0; padding-left: 18px; }
+.step li + li { margin-top: 2px; }
+.step .bring { color: var(--secondary); font-size: var(--fs-sm); margin-top: 6px; }
+.step .warnline { color: var(--warn); font-size: var(--fs-sm); margin-top: 6px; }
+.step.done .st { color: var(--secondary); text-decoration: line-through; text-decoration-color: var(--tertiary); }
+.step.done ul, .step.done .acts, .step.done .bring { display: none; }
+.acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.act { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: var(--r-ctl); background: var(--accent-tint); color: var(--accent); font-weight: 600; font-size: var(--fs-sm); text-decoration: none; border: 0; cursor: pointer; font-family: inherit; background-image: none; }
+.act:hover { filter: brightness(.96); }
+.act svg { width: 15px; height: 15px; }
+.act .ext { width: 12px; height: 12px; }
+.bsh .elig .ext { width: 10px; height: 10px; margin-left: 2px; vertical-align: 0; }
+.act.sec2 { background: var(--fill); color: var(--label); font-weight: 500; }
+@media (pointer: coarse) { .act { min-height: 44px; font-size: var(--fs-base); padding: 0 16px; } }
+.catbody.steps .step { padding-left: 14px; }
+.pc-steps .step { padding: 10px 16px; }
+
+/* ---------- benefit sheet ---------- */
+.bsh h3 { font-size: var(--fs-sm); font-weight: 600; color: var(--secondary); margin: 18px 0 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.bsh h3:first-child { margin-top: 4px; }
+.bsh .big { font-size: var(--fs-lg); font-weight: 600; letter-spacing: -0.01em; }
+.bsh p { margin: 6px 0 0; }
+.bsh .bnote { color: var(--secondary); font-size: var(--fs-sm); margin: 4px 0 0; }
+.bsh .elig { margin: 0; padding-left: 18px; }
+.bsh .elig li + li { margin-top: 4px; }
+.bsh .elig a { font-size: var(--fs-xs); color: var(--secondary); }
+.bsh .statusrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: var(--fs-sm); }
+.bsh select { font: inherit; font-size: var(--fs-sm); padding: 4px 8px; border-radius: var(--r-ctl); border: 1px solid var(--line-strong); background: var(--surface); color: var(--label); margin-left: 4px; }
+.bsh .group { box-shadow: inset 0 0 0 1px var(--separator); }
+.bsh > .bring { color: var(--secondary); font-size: var(--fs-sm); margin-top: 10px; }
+.bsh .src { font-size: var(--fs-xs); color: var(--secondary); margin-top: 14px; }
+.stepedit .se-links { font-size: var(--fs-sm); margin: 0; }

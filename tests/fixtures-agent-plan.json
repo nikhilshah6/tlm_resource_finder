@@ -73,7 +73,7 @@
               "source": "web",
               "verdict": "likely",
               "reason": "California waives the ID card fee for people who certify they are experiencing homelessness.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "city": "Oakland",
               "county": "Alameda",
               "address": "5300 Claremont Ave, Oakland",
@@ -94,12 +94,12 @@
           },
           {
             "candidate": {
-              "name": "East Bay Community Law Center \u2014 Clean Slate",
+              "name": "East Bay Community Law Center — Clean Slate",
               "category": "legal_id",
               "source": "web",
               "verdict": "worth_applying",
               "reason": "Serves Alameda County residents with records; eligibility for specific relief depends on case details.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "confirm_question": "Are any of his convictions eligible for record relief while on parole?",
               "city": "Berkeley",
               "county": "Alameda",
@@ -120,7 +120,7 @@
               "source": "fdic",
               "verdict": "likely",
               "reason": "Bank On accounts have no overdraft fees and accept ChexSystems history in most cases.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "city": "Oakland",
               "county": "Alameda",
               "url": "https://joinbankon.org/",
@@ -149,7 +149,7 @@
               "source": "211",
               "verdict": "likely",
               "reason": "Any unhoused Alameda County resident can be assessed; assessment is the gateway to county housing programs.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "city": "Oakland",
               "county": "Alameda",
               "phone": "211",
@@ -170,7 +170,7 @@
               "source": "web",
               "verdict": "likely",
               "reason": "STOP serves people on state parole within their first year; placement is requested through the parole agent.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "city": "Oakland",
               "county": "Alameda",
               "url": "https://www.cdcr.ca.gov/rehabilitative-programs/",
@@ -191,7 +191,7 @@
               "source": "hud",
               "verdict": "worth_applying",
               "reason": "Counselors help with rental applications and screening; some focus on renters with records.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "confirm_question": "Does the agency offer rental counseling for people with records, or only homeownership?",
               "city": "Oakland",
               "county": "Alameda",
@@ -221,7 +221,7 @@
               "source": "web",
               "verdict": "likely",
               "reason": "No income and a household of one; California no longer bars people with drug felony convictions.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "city": "Oakland",
               "county": "Alameda",
               "phone": "1-877-847-3663",
@@ -243,7 +243,7 @@
               "source": "web",
               "verdict": "worth_applying",
               "reason": "Cash aid for adults without dependents; requires county residency and has work-search rules.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "confirm_question": "Can he meet the GA appointment schedule around parole check-ins and curfew?",
               "city": "Oakland",
               "county": "Alameda",
@@ -260,12 +260,12 @@
           },
           {
             "candidate": {
-              "name": "Alameda County Community Food Bank \u2014 emergency food helpline",
+              "name": "Alameda County Community Food Bank — emergency food helpline",
               "category": "food_benefits",
               "source": "snapshot",
               "verdict": "likely",
               "reason": "Open to anyone in Alameda County needing food; no documents required.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "city": "Oakland",
               "county": "Alameda",
               "phone": "(510) 555-0160",
@@ -293,7 +293,7 @@
               "source": "web",
               "verdict": "likely",
               "reason": "Income under the Medi-Cal limit for a single adult.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "city": "Oakland",
               "county": "Alameda",
               "url": "https://www.benefitscal.com/",
@@ -309,12 +309,12 @@
           },
           {
             "candidate": {
-              "name": "La Clinica de La Raza \u2014 community health center",
+              "name": "La Clinica de La Raza — community health center",
               "category": "health",
               "source": "hrsa",
               "verdict": "likely",
               "reason": "Federally qualified health center; serves uninsured patients on a sliding fee scale.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "city": "Oakland",
               "county": "Alameda",
               "phone": "(510) 555-0174",
@@ -335,7 +335,7 @@
               "source": "findtreatment",
               "verdict": "worth_applying",
               "reason": "Accepts Medi-Cal and offers evening groups; some programs require a parole referral.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "confirm_question": "Does his parole agent want a formal referral, or can he self-enroll?",
               "city": "Oakland",
               "county": "Alameda",
@@ -365,7 +365,7 @@
               "source": "tlm",
               "verdict": "likely",
               "reason": "Marcus is a TLM alumnus; the network connects alumni to employer partners and mentors.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "tlm_network": true,
               "url": "https://thelastmile.org/",
               "city": "Oakland",
@@ -379,12 +379,12 @@
           },
           {
             "candidate": {
-              "name": "Center for Employment Opportunities (CEO) \u2014 Oakland",
+              "name": "Center for Employment Opportunities (CEO) — Oakland",
               "category": "jobs",
               "source": "web",
               "verdict": "likely",
               "reason": "Serves people within a year of release from prison; offers paid transitional work from day one.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "city": "Oakland",
               "county": "Alameda",
               "phone": "(510) 555-0128",
@@ -400,12 +400,12 @@
           },
           {
             "candidate": {
-              "name": "America's Job Center of California \u2014 Oakland",
+              "name": "America's Job Center of California — Oakland",
               "category": "jobs",
               "source": "careeronestop",
               "verdict": "likely",
               "reason": "Open to all job seekers; reentry services through WIOA.",
-              "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+              "description": "Sample entry for demo replay — confirm details before referring.",
               "city": "Oakland",
               "county": "Alameda",
               "phone": "(510) 555-0151",
@@ -424,29 +424,66 @@
     ],
     "act_today": [
       {
-        "step": "Sign a homeless certification (DL 933) and go to the Oakland DMV for a no-fee state ID.",
-        "resource_name": "California DMV no-fee ID card (homeless certification)",
+        "title": "Get Marcus a free ID at the DMV",
+        "how": "visit",
+        "bullets": [
+          "Sign the homeless form (DL 933) first."
+        ],
+        "for_alumnus_title": "Get a free state ID at the DMV",
+        "for_alumnus_bullets": [
+          "Sign the homeless form (DL 933) first."
+        ],
         "what_to_bring": [
           "Birth certificate",
           "CDCR ID card",
           "Signed DL 933"
-        ]
+        ],
+        "resource_name": "California DMV no-fee ID card (homeless certification)",
+        "phone": null,
+        "url": "https://www.dmv.ca.gov/",
+        "address": "5300 Claremont Ave, Oakland",
+        "missing_contact": false
       },
       {
-        "step": "Call 211 together and complete the Coordinated Entry housing assessment.",
-        "resource_name": "Alameda County Coordinated Entry (via 211)",
+        "title": "Call 211 for a housing assessment",
+        "how": "call",
+        "bullets": [
+          "Do the Coordinated Entry assessment together.",
+          "Have his parole agent's name ready."
+        ],
+        "for_alumnus_title": "Call 211 for a housing assessment",
+        "for_alumnus_bullets": [
+          "Ask for the Coordinated Entry assessment."
+        ],
         "what_to_bring": [
           "CDCR ID card",
           "Parole agent's name and phone"
-        ]
+        ],
+        "resource_name": "Alameda County Coordinated Entry (via 211)",
+        "phone": "211",
+        "url": "https://www.211alameda.org/",
+        "address": null,
+        "missing_contact": false
       },
       {
-        "step": "Submit CalFresh and Medi-Cal in one application and request expedited CalFresh.",
-        "resource_name": "CalFresh (Alameda County Social Services)",
+        "title": "Call CEO about paid transitional jobs",
+        "how": "call",
+        "bullets": [
+          "Ask about the next orientation date."
+        ],
+        "for_alumnus_title": "Call CEO about a paid job right away",
+        "for_alumnus_bullets": [
+          "Ask when the next orientation is."
+        ],
         "what_to_bring": [
           "CDCR ID card",
           "Release paperwork"
-        ]
+        ],
+        "resource_name": "Center for Employment Opportunities (CEO) — Oakland",
+        "phone": "(510) 555-0128",
+        "url": "https://www.ceoworks.org/",
+        "address": null,
+        "missing_contact": false
       }
     ],
     "excluded": [
@@ -456,7 +493,7 @@
         "source": "211",
         "verdict": "not_eligible",
         "reason": "Located in San Francisco County; his parole restricts him to Alameda County.",
-        "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+        "description": "Sample entry for demo replay — confirm details before referring.",
         "city": "San Francisco",
         "county": "San Francisco",
         "rule_cited": "Parole condition: Alameda County only"
@@ -467,7 +504,7 @@
         "source": "snapshot",
         "verdict": "not_eligible",
         "reason": "Intake opens at 10pm, after his 9pm curfew.",
-        "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+        "description": "Sample entry for demo replay — confirm details before referring.",
         "city": "Oakland",
         "county": "Alameda"
       },
@@ -477,7 +514,7 @@
         "source": "hud",
         "verdict": "not_eligible",
         "reason": "Age requirement of 62 or older is not met.",
-        "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+        "description": "Sample entry for demo replay — confirm details before referring.",
         "city": "Oakland",
         "county": "Alameda"
       },
@@ -487,7 +524,7 @@
         "source": "web",
         "verdict": "not_eligible",
         "reason": "House rules exclude residents on GPS monitoring.",
-        "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+        "description": "Sample entry for demo replay — confirm details before referring.",
         "city": "Hayward",
         "county": "Alameda"
       },
@@ -497,7 +534,7 @@
         "source": "web",
         "verdict": "not_eligible",
         "reason": "Requires veteran status; profile does not indicate military service.",
-        "description": "Sample entry for demo replay \u2014 confirm details before referring.",
+        "description": "Sample entry for demo replay — confirm details before referring.",
         "city": "Oakland",
         "county": "Alameda"
       }
