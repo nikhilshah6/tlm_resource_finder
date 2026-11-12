@@ -815,7 +815,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     } else if (g.status === "done") {
       var cats = aiCats(a, g.plan, "cm", q), sh = a.aiShared, cur2 = sh && sh.runId === g.runId;
       if (q && !cats) return h + "</div>";
-      h += gh("AI plan");
+      h += gh("AI plan", q ? "" : '<button type="button" class="linkbtn" onclick="RXV.agentAsk(\'' + a.id + '\')">Search again</button>');
       if (!q) {
         /* one quiet line about where it came from, then one line about sharing (no tinted banner, no boxed row) */
         h += '<p class="bstatus ok">Built by Claude agents from ' + esc(first) + "'s sample record and public sources" + (g.saved ? " (saved run from " + esc(g.saved) + ")" : "") + ". Not saved to the record." + (g.errors.length ? ' <span class="warntext">' + g.errors.length + " step" + (g.errors.length === 1 ? "" : "s") + " had trouble: " + esc(g.errors.join("; ")) + "</span>" : "") + "</p>";
@@ -878,7 +878,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       var G = C.agentGroups(g.plan), sh = a.aiShared, cur2 = sh && sh.runId === g.runId;
       h += '<p class="sec">' + (g.saved ? "Saved run from " + esc(g.saved) + ". " : "") + G.count + " programs from public sources and the web. Draft: check before use.</p>" +
         onlyIf(G.lastSearch && G.lastSearch.finders.length < C.FINDERS.length, '<p class="sec">Last search: ' + esc(G.lastSearch ? words(G.lastSearch.finders.map(function (f) { return FINDER_WORD[f]; })) : "") + " · " + esc(G.lastSearch ? C.fmShort(G.lastSearch.at) : "") + "</p>") + "</div>" +
-        '<div class="pc-a">' + (cur2 ? '<span class="tag ok">Shared with ' + esc(first) + "</span>" : '<button type="button" class="btn" onclick="RXV.agentShare(\'' + a.id + '\')">Share with ' + esc(first) + "</button>") + toTab + "Open full plan</button></div></div>";
+        '<div class="pc-a">' + (cur2 ? '<span class="tag ok">Shared with ' + esc(first) + "</span>" : '<button type="button" class="btn" onclick="RXV.agentShare(\'' + a.id + '\')">Share with ' + esc(first) + "</button>") + '<button type="button" class="btn" onclick="RXV.agentAsk(\'' + a.id + '\')">Search again</button>' + toTab + "Open full plan</button></div></div>";
       var TS = todaySteps(a, g.plan, "cm");
       if (TS.length) h += '<div class="pc-sub">Act today</div><div class="pc-steps">' + TS.map(function (n, i) { return stepHtml(a, n, i, "cm"); }).join("") + "</div>";
       if (G.cats.length) h += '<div class="pc-sub">Top pick per need</div><div class="pc-picks">' + G.cats.map(function (c) {
@@ -907,12 +907,35 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
         var g = agState(a.id);
         if (!p || !p.plan || !p.plan.sections) { if (force) say("No saved run for " + a.name.split(" ")[0]); return; }
         if (!force && g.status !== "idle") return;
-        V.agent[a.id] = { status: "done", plan: p.plan, saved: p.savedAt || "an earlier run", runId: "saved-" + a.id, errors: [], stages: {}, notes: {}, programs: (p.plan.stats || {}).programs_checked || 0, sources: (p.plan.stats || {}).sources_searched || 0 };
+        var plan = p.savedOn ? Object.assign({}, p.plan, { sections: p.plan.sections.map(function (s) { return Object.assign({ searched_at: p.savedOn }, s); }) }) : p.plan;
+        V.agent[a.id] = { status: "done", plan: plan, saved: p.savedAt || "an earlier run", runId: "saved-" + a.id, errors: [], stages: {}, notes: {}, programs: (p.plan.stats || {}).programs_checked || 0, sources: (p.plan.stats || {}).sources_searched || 0 };
         drawAgent(a.id); if (force) say("Showing the saved run from " + (p.savedAt || "earlier"));
       }).catch(function () { if (force) say("No saved run for " + a.name.split(" ")[0]); });
     } catch (e) {}
   }
   V.useSaved = function (aid) { loadDemoPlan(C.byId(aid), true); };
+  /* Demo without an API key (?saved): "Run search" replays the saved run for only the ticked categories and merges it
+     like a real partial search, so the flow can be shown. No AI is called, and the plan says it is a replay. */
+  function replaySaved(a, finders, prev) {
+    var aid = a.id, first = a.name.split(" ")[0];
+    var g = V.agent[aid] = { status: "running", t0: Date.now(), stages: {}, notes: {}, programs: 0, sources: 0, errors: [], ctl: new AbortController(), finders: finders, replay: true };
+    drawAgent(aid);
+    fetch("/data/agent/demo-plans/" + aid + ".json").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }).then(function (p) {
+      if (V.agent[aid] !== g) return;
+      if (!p || !p.plan || !p.plan.sections) { V.agent[aid] = prev ? { status: "done", plan: prev, saved: "an earlier run", runId: "saved-" + aid, errors: [], stages: {}, notes: {} } : { status: "idle" }; drawAgent(aid); say("No saved run to replay for " + first + " (demo mode has no live search)"); return; }
+      var keep = function (cat) { return finders.indexOf(cat) >= 0; };
+      var sections = p.plan.sections.filter(function (s) { return keep((s.need || {}).category); });
+      var names = {}; sections.forEach(function (s) { (s.recommendations || []).forEach(function (r) { names[(r.candidate || {}).name] = 1; }); });
+      var next = { profile: p.plan.profile, sections: sections, act_today: (p.plan.act_today || []).filter(function (x) { return names[x.resource_name]; }),
+        excluded: (p.plan.excluded || []).filter(function (c) { return keep(c.category); }) };
+      setTimeout(function () {
+        if (V.agent[aid] !== g) return;
+        g.status = "done"; g.runId = g.t0; g.saved = (p.savedAt || "an earlier run") + ", replayed for the ticked categories; no live search";
+        g.plan = C.mergePlan(prev, next, finders, C.today()); g.plan.stats = { programs_checked: 0, sources_searched: 0, seconds: 0 };
+        drawAgent(aid); say("Demo: replayed the saved run for " + words(finders.map(function (f) { return FINDER_WORD[f]; })));
+      }, 700);
+    });
+  }
   /* keep an AI result's details on the record's resource actions, so pin / save / used work like any other resource */
   function ensureAgentItem(a, rid) {
     var acts = a.resourceActions = a.resourceActions || {}, x = acts[rid] = acts[rid] || {};
@@ -975,6 +998,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
         }).join("") + "</div>" +
         '<p class="gf" id="fcCount" aria-live="polite"></p>' +
         '<p class="sdesc">ID, legal and banking share one search. ' + (had ? "Categories you leave unticked keep their earlier results, marked with the date they were searched." : "") + "</p>" +
+        (SAVED_MODE ? '<p class="note">Demo mode: no live search. Run search replays the saved run for the categories you tick, so you can see how a partial search updates the plan.</p>' : "") +
         '<p class="sdesc">The plan is a draft. Nothing is saved to the record unless you recommend a result, and only sample data is sent to Claude.</p>' });
     V.focusChange();
   };
@@ -1011,6 +1035,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     var prevG = V.agent[aid], prev = prevG && prevG.status === "done" ? prevG.plan : null;
     C.setFocus(a, cats);
     var focus = finders.length < C.FINDERS.length ? { finders: finders, categories: cats } : null;
+    if (SAVED_MODE) { replaySaved(a, finders, prev); return; }
     var st = C.resState(a), g = V.agent[aid] = { status: "running", t0: Date.now(), stages: {}, notes: {}, programs: 0, sources: 0, errors: [], ctl: new AbortController(), finders: finders };
     g.tick = setInterval(function () { if (g.status === "running" && V.agent[aid] === g) drawAgent(aid); else clearInterval(g.tick); }, 1000);
     function mark(s, v, note) { g.stages[s] = v; if (note) g.notes[s] = note; drawAgent(aid); }
