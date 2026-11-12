@@ -1,4 +1,4 @@
-# Data sources, benefits APIs and Exa: research for the reentry resource finder
+# Data sources and benefits APIs: research for the reentry resource finder
 
 Prepared Nov 12, 2026, on branch `benefits-tiles`. Read-only research: no sign-ups, no keys, no paid calls. Live checks were keyless GET requests using generic places (Missoula ZIP 59801, Indianapolis) and no personal data. Anything I couldn't confirm is marked **unverified**.
 
@@ -8,7 +8,6 @@ Prepared Nov 12, 2026, on branch `benefits-tiles`. Read-only research: no sign-u
 - **For Medicaid and SNAP (the top priority), no single free API replaces `rules_ca.json`.** The reliable rule data are federal tables: the USDA FNS income limits, the BBCE state chart and the SNAP state directory; for Medicaid, KFF's expansion tracker and CMS data. All of them are HTML or PDF pages that change once a year. They should be parsed into generated `rules_<state>.json` files. **PolicyEngine** is the only engine that computes SNAP for a household in any state, and it needs only ages, income and state, no names. Its hosted API needs credentials requested by email, and the self-hosted version needs about 4 GB of RAM, so it can't run inside a Worker.
 - **Fix now:** `rules_ca.json` still has FY2026 CalFresh figures (max allotment $298 for 1 person). FY2027 took effect Oct 1, 2026, and the max allotment for 1 person is now $306 ([FNS COLA](https://www.fns.usda.gov/snap/allotment/cola)). Separately, federal Medicaid work requirements start Jan 1, 2027, with an exemption for people recently released from incarceration. That rule is the most relevant to our users and isn't stored anywhere yet.
 - **Resource directories:** 211's National Data Platform is the broadest (about 2M resources, 240+ 211s), but beyond the trial it needs partner approval and has a 5% fee on revenue-generating use. Indiana 211 is run by the state (FSSA). findhelp and Unite Us have no public developer API that I could find.
-- **Exa: no, not now.** Details are in the Exa section. It wouldn't fix a gap our evals show (recall is 99%). It adds a Claude round trip per search when runs are already over the 90 s target, and it costs more per search than Claude's built-in search. Zero data retention needs an Enterprise plan. A one-day A/B test on rural and out-of-state profiles is designed below in case the team wants evidence.
 
 ## Ranked table
 
@@ -28,7 +27,6 @@ Ranked by value for the stated priorities: Medicaid and SNAP first, then states 
 | 10 | State reentry guides: [Notre Dame Indiana Reentry Guide (2025)](https://socialconcerns.nd.edu/wp-content/uploads/2025/03/Indiana-Reentry-Guide_online-version.pdf), [IDOC re-entry programs](https://www.in.gov/idoc/divisions/re-entry/programs), [Montana DOC prerelease centers](https://cor.mt.gov/Facilities/PrereleaseCenters), [MT Reentry Report 2026](https://lmi.mt.gov/_docs/Publications/LMI-Pubs/Special-Reports-and-Studies/Reentry-Report-2026.pdf) | Snapshot seed records for IN and MT, the CDCR DAPO guide's equivalent | None | Free | IN, MT | M | New |
 | 11 | [USAspending award search](https://api.usaspending.gov/) | Second Chance Act grantees in a state | None | Free | All (change the state filter) | S | In use (CA) |
 | 12 | [Unite Us](https://uniteus.com/networks/montana/) / findhelp | Closed-loop referral networks; Unite Montana and Unite Indiana exist | Partner (no public API found) | Free for CBOs per Unite Us; findhelp pricing not published ([G2](https://www.g2.com/products/findhelp/pricing)) | MT, IN networks | L | New |
-| 13 | [Exa](https://exa.ai/pricing) | Web search API with domain and date filters | Paid key | $7 per 1k searches plus $1 per 1k pages per content type | All | M | New (not recommended) |
 
 ## Task 1: sources the repo already uses
 
@@ -184,143 +182,6 @@ It lists 7 sources: FindTreatment, HUD counselors, FDIC, USAspending (live, no k
   - The [National Reentry Resource Center](https://nationalreentryresourcecenter.org/) has no state services directory or API on its home page. Its useful assets are NICCC, the Clean Slate Clearinghouse and the Second Chance Act grantee map ([link](https://nationalreentryresourcecenter.org/second-chance-act)).
   - USAspending finds the same grantees by state.
 
-## Task 3: Exa feasibility
-
-### What Exa offers
-
-**Search: `POST https://api.exa.ai/search`** ([docs](https://docs.exa.ai/reference/search))
-- **Auth:** `x-api-key` or `Authorization: Bearer`.
-- **Types:** `auto`, `lite` and `deep` (legacy `instant`/`fast`). Up to 100 results per call.
-- **Domain filters:** `includeDomains` and `excludeDomains`, each up to 1,200 entries, with path prefixes and `*.` wildcards.
-- **Date filters:** `startPublishedDate` and `endPublishedDate`. The crawl-date filters are deprecated.
-- **Categories:** `company`, `publication`, `news`, `personal site`, `financial report`, `people`. None of them fits social services.
-- **Location:** `userLocation`, a country or lat/lon.
-- **Inline contents:** `text`, `highlights` and `summary` (with a JSON schema).
-- **Freshness:** `maxAgeHours` (0 means fetched live within the last 60 seconds).
-
-**Contents: `POST https://api.exa.ai/contents`** ([docs](https://docs.exa.ai/reference/get-contents))
-- Takes up to 100 URLs.
-- Returns text (with `maxCharacters`), highlights or summary.
-- Supports `maxAgeHours` and subpage crawling.
-
-**Rate limits** ([docs](https://docs.exa.ai/reference/rate-limits)): 10 QPS for `/search` (5 for deep) and 100 QPS for `/contents`, per team, with a 429 and `Retry-After` when exceeded.
-
-**Pricing** ([pricing](https://exa.ai/pricing)):
-- `auto`/`fast`: $7 per 1k requests. `lite`/`instant`: $4 per 1k. Up to 10 results are included.
-- Contents: $1 per 1k pages per content type.
-- Free tier: $10 a month, reset monthly, no card needed. No nonprofit program is listed.
-
-**Privacy:** zero data retention is an Enterprise option ([security](https://docs.exa.ai/reference/security-soc-2), [ZDR blog](https://exa.ai/blog/zdr-search-engine)). Exa is SOC 2 Type II. Default retention and whether queries are used for training aren't stated on the docs page (**unverified**). Our queries contain only places and program words, so the risk is low, but it is still one more processor.
-
-**Workers:** it's a plain JSON POST, so `fetch` works with no SDK. Cloudflare also launched a **Web Search API (beta, Oct 2, 2026)** with Exa as a provider: `env.AI.websearch({ gatewayId, query, provider, limit })`, billed at the provider's list price. The changelog says all providers support ZDR through Cloudflare ([changelog](https://developers.cloudflare.com/changelog/post/2026-10-02-introducing-web-search-api/)), but a third-party write-up says the providers table lists Exa as "No" ([braindetox](https://braindetox.kr/en/posts/cloudflare_web_search_api_ai_agents_beta_2026.html)): **unverified**. The binding doesn't document domain or date filters, so call Exa directly if we need them.
-
-### What we do today
-
-- Each finder gets Claude's server-side `web_search_20260209` with `max_uses: 6`, plus `web_fetch` with 3 uses. The judge gets 2 searches and 1 fetch.
-- `user_location` is pinned to California (`agent.ts:26-33`, `stages.ts:181,222`).
-- Measured in `evals/matrix-report.md` for opus-sonnet:
-  - **22.7 web searches and 2.7 fetches per plan** over 18 API calls.
-  - **$0.227 per plan on search fees**, out of $1.83 per plan uncached.
-  - Finders account for $1.41 and **519K input tokens**.
-
-Claude's search costs **$10 per 1k searches** plus result tokens. It supports `allowed_domains`/`blocked_domains`, `user_location` and `max_uses`, and with `20260209` it adds dynamic filtering in code execution so less text reaches the context. It has no date filter ([docs](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool)). Searches run inside one Messages call, with no extra round trip per search.
-
-### Cost at our volume
-
-| | Per search | Per 1,000 searches | Per plan (23 searches) | 1,000 plans/month (1,000 returners, monthly runs) |
-|---|---|---|---|---|
-| Claude web_search | $0.010 + tokens | $10 | $0.23 | $230 |
-| Exa `auto`, 10 results + highlights | $0.007 + 10 × $0.001 = $0.017 | $17 | $0.39 | $390 |
-| Exa `lite`, 5 results + highlights | $0.004 + $0.005 = $0.009 | $9 | $0.21 | $210 |
-
-The token side is what decides it, and it can go either way:
-- **For Exa:** a highlights cap (for example 1,500 characters per result) could shrink the 519K finder input.
-- **Against Exa:** as a *client* tool, each Exa search ends the Claude turn, and the whole conversation is re-sent on the next call. Five finders × 4–6 searches adds about 20–30 extra Sonnet calls per plan, which doubles the 25–50 call budget. Without prompt caching (the matrix shows 0 cache reads), that likely costs more than it saves, and it adds latency when runs already average 92.9 s against a 90 s target (`evals/report.md`).
-
-### How it would plug in (sketch, not applied)
-
-In `site/functions/_agent/tools.ts`:
-
-```ts
-// Exa web search (optional). Only search words and a place are sent: no profile fields.
-export async function exaSearch(env: any, query: string, opts: {
-  includeDomains?: string[]; excludeDomains?: string[]; sinceDays?: number; num?: number; lat?: number; lon?: number;
-} = {}): Promise<any> {
-  if (!env.EXA_API_KEY) return { error: "EXA_API_KEY not configured; use web_search instead" };
-  const body: any = {
-    query, type: "auto", numResults: Math.min(opts.num ?? 8, 10),
-    userLocation: opts.lat != null ? { country: "US", latitude: opts.lat, longitude: opts.lon } : "US",
-    contents: { highlights: { query, maxCharacters: 1500 }, maxAgeHours: 720 },
-  };
-  if (opts.includeDomains?.length) body.includeDomains = opts.includeDomains;
-  if (opts.excludeDomains?.length) body.excludeDomains = opts.excludeDomains;
-  if (opts.sinceDays) body.startPublishedDate = new Date(Date.now() - opts.sinceDays * 864e5).toISOString();
-  try {
-    const d = await getJson("https://api.exa.ai/search", {
-      method: "POST", headers: { "x-api-key": env.EXA_API_KEY, "content-type": "application/json" }, body: JSON.stringify(body),
-    }, 20000);
-    return (d.results || []).map((r: any) => ({
-      title: r.title, url: r.url, published: r.publishedDate, highlights: r.highlights, source: "exa", source_url: r.url,
-    }));
-  } catch (e: any) {
-    return { error: `Exa search failed: ${e.message}` };
-  }
-}
-```
-
-In `stages.ts` `finderTools()`, behind a flag so the A/B test can switch backends:
-
-```ts
-if (ctx.env.EXA_API_KEY && ctx.env.SEARCH_BACKEND !== "claude") tools.push({
-  name: "exa_search",
-  description: "Web search for local programs. Use include_domains for official sites (e.g. .gov, the county site) and since_days for recent pages.",
-  input_schema: { type: "object", properties: {
-    query: S("e.g. 'sober living men Bakersfield accepts parolees'"),
-    include_domains: { type: "array", items: S() }, exclude_domains: { type: "array", items: S() },
-    since_days: { type: "integer" } }, required: ["query"] },
-  fn: (i: any) => exaSearch(ctx.env, i.query, { includeDomains: i.include_domains, excludeDomains: i.exclude_domains,
-    sinceDays: i.since_days, lat: p.lat, lon: p.lon }),
-  label: (i: any) => `Exa search: ${i.query}`,
-});
-// and pass serverTools: SEARCH_BACKEND === "exa" ? webTools(...).filter(t => t.name === "web_fetch") : webTools(...)
-```
-
-- **Secret:** `wrangler pages secret put EXA_API_KEY`.
-- **Exa results:** need no special handling for "traceable source", because the `url` becomes `source_url`.
-- **Evals:** they run the **Python** pipeline (`app/`), so the same tool has to be added to `app/tools/apis.py` and `app/pipeline.py` for the test.
-
-### A/B test design
-
-1. **Profiles.** All 18 in `evals/profiles.json`, plus rural profiles. Today none is truly rural; Bakersfield is the closest. Add:
-   - `dale-susanville`: Lassen County, a prison town far from services.
-   - `carla-crescent-city`: Del Norte County, a coastal county with few providers.
-   - After integration #2 below, `jim-missoula-mt` and `ann-terre-haute-in`, with expected entries hand-written from FNS, KFF and the state guides.
-2. **Arms.**
-   - **A:** today (`web_search` with 6 uses).
-   - **B:** `exa_search` instead of `web_search` (same 6-use cap enforced in the tool; `web_fetch` kept).
-   - **C (optional):** both offered.
-   - Run each arm with `evals/run_evals.py --out-dir evals/runs/exa-<arm> --no-latest`, using `SEARCH_BACKEND` set the way `run_matrix.py` sets model env vars. Run 2 repeats per arm, because runs are noisy.
-3. **Metrics** (already in `summary.json`): must-include recall, gray kept, wrong exclusions, must-not violations, invented, working links, seconds per run, $ per plan (with search fees from `pricing.py`; add an Exa line).
-4. **New metrics to add:**
-   - API calls per plan.
-   - Finder input tokens.
-   - Share of recommendations on `.gov` or the program's own domain.
-   - Share of recommendations in the person's county (rural profiles).
-   - Distinct programs not found in the snapshot.
-   - Median page age of cited sources.
-5. **Decision rule.** Adopt B only if, on the rural and out-of-state profiles, it raises recall or in-county share by at least 10 points, with no loss in links or must-not, and keeps $/plan and seconds within 10% of A.
-6. **Cost of the test.** About 22 profiles × 2 repeats × 23 searches ≈ 1,000 Exa searches ≈ $17 at `auto` with highlights. The free $10 a month covers about 580 searches, so it would need a small top-up or two months. That needs a sign-up, which is the team's call.
-
-### Verdict: **No** (don't add Exa now)
-
-1. **It fixes no measured problem.** Recall is 99% and invented results are 0. The failing metrics are links (88%), must-not (6) and speed (92.9 s). Exa doesn't address the first two, and it hurts speed through the extra client round trips.
-2. **It costs more.** $7–17 per 1k searches against $10, plus about 20–30 extra Claude calls per plan.
-3. **Most of its filters we already have.** `allowed_domains`/`blocked_domains` and `user_location` exist on Claude's tool. Exa's real additions are published-date filters and `maxAgeHours`, which are nice but not a priority.
-4. **It adds a vendor, a key and a retention question.** ZDR needs Enterprise, or Cloudflare's beta binding, whose ZDR status is unclear.
-5. **The real gap for Indiana and Montana is our CA-only code and data, not the search engine.**
-
-Revisit Exa if the rural and out-of-state evals (after integration #2) show low recall or many out-of-county results. The test above is ready for that case.
-
 ## Next 3 integrations to build
 
 1. **Multi-state benefits rules for SNAP and Medicaid (M).** Write `scripts/build_rules.py`, which generates `rules_<state>.json` from:
@@ -348,5 +209,4 @@ In parallel, because the lead time is long, **file the 211 API Request Form** (t
 3. Should we file 211's API Request Form now, and through which 211? Would a free internal tool count as "revenue-generating" under the 5% fee?
 4. Should benefit estimates (dollar amounts) be shown to case managers at all, or only "likely / worth applying"? Estimates change with work rules from Jan 2027.
 5. Who owns the yearly rules refresh each October, when FNS publishes new SNAP figures? `rules_ca.json` is already a year behind.
-6. Do we want a published-date limit on web results, which is the main thing Exa would add? If yes, test that first by asking finders to check `page_age`, which Claude's results already include.
-7. Do case managers in Indiana and Montana use Unite Us or findhelp already? If so, a partner integration may matter more than any public API.
+6. Do case managers in Indiana and Montana use Unite Us or findhelp already? If so, a partner integration may matter more than any public API.
