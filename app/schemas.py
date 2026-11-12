@@ -106,10 +106,21 @@ class NeedSection(BaseModel):
 
 
 class ActStep(BaseModel):
-    step: str
-    for_alumnus: str = ""  # the same step written to the person ("you"); the case manager reviews it before sharing
+    # One action at one program. Phone, url and address are copied from the program's record, never written by the model.
+    title: str = ""
+    how: str = "call"  # call | apply_online | visit
+    bullets: list[str] = Field(default_factory=list)
+    for_alumnus_title: str = ""  # the same step written to the person ("you"); the case manager reviews it before sharing
+    for_alumnus_bullets: list[str] = Field(default_factory=list)
     resource_name: Optional[str] = None
+    phone: Optional[str] = None
+    url: Optional[str] = None
+    address: Optional[str] = None
+    missing_contact: bool = False
     what_to_bring: list[str] = Field(default_factory=list)
+    # older fields, kept so saved plans and the evals' text checks still work: title/bullets joined into one line
+    step: str = ""
+    for_alumnus: str = ""
 
 
 class Plan(BaseModel):

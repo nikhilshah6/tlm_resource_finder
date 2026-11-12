@@ -164,7 +164,7 @@ Inter (variable, from Google Fonts) with the system stack as fallback. Sizes are
   4. **From John Doe:** the shared AI plan as a count and the top pick for three needs, plus recommended resources.
   5. **Your case manager:** name, role and **Email John**.
 - **Tasks:** "From John" first, then First 30 Days with a progress bar. A step past its window says "Past day 10" in amber (case managers see it too); done steps say "done by you".
-- **Resources:** recommended items first, then the shared plan. Items already recommended aren't repeated in it, and "Bring" lines are rewritten to "your" (the agents write them about the person). No eligibility verdicts, no Act today.
+- **Resources:** the CalFresh and Medi-Cal tiles, then recommended items, then the shared plan. Items already recommended aren't repeated in it, and "Bring" lines are rewritten to "your" (the agents write them about the person). No eligibility verdicts; steps only as shared ("Your steps").
 
 ### Today (`#/today`)
 
@@ -229,11 +229,12 @@ One column: the title, a single **For [alumnus] · Open case** line, then the sa
 - **Order on the case manager's Resources** (case page and Resources page):
   1. search
   2. "Near …"
-  3. **Recommended**
-  4. **AI search results**
-  5. **General resources** (the instant categories)
+  3. **Benefits** (the CalFresh and Medi-Cal tiles; hidden while searching)
+  4. **Recommended**
+  5. **AI search results**
+  6. **General resources** (the instant categories)
 
-  The search filters both sections.
+  The search filters the last three sections. The alumnus's page has the same Benefits tiles in the same place.
 - **AI search results (case manager):**
   - **No run yet:** one line saying what the agents do, with **Build plan** (the same label as the Overview card). Outside California it's disabled with the reason.
   - **Running:** a progress group (one row per stage with a dot, live counts, Cancel).
@@ -255,7 +256,31 @@ One column: the title, a single **For [alumnus] · Open case** line, then the sa
   - Home gets a "N resources found for you by AI" row.
   - With nothing shared, the alumnus page is exactly as before (no AI section, no "General resources" header).
 - **Storage:** the share is a snapshot on the record (`a.aiShared`), so re-running doesn't change what the alumnus sees until it's shared again. Share and Unshare have Undo.
-- **Styling:** built only from existing components.
+- **Styling:** built only from existing components, plus the benefit tiles and the step layout below.
+
+### Benefits: CalFresh and Medi-Cal tiles
+
+Medicaid and SNAP access are the biggest differentiators in early reentry, so they get their own two tiles instead of being ordinary search results.
+- **No AI.** Content, eligibility rules and next steps are fixed (`BENEFITS` in `demo/core.js`, rules from `data/rules_ca.json`). Every phone number and link was checked by hand (Nov 12, 2026); county numbers come from the CDSS county contact list, and a city we don't map falls back to the statewide line.
+- **Tile:** category icon tile (food / health colours), name, plain name ("Food money (SNAP)", "Free health care (Medicaid)"), one status tag, chevron. Two across; one across under 480px.
+- **Status** lives on the record (`a.benefits`), starts from First 30 Days tasks 3 and 4, and stays in step with them both ways. CalFresh: Not started, Applied, Interview done, Approved, Denied. Medi-Cal: Not confirmed (the default, because CDCR applies before release under CalAIM), Applied, Enrolled, Denied. Tags are amber until done (green) or denied (red).
+- **Sheet (case manager):** Status with an **Update** picker (Undo in the toast), What Marcus can get, Eligibility (bullets, each linked to its source, plus "Likely eligible · Confirm income"), Next steps, Bring, and a footer with the county office and statewide numbers.
+- **Sheet (alumnus):** what you get in one line, who usually qualifies in one sentence, What to do, Bring. **No** verdicts, rules or sources.
+
+### Steps (Act today, Your steps, benefit sheets)
+
+One layout everywhere, written for someone just out of prison reading on a phone:
+```
+1  Call BOSS about a backup bed            bold title: verb first, 8 words or fewer, one program
+   • Ask: men's bed open before January?   at most 3 short bullets
+   [📞 Call (510) 649-1930]                 one or two action buttons: Call (tel:), Apply online ↗, Map, See CalFresh
+   Bring: State ID, parole papers
+```
+- **Act today** = fixed benefit steps first (one per open program, linking to its tile), then up to 3 AI steps. It starts open.
+- **One action per step.** CalFresh and Medi-Cal are never combined, and the AI never writes benefit steps (the ranker prompt says so and `actTodaySteps` drops any that slip through).
+- **Contacts come from the record, not the model.** The ranker writes only words; phone, URL and address are copied from the program it names. A step with neither phone nor link shows "No phone number or link on record. Check before sharing." and starts unticked in the share sheet.
+- **Share sheet:** title, Details (one per line) and Bring are editable; the links travel with the step. The alumnus's Your steps show the live benefit steps first (they follow the tiles, so they aren't part of the shared snapshot), then the shared steps with checks. The Home card shows the step's first detail and its action button.
+- Plans saved before this format (a single `step` paragraph) still show, in normal weight, with no links.
 
 ### Pre-call briefing (its own page, `#/briefing/<id>`)
 

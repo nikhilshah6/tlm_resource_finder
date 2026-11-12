@@ -599,6 +599,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     var cm = view === "cm", st = C.resState(a), first = a.name.split(" ")[0], geo = st.data && st.data.geo, q = (V.resQ[a.id] || "").trim();
     var place = geo ? esc(geo.city) + ", " + esc(geo.state) + " " + esc(geo.zip) : a.zip ? "ZIP " + esc(a.zip) : "no ZIP on file";
     var h = '<div class="rplace"><span class="muted">Near ' + place + '</span><button type="button" class="linkbtn" onclick="RXV.zip(\'' + a.id + '\')">' + (cm ? "Change ZIP" : "I moved") + "</button></div>";
+    if (!q) h += benefitsBlock(a, cm);
     if (st.err) return h + (cm ? agentBlock(a, q) : sharedBlock(a, q)) + '<div class="note err">' + esc(st.err) + "</div>";
     if (!a.zip) return h + '<p class="gf">Add a ZIP code to see what\'s nearby.</p>';
     var list = st.data ? C.rank(a, st.data.items || []) : [], ai = cm ? agentBlock(a, q) : sharedBlock(a, q), split = cm || !!a.aiShared;
@@ -683,6 +684,67 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
 
   V.setResFor = function (id) { V.resFor = id; render(); };
 
+  /* ---------- one step (Act today, Your steps, benefit sheets): bold title, short bullets, one or two action links, Bring ----------
+   * n is a step from C.normStep. Links: call (tel:), web (new tab), map, or tile (opens a benefit sheet). */
+  function stepLinks(a, n) {
+    return (n.links || []).map(function (l, k) {
+      if (l.kind === "tile") return '<button type="button" class="act sec2" onclick="RXV.benefit(\'' + a.id + "','" + l.prog + '\')">' + esc(l.label) + "</button>";
+      var ext = l.kind !== "call";
+      return '<a class="act' + (k ? " sec2" : "") + '" href="' + esc(l.href) + '"' + (ext ? ' target="_blank" rel="noopener"' : "") + ">" + (l.kind === "call" ? I.phone : "") + esc(l.label) + (ext ? EXT + '<span class="sr"> (opens in a new tab)</span>' : "") + "</a>";
+    }).join("");
+  }
+  function stepInner(a, n, view) {
+    var links = stepLinks(a, n);
+    return '<div class="st' + (n.legacy ? " legacy" : "") + '">' + esc(n.title) + "</div>" +
+      onlyIf((n.bullets || []).length, "<ul>" + (n.bullets || []).map(function (b) { return "<li>" + esc(b) + "</li>"; }).join("") + "</ul>") +
+      onlyIf(links, '<div class="acts">' + links + "</div>") +
+      onlyIf(view === "cm" && n.missing, '<div class="warnline">No phone number or link on record. Check before sharing.</div>') +
+      onlyIf((n.bring || []).length, '<div class="bring">Bring: ' + esc((n.bring || []).join(", ")) + "</div>");
+  }
+  function stepHtml(a, n, i, view) { return '<div class="step"><span class="num" aria-hidden="true">' + (i + 1) + '</span><div class="tx">' + stepInner(a, n, view) + "</div></div>"; }
+  /* Act today for the case manager: fixed benefit steps first (from the tiles), then the AI plan's steps */
+  function todaySteps(a, plan, view) {
+    return C.benefitTodaySteps(a, view).concat((plan && plan.act_today) || []).map(function (x) { return C.normStep(x, view); });
+  }
+
+  /* ---------- Benefits: CalFresh and Medi-Cal tiles (both views), each opening a sheet. Fixed rules, no AI. ---------- */
+  function benefitsBlock(a, cm) {
+    return gh("Benefits", cm ? "Rules from state sources · no AI" : "") + '<div class="btiles">' + C.BEN_ORDER.map(function (p) {
+      var B = C.BENEFITS[p], tg = C.benefitTag(a, p);
+      return '<button type="button" class="btile" aria-haspopup="dialog" onclick="RXV.benefit(\'' + a.id + "','" + p + '\')"><span class="ctile c-' + B.tile + '" aria-hidden="true">' + CI[B.tile] + '</span>' +
+        '<span class="body"><span class="ttl">' + esc(B.name) + '</span><span class="sec">' + esc(B.plain) + '</span><span class="tag ' + tg[0] + '">' + esc(cm ? tg[1] : tg[2]) + "</span></span>" + I.chev + "</button>";
+    }).join("") + "</div>";
+  }
+  function benefitBody(a, p, cm) {
+    var B = C.BENEFITS[p], b = C.benefitOf(a, p), tg = C.benefitTag(a, p), first = a.name.split(" ")[0], off = C.benefitOffice(a, p);
+    var steps = C.benefitSteps(a, p, cm ? "cm" : "me").map(function (x) { return C.normStep(Object.assign({ kind: "benefit", prog: p }, x), cm ? "cm" : "me"); });
+    var done = b.status === B.done;
+    var stepsHtml = steps.length ? '<div class="group">' + steps.map(function (n, i) { return stepHtml(a, n, i, cm ? "cm" : "me"); }).join("") + "</div>"
+      : '<p class="bnote">' + (cm ? "Nothing to do right now. Benefits need renewing: watch for mail from the county." : "Nothing to do right now. Watch your mail: the county will send renewal forms.") + "</p>";
+    var bring = '<div class="bring">Bring: ' + esc(B.bring.join(", ")) + "</div>";
+    if (cm) {
+      return '<div class="bsh"><h3>Status</h3><div class="statusrow"><span class="tag ' + tg[0] + '">' + esc(tg[1]) + '</span><label class="muted">Update <select aria-label="' + esc(B.name) + ' status" onchange="RXV.setBen(\'' + a.id + "','" + p + '\',this.value)">' +
+          B.statuses.map(function (s) { return '<option value="' + s[0] + '"' + (s[0] === b.status ? " selected" : "") + ">" + esc(s[1]) + "</option>"; }).join("") + "</select></label></div>" +
+          onlyIf(b.date, '<p class="bnote">' + (p === "calfresh" && b.status === "interview_done" ? "Interview was " : "Updated ") + esc(C.fmShort(b.date)) + (b.by ? " by " + esc(C.who(b.by)) : "") + ".</p>") +
+        "<h3>What " + esc(first) + " can get</h3><div class=\"big\">" + esc(B.get) + '</div><div class="bnote">' + esc(B.getSub) + "</div>" +
+        "<h3>Eligibility" + (done ? "" : ' <span class="tag ok">' + esc(B.verdict) + '</span> <span class="tag">' + esc(B.verdictNote) + "</span>") + '</h3><ul class="elig">' +
+          B.rules.map(function (r) { return "<li>" + esc(r.text) + ' <a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(r.src) + EXT + '<span class="sr"> (opens in a new tab)</span></a></li>'; }).join("") + "</ul>" +
+        "<h3>Next steps</h3>" + stepsHtml + (done ? "" : bring) +
+        '<p class="src">County office: ' + esc(off.name) + ", " + esc(off.phone) + ". Statewide: " + esc(p === "calfresh" ? "CalFresh Info Line 1-877-847-3663" : "Medi-Cal Helpline 1-800-541-5555") + ". Numbers checked Nov 12, 2026.</p></div>";
+    }
+    return '<div class="bsh"><div class="big">' + esc(B.alGet) + '</div><p>' + esc(B.alGetSub) + "</p>" + (done ? "" : "<p>" + esc(B.alWho) + "</p>") +
+      "<h3>" + (done ? "You're all set" : "What to do") + "</h3>" + stepsHtml + (done ? "" : bring) + "</div>";
+  }
+  V.benefit = function (aid, p) {
+    var a = C.byId(aid), cm = cur.kind === "cm", B = C.BENEFITS[p]; if (!a || !B) return;
+    sheet({ title: B.name + " · " + (p === "calfresh" ? "food money" : "health care"), body: benefitBody(a, p, cm) });
+  };
+  V.setBen = function (aid, p, status) {
+    var a = C.byId(aid), B = C.BENEFITS[p], label = (B.statuses.filter(function (s) { return s[0] === status; })[0] || [])[1];
+    act(a, B.name + ": " + label, function () { C.setBenefit(a, p, status); });
+    var dlg = $("sheet"); if (dlg && dlg.open) $("sheetBody").innerHTML = benefitBody(a, p, true);
+  };
+
   /* ---------- AI deep search: runs Nikhil's agent pipeline (/api/agent/step) and shows its plan here ----------
    * Case-manager only. Draft output: nothing is saved to the record unless a result is recommended (with Undo).
    * Built only from existing components (groups, rows, dots, tags, banner, text actions). */
@@ -699,10 +761,11 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     function row(key, tile, label, extra, n, isOpen, searching) {
       return '<button type="button" class="row cat" id="aic-' + a.id + "-" + key + '" aria-expanded="' + isOpen + '"' + (searching ? ' aria-disabled="true" tabindex="-1"' : ' onclick="RXV.aiCat(\'' + a.id + "','" + key + '\')"') + ">" + tile + '<span class="body ttl">' + esc(label) + "</span>" + extra + '<span class="trail">' + n + "</span>" + I.chev + "</button>";
     }
-    if (cm && !q && G.act_today.length) { /* written for staff ("ask his parole agent…"), so alumni don't see it */
-      var ao = !!open["ai:act"]; any = true;
-      h += row("act", "", "Act today", "", G.act_today.length, ao, false);
-      if (ao) h += '<div class="catbody">' + G.act_today.map(function (x, i) { return '<div class="bl"><span class="num" aria-hidden="true">' + (i + 1) + '</span><div class="tx"><div>' + esc(x.step) + "</div>" + ((x.what_to_bring || []).length ? '<div class="sec muted">Bring: ' + esc(x.what_to_bring.join(", ")) + "</div>" : "") + "</div></div>"; }).join("") + "</div>";
+    var TS = cm && !q ? todaySteps(a, plan, "cm") : [];
+    if (TS.length) { /* written for staff ("ask his parole agent…"), so alumni see only what's shared */
+      var ao = open["ai:act"] !== false; any = true; /* open by default: it's the first thing to do */
+      h += row("act", "", "Act today", "", TS.length, ao, false);
+      if (ao) h += '<div class="catbody steps">' + TS.map(function (n, i) { return stepHtml(a, n, i, "cm"); }).join("") + "</div>";
     }
     G.cats.forEach(function (c) {
       var items = (q ? c.items.filter(function (e) { return C.agentMatch(e, q); }) : c.items).filter(function (e) { var x = (a.resourceActions || {})[e.item.id]; return cm || !(x && x.pinnedBy); }); /* alumni: already under Recommended */
@@ -728,7 +791,7 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       onlyIf(e.bring.length, '<div class="ln">Bring: ' + esc(e.bring.map(function (b) { return b.replace(/\b(his|her)\b/g, "your").replace(/\b(His|Her)\b/g, "Your"); }).join(", ")) + "</div>") +
       '<div class="tas">' + t("save", !!x.saved, "Save", "Saved") + '<span class="dotsep" aria-hidden="true">·</span>' + t("used", !!x.used, "I used this", "Used") + "</div></article>";
   }
-  V.aiCat = function (aid, key) { var k = okey(aid), o = V.openCats[k] = V.openCats[k] || {}; o["ai:" + key] = !o["ai:" + key]; drawRes(C.byId(aid)); };
+  V.aiCat = function (aid, key) { var k = okey(aid), o = V.openCats[k] = V.openCats[k] || {}; o["ai:" + key] = key === "act" ? o["ai:act"] === false : !o["ai:" + key]; drawRes(C.byId(aid)); };
   /* the AI section for the case manager: idle / running / error / plan in categories, with sharing */
   function agentBlock(a, q) {
     var g = agState(a.id), first = a.name.split(" ")[0], st = C.resState(a), geo = st.data && st.data.geo;
@@ -763,13 +826,18 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     return h + "</div>";
   }
   /* the shared plan on the alumnus's own Resources page */
-  function stepRow(a, x, i) {
-    return '<div class="row' + (x.done ? " done" : "") + '"><button type="button" class="check" role="checkbox" aria-checked="' + !!x.done + '" aria-label="' + esc((x.done ? "Reopen: " : "Mark done: ") + x.text) + '" onclick="RXV.stepDone(\'' + a.id + "'," + i + ')">' + I.tick + '</button><div class="body"><div class="ttl"><span class="stepn">' + (i + 1) + ".</span> " + esc(x.text) + "</div>" + onlyIf((x.bring || []).length, '<div class="sec">Bring: ' + esc(x.bring.join(", ")) + "</div>") + "</div></div>";
+  /* a shared step on the alumnus's page: same layout as Act today, with a check to mark it done (n = shown number) */
+  function stepRow(a, x, i, n) {
+    var s = C.normStep(x, "me");
+    return '<div class="step' + (s.done ? " done" : "") + '"><button type="button" class="check" role="checkbox" aria-checked="' + !!s.done + '" aria-label="' + esc((s.done ? "Reopen: " : "Mark done: ") + s.title) + '" onclick="RXV.stepDone(\'' + a.id + "'," + i + ')">' + I.tick + '</button><div class="tx">' + stepInner(a, s, "me") + "</div></div>";
   }
   function sharedBlock(a, q) {
     var sh = a.aiShared; if (!sh) return "";
     var cats = aiCats(a, sh.plan, "me", q); if (q && !cats) return "";
-    var steps = !q && sh.steps && sh.steps.length ? gh("Your steps", "from " + esc(C.who(sh.by).split(" ")[0]) + ", in order") + group(sh.steps.map(function (x, i) { return stepRow(a, x, i); }).join("")) : "";
+    /* benefit steps are live (they follow the tile status, no AI), so they come first and aren't part of the shared snapshot */
+    var ben = C.benefitTodaySteps(a, "me").map(function (x) { return C.normStep(x, "me"); }), k = ben.length;
+    var steps = !q && (k || (sh.steps && sh.steps.length)) ? gh("Your steps", "from " + esc(C.who(sh.by).split(" ")[0]) + ", in order") +
+      group(ben.map(function (n, i) { return stepHtml(a, n, i, "me"); }).join("") + (sh.steps || []).map(function (x, i) { return stepRow(a, x, i, k + i + 1); }).join("")) : "";
     return steps + gh("From " + C.who(sh.by), "found by AI") + (q ? "" : '<p class="gf">Shared ' + esc(C.fmShort(sh.at)) + ". Call ahead: details can change.</p>") + cats;
   }
   function agentRow(a, c, why, bring) {
@@ -807,7 +875,8 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
       var G = C.agentGroups(g.plan), sh = a.aiShared, cur2 = sh && sh.runId === g.runId;
       h += '<p class="sec">' + (g.saved ? "Saved run from " + esc(g.saved) + ". " : "") + G.count + " programs from public sources and the web. Draft: check before use.</p></div>" +
         '<div class="pc-a">' + (cur2 ? '<span class="tag ok">Shared with ' + esc(first) + "</span>" : '<button type="button" class="btn" onclick="RXV.agentShare(\'' + a.id + '\')">Share with ' + esc(first) + "</button>") + toTab + "Open full plan</button></div></div>";
-      if (G.act_today.length) h += '<div class="pc-sub">Act today</div><div class="pc-steps">' + G.act_today.map(function (x, i) { return '<div class="bl"><span class="num" aria-hidden="true">' + (i + 1) + '</span><div class="tx"><div>' + esc(x.step) + "</div>" + ((x.what_to_bring || []).length ? '<div class="sec">Bring: ' + esc(x.what_to_bring.join(", ")) + "</div>" : "") + "</div></div>"; }).join("") + "</div>";
+      var TS = todaySteps(a, g.plan, "cm");
+      if (TS.length) h += '<div class="pc-sub">Act today</div><div class="pc-steps">' + TS.map(function (n, i) { return stepHtml(a, n, i, "cm"); }).join("") + "</div>";
       if (G.cats.length) h += '<div class="pc-sub">Top pick per need</div><div class="pc-picks">' + G.cats.map(function (c) {
         var e = c.items[0], v = AG_VERDICT[e.c.verdict];
         return '<button type="button" class="pick" onclick="RXV.openPlanCat(\'' + a.id + "','" + c.id + '\')"><span class="ctile c-' + c.id + '" aria-hidden="true">' + CI[c.id] + '</span><span class="body"><span class="pl">' + esc(c.label) + (c.items.length > 1 ? " · " + c.items.length + " options" : "") + '</span><span class="pn">' + esc(e.item.name) + "</span></span>" + (v ? '<span class="tag ' + v[0] + '">' + v[1] + "</span>" : "") + urgTag(c.urgency) + I.chev + "</button>";
@@ -858,25 +927,30 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
      and only then shares. Nothing AI-written reaches an alumnus without this review (PRD guardrail). */
   function draftSteps(a) {
     var g = agState(a.id), sh = a.aiShared;
-    if (sh && sh.runId === g.runId && sh.steps) return sh.steps.map(function (x) { return { text: x.text, bring: x.bring || [], on: true, done: !!x.done }; });
-    return ((g.plan && g.plan.act_today) || []).map(function (x) { return { text: x.for_alumnus || C.toYou(x.step), bring: (x.what_to_bring || []).map(C.toYou), on: true, done: false }; });
+    if (sh && sh.runId === g.runId && sh.steps) return sh.steps.map(function (x) { return { text: x.text, bullets: x.bullets || [], links: x.links || [], bring: x.bring || [], on: true, done: !!x.done }; });
+    /* the alumnus version of each AI step; a step with no phone or link starts unticked so it gets checked first */
+    return ((g.plan && g.plan.act_today) || []).map(function (x) { var n = C.normStep(x, "me"); return { text: n.title, bullets: n.bullets, links: n.links, bring: n.bring.map(C.toYou), on: !n.missing || !!n.legacy, missing: !!n.missing && !n.legacy, done: false }; });
   }
   V.agentShare = function (aid) {
     var a = C.byId(aid), g = agState(aid), first = a.name.split(" ")[0], steps = draftSteps(a), again = a.aiShared && a.aiShared.runId === g.runId; if (!g.plan) return;
     sheet({ title: (again ? "Edit steps for " : "Share with ") + first, wide: true,
       right: '<button type="button" class="btn sm pri" onclick="RXV.agentShareGo(\'' + aid + '\')">' + (again ? "Save steps" : "Share with " + esc(first)) + "</button>",
       body: '<p class="sdesc">' + esc(first) + " sees these steps in this order on the Home and Resources pages, with the programs the agents found (never the eligibility notes). Reword anything that doesn't sound right, or leave a step out.</p>" +
+        (C.benefitTodaySteps(a, "me").length ? '<p class="sdesc">CalFresh and Medi-Cal steps come first. They follow the benefits tiles, so they aren\'t edited here.</p>' : "") +
         (steps.length ? steps.map(function (x, i) {
-          return '<div class="stepedit"><label class="se-on"><input type="checkbox" id="so' + i + '"' + (x.on ? " checked" : "") + "> Step " + (i + 1) + '</label><div class="field"><label for="st' + i + '" class="sr">Step ' + (i + 1) + ' wording</label><textarea id="st' + i + '" rows="3" maxlength="400">' + esc(x.text) + "</textarea></div>" +
-            '<div class="field"><label for="sb' + i + '">Bring <span class="muted">comma-separated</span></label><input id="sb' + i + '" maxlength="200" value="' + esc(x.bring.join(", ")) + '"></div></div>';
+          return '<div class="stepedit"><label class="se-on"><input type="checkbox" id="so' + i + '"' + (x.on ? " checked" : "") + "> Step " + (i + 1) + '</label><div class="field"><label for="st' + i + '" class="sr">Step ' + (i + 1) + ' title</label><textarea id="st' + i + '" rows="2" maxlength="160">' + esc(x.text) + "</textarea></div>" +
+            '<div class="field"><label for="sl' + i + '">Details <span class="muted">one per line, 3 at most</span></label><textarea id="sl' + i + '" rows="3" maxlength="400">' + esc((x.bullets || []).join("\n")) + "</textarea></div>" +
+            '<div class="field"><label for="sb' + i + '">Bring <span class="muted">comma-separated</span></label><input id="sb' + i + '" maxlength="200" value="' + esc(x.bring.join(", ")) + '"></div>' +
+            ((x.links || []).length ? '<p class="se-links muted">' + esc(x.links.map(function (l) { return l.label; }).join(" · ")) + "</p>" : x.missing ? '<p class="se-links warntext">No phone number or link on record. Add one to the details, or leave this step out.</p>' : "") + "</div>";
         }).join("") : '<p class="muted">This plan has no steps for today. ' + esc(first) + " will see the programs only.</p>") });
-    V.shareN = steps.length; V.shareDone = steps.map(function (x) { return x.done; });
+    V.shareN = steps.length; V.shareDone = steps.map(function (x) { return x.done; }); V.shareLinks = steps.map(function (x) { return x.links || []; });
   };
   V.agentShareGo = function (aid) {
     var a = C.byId(aid), g = agState(aid), first = a.name.split(" ")[0], again = a.aiShared && a.aiShared.runId === g.runId, steps = [];
     for (var i = 0; i < V.shareN; i++) {
       var on = $("so" + i).checked, t = $("st" + i).value.trim();
-      if (on && t) steps.push({ text: t, bring: $("sb" + i).value.split(",").map(function (b) { return b.trim(); }).filter(Boolean), done: !!V.shareDone[i] });
+      if (on && t) steps.push({ text: t, bullets: $("sl" + i).value.split("\n").map(function (b) { return b.trim(); }).filter(Boolean).slice(0, 3), links: V.shareLinks[i] || [],
+        bring: $("sb" + i).value.split(",").map(function (b) { return b.trim(); }).filter(Boolean), done: !!V.shareDone[i] });
     }
     V.close();
     act(a, again ? "Steps updated for " + first : "Shared with " + first, function () { a.aiShared = { plan: JSON.parse(JSON.stringify(g.plan)), by: C.actor(), at: C.today(), runId: g.runId, steps: steps }; });
@@ -955,13 +1029,13 @@ var cur = null; // signed-in user: {id, kind:"cm"|"alumnus", cm?, alumnusId?, na
     var mine = a.tasks.filter(function (x) { return !x.std && x.status !== "done"; }).sort(function (x, y) { return String(x.due || "9999").localeCompare(String(y.due || "9999")); });
     var su = a.tasks.filter(function (x) { return x.std; }), done = su.filter(function (x) { return x.status === "done"; }).length;
     var steps = a.aiShared && a.aiShared.steps || [], si = steps.findIndex(function (x) { return !x.done; });
-    var next = si >= 0 ? { plan: true, i: si, title: steps[si].text, detail: (steps[si].bring || []).length ? "Bring: " + steps[si].bring.join(", ") : "", phase: "Step " + (si + 1) + " of " + steps.length + " in " + C.who(a.aiShared.by).split(" ")[0] + "'s plan" } : mine[0] || su.filter(function (x) { return x.status !== "done"; })[0];
+    var next = si >= 0 ? { plan: true, i: si, title: steps[si].text, link: (steps[si].links || [])[0] || null, detail: [(steps[si].bullets || [])[0] || "", (steps[si].bring || []).length ? "Bring: " + steps[si].bring.join(", ") : ""].filter(Boolean).join(" · "), phase: "Step " + (si + 1) + " of " + steps.length + " in " + C.who(a.aiShared.by).split(" ")[0] + "'s plan" } : mine[0] || su.filter(function (x) { return x.status !== "done"; })[0];
     var recs = Object.keys(a.resourceActions || {}).map(function (k) { return a.resourceActions[k]; }).filter(function (x) { return x.pinnedBy && x.item; });
     var h = '<h1 class="ltitle">Hi, ' + esc(first) + '</h1><p class="subtitle">Day ' + a.dayN + " since release · First 30 Days: " + done + " of " + su.length + " done</p>";
     if (next) h += '<section class="next-step" aria-labelledby="ns-h"><div class="nc-k" id="ns-h">Your next step' + (mine.length ? " · " + mine.length + " task" + (mine.length === 1 ? "" : "s") + " to do from " + esc(cmFirst) : "") + "</div>" +
       '<div class="ns-t">' + esc(next.title) + "</div>" + onlyIf(next.detail, '<div class="ns-d">' + esc(next.detail) + "</div>") +
       '<div class="ns-m">' + (next.due ? (next.due < t ? '<span class="warntext">Was due ' + esc(C.fmShort(next.due)) + "</span>" : "Due " + esc(C.fmShort(next.due))) : esc(next.phase || "")) + "</div>" +
-      '<div class="nc-a"><button type="button" class="btn pri" onclick="' + (next.plan ? "RXV.stepDone('" + a.id + "'," + next.i + ")" : "RXV.toggle('" + a.id + "','" + next.id + "')") + '">' + I.tick + "Mark done</button>" + (next.plan ? '<a class="btn" href="#/me/resources">All steps</a>' : '<a class="btn" href="#/me/tasks">All tasks</a>') + "</div></section>";
+      '<div class="nc-a"><button type="button" class="btn pri" onclick="' + (next.plan ? "RXV.stepDone('" + a.id + "'," + next.i + ")" : "RXV.toggle('" + a.id + "','" + next.id + "')") + '">' + I.tick + "Mark done</button>" + (next.plan && next.link && next.link.href ? '<a class="btn" href="' + esc(next.link.href) + '"' + (next.link.kind === "call" ? "" : ' target="_blank" rel="noopener"') + ">" + esc(next.link.label) + "</a>" : "") + (next.plan ? '<a class="btn" href="#/me/resources">All steps</a>' : '<a class="btn" href="#/me/tasks">All tasks</a>') + "</div></section>";
     else h += '<section class="next-step"><div class="nc-k">Your next step</div><div class="ns-t">You\'re caught up.</div><div class="ns-d">' + esc(cmFirst) + " will add anything new here.</div></section>";
     /* this week: appointments and due tasks, by day */
     var items = C.nextEvents(a, 12).filter(function (e) { return C.days(t, e.date) <= 7; }).map(function (e) { return { d: e.date, tm: e.time, t: e.title, s: e.loc, dot: EDOT[e.type] || "" }; })

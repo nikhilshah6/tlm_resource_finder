@@ -274,12 +274,18 @@ function agentStep(b, signal) {
   ok(/Act today/.test(d.getElementById("agov-a-marcus").textContent) && d.querySelectorAll("#agov-a-marcus .pick").length > 0 && /Open full plan/.test(d.getElementById("agov-a-marcus").textContent), "Overview summarises the plan: Act today and a top pick per need");
   const aiRows = () => [...d.querySelectorAll("#ag-a-marcus .row.cat")].map((b) => b.querySelector(".ttl").textContent);
   ok(JSON.stringify(aiRows()) === JSON.stringify(["Act today", "Housing and shelter", "ID and documents", "Legal and records", "Phone and banking", "Food and benefits", "Health", "Jobs and training", "Not eligible"]), "AI results sit in our categories, most urgent first: " + aiRows().join(", "));
-  ok(!d.querySelector("#ag-a-marcus .catbody") && /Today/.test(d.querySelector("#ag-a-marcus .row.cat:nth-of-type(2)").textContent), "they start closed, with urgency tags");
+  ok(d.querySelectorAll("#ag-a-marcus .catbody").length === 1 && d.querySelector("#ag-a-marcus .catbody.steps") && /Today/.test(d.querySelector("#ag-a-marcus .row.cat:nth-of-type(2)").textContent), "Act today starts open; the categories start closed, with urgency tags");
   ok(/California DMV no-fee ID/.test(ev("JSON.stringify(RXC.agentGroups(RXV.agent['a-marcus'].plan).cats.find(c=>c.id==='id').items.map(e=>e.c.name))")) && /Bank On/.test(ev("JSON.stringify(RXC.agentGroups(RXV.agent['a-marcus'].plan).cats.find(c=>c.id==='money').items.map(e=>e.c.name))")), "keyword rules put the DMV ID in ID and documents and Bank On in Phone and banking");
   const aiOpen = (label) => [...d.querySelectorAll("#ag-a-marcus .row.cat")].find((b) => b.querySelector(".ttl").textContent === label).click();
+  { const st = [...d.querySelectorAll("#ag-a-marcus .catbody.steps .step")], titles = st.map((x) => x.querySelector(".st").textContent);
+    ok(st.length === 4 && /CalFresh/.test(titles[0]) && titles.slice(1).every((t) => !/CalFresh|Medi-Cal/i.test(t)), "Act today: the open CalFresh step from the tile first, then the 3 AI steps: " + titles.join(" | "));
+    ok(st.every((x) => x.querySelector('.acts a[href^="tel:"], .acts a[href^="https:"], .acts a[href^="http:"]')), "every step has a number to call or a link to open");
+    ok(!titles.some((t) => /CalFresh/i.test(t) && /Medi-Cal/i.test(t)) && titles.every((t) => t.split(/\s+/).length <= 8), "one action per step (CalFresh and Medi-Cal never together), titles 8 words or fewer");
+    ok(st[0].querySelector('a[href="tel:+18889994772"]') && [...st[0].querySelectorAll(".acts button")].some((b) => /See CalFresh/.test(b.textContent)), "the CalFresh step calls Alameda County and opens the CalFresh tile");
+    ok(st[2].querySelector('a[href="tel:211"]'), "short numbers like 211 dial as they are"); }
   aiOpen("Act today"); await sleep(10);
-  ok(d.querySelectorAll("#ag-a-marcus .catbody .num").length === 3, "Act today opens to numbered steps");
-  aiOpen("Act today"); aiOpen("Housing and shelter"); await sleep(10);
+  ok(!d.querySelector("#ag-a-marcus .catbody.steps"), "Act today closes on tap");
+  aiOpen("Housing and shelter"); await sleep(10);
   ok(d.querySelectorAll("#ag-a-marcus .catbody .res").length === 3, "opening a category shows its AI results");
   ok(/General resources/.test(d.getElementById("rl-a-marcus").textContent) && d.querySelectorAll("#rl-a-marcus > .group .row.cat").length >= 7, "instant resources sit under General resources");
   ok(agentCalls.filter((c) => c.stage === "finder").length === 5 && agentCalls[0].stage === "intake" && agentCalls[0].profile.display_name === "Marcus" && !JSON.stringify(agentCalls[0]).includes("Johnson"), "runs intake, orchestrator, 5 finders, judges and ranker, sending the first name only");
@@ -297,8 +303,9 @@ function agentStep(b, signal) {
   ok(!/From John Doe/.test(d.getElementById("content").textContent) && !/General resources/.test(d.getElementById("content").textContent), "before sharing, Marcus has no AI section and his page is unchanged");
   ev("RXV.signOut()"); ev("RXV.signIn('john')"); await go("#/case/a-marcus"); await sleep(60);
   [...d.querySelectorAll("#ag-a-marcus button")].find((b) => /Share with Marcus/.test(b.textContent)).click(); await sleep(20);
-  const nSteps = ev("RXV.agent['a-marcus'].plan.act_today.length"), tas = [...d.querySelectorAll("#sheetBody textarea")];
-  ok(d.getElementById("sheet").hasAttribute("open") && /Share with Marcus/.test(d.getElementById("sheetTitle").textContent) && tas.length === nSteps && tas.every((t) => t.value && !/\b(he|his|him)\b/i.test(t.value)), "Share opens a review of each step, written to Marcus (you), before anything is shared");
+  const nSteps = ev("RXV.agent['a-marcus'].plan.act_today.length"), tas = [...d.querySelectorAll('#sheetBody textarea[id^="st"]')], dets = [...d.querySelectorAll('#sheetBody textarea[id^="sl"]')];
+  ok(d.getElementById("sheet").hasAttribute("open") && /Share with Marcus/.test(d.getElementById("sheetTitle").textContent) && tas.length === nSteps && dets.length === nSteps && tas.concat(dets).every((t) => !/\b(he|his|him)\b/i.test(t.value)) && tas.every((t) => t.value), "Share opens a review of each step (title and details), written to Marcus (you), before anything is shared");
+  ok(/CalFresh and Medi-Cal steps come first/.test(d.getElementById("sheetBody").textContent) && /Call 211/.test(d.getElementById("sheetBody").textContent), "the share sheet says the benefit steps come first and shows each step's link");
   tas[0].value = "Call Hope House today and ask if your bed is confirmed."; if (nSteps > 1) d.getElementById("so1").checked = false;
   d.querySelector("#sheetFoot .btn.pri").click(); await sleep(20);
   ok(/Shared with Marcus/.test(d.getElementById("toast").textContent) && /Unshare/.test(d.getElementById("ag-a-marcus").textContent) && /Edit steps/.test(d.getElementById("ag-a-marcus").textContent), "John shares the reviewed steps, and can edit them later");
@@ -333,6 +340,48 @@ function agentStep(b, signal) {
   ev("RXC.Res.setZip(RXC.byId('a-marcus'),'77002'); RXV.agent['a-marcus']={status:'idle'}; RXC.loadResources(RXC.byId('a-marcus'), function(){})"); await sleep(40); await go("#/today"); await go("#/case/a-marcus"); await sleep(60);
   ok(agBtn() && agBtn().disabled && /California only/.test(d.getElementById("ag-a-marcus").textContent), "outside California the button is disabled with the reason");
   ev("RXC.Res.setZip(RXC.byId('a-marcus'),'94607')");
+
+  console.log("benefits tiles and steps");
+  ev("RXV.signOut()"); ev("RXV.signIn('john')"); await go("#/case/a-marcus"); ev("RXV.tab('a-marcus','resources')"); await sleep(60);
+  const tiles = () => [...d.querySelectorAll("#rl-a-marcus .btile")];
+  ok(tiles().length === 2 && /CalFresh/.test(tiles()[0].textContent) && /Medi-Cal/.test(tiles()[1].textContent), "Resources shows the CalFresh and Medi-Cal tiles");
+  ok(/Interview done · result not recorded/.test(tiles()[0].textContent) && /Enrolled/.test(tiles()[1].textContent), "status comes from the record: interview result missing, Medi-Cal enrolled (task 4 done)");
+  ok(d.getElementById("rl-a-marcus").textContent.indexOf("Benefits") < d.getElementById("rl-a-marcus").textContent.indexOf("AI plan"), "Benefits sit above the AI plan");
+  tiles()[0].click(); await sleep(20);
+  { const sb = () => d.getElementById("sheetBody").textContent;
+    ok(d.getElementById("sheet").hasAttribute("open") && /CalFresh/.test(d.getElementById("sheetTitle").textContent) && /Likely eligible/.test(sb()) && /\$306/.test(sb()) && /\$2,660/.test(sb()) && d.querySelector('#sheetBody select'), "case manager sheet: status picker, what he can get, eligibility");
+    ok([...d.querySelectorAll("#sheetBody .elig a")].length === 3 && [...d.querySelectorAll("#sheetBody .elig a")].every((a) => /^https:/.test(a.getAttribute("href")) && a.target === "_blank"), "each eligibility rule links to its source in a new tab");
+    ok(d.querySelector('#sheetBody a[href="tel:+18889994772"]') && /Alameda County Social Services/.test(sb()), "next step calls Marcus's county office"); }
+  ev("RXV.setBen('a-marcus','calfresh','approved')"); await sleep(20);
+  ok(ev("RXC.byId('a-marcus').benefits.calfresh.status") === "approved" && ev("RXC.byId('a-marcus').tasks.filter(t=>t.std)[2].status") === "done" && /CalFresh: Approved/.test(d.getElementById("toast").textContent), "updating the status marks task 3 done too");
+  ok(/Nothing to do right now/.test(d.getElementById("sheetBody").textContent) && /Approved/.test(tiles()[0].textContent), "the sheet and tile update in place");
+  d.querySelector("#toast button").click(); await sleep(20);
+  ok(ev("RXC.byId('a-marcus').benefits.calfresh.status") === "interview_done" && ev("RXC.byId('a-marcus').tasks.filter(t=>t.std)[2].status") === "in_progress", "Undo puts the status and the task back");
+  ev("RXV.close()");
+  /* Anthony: nothing started, so both programs get their own step */
+  const an = ev("JSON.stringify(RXC.benefitTodaySteps(RXC.byId('a-anthony'),'cm'))"), AN = JSON.parse(an);
+  ok(AN.length === 2 && /Apply for CalFresh/.test(AN[0].title) && /Medi-Cal/.test(AN[1].title) && !/Medi-Cal/.test(AN[0].title) && AN[0].links[0].href === "https://www.getcalfresh.org/" && AN[1].links[0].href === "tel:+18005415555", "Anthony gets separate CalFresh (apply online) and Medi-Cal (check enrollment) steps: " + AN.map((x) => x.title).join(" | "));
+  ok(ev("RXC.benefitOffice(RXC.byId('a-anthony'),'calfresh').phone") === "(415) 558-1001" && ev("RXC.benefitOffice(RXC.byId('a-isaiah'),'calfresh').phone") === "(510) 412-3280" && ev("RXC.benefitOffice({loc:'Fresno, CA'},'medi_cal').phone") === "1-800-541-5555", "county office by city (SF, Richmond), statewide line when the county isn't mapped");
+  /* ticking task 3 in the checklist keeps the tile in step */
+  ev("RXC.toggleTask(RXC.byId('a-anthony'), RXC.byId('a-anthony').tasks.filter(t=>t.std)[2])");
+  ok(ev("RXC.byId('a-anthony').benefits.calfresh.status") === "approved", "marking the CalFresh task done marks CalFresh approved");
+  ev("RXC.toggleTask(RXC.byId('a-anthony'), RXC.byId('a-anthony').tasks.filter(t=>t.std)[2])");
+  ok(ev("RXC.byId('a-anthony').benefits.calfresh.status") === "applied", "reopening it moves CalFresh back to applied");
+  /* a step with no phone or link warns the case manager; an old one-paragraph step still shows */
+  ok(ev("RXC.normStep({title:'Visit the clinic',how:'visit',bullets:[],missing_contact:true},'cm').missing") === true, "a step with no contact is flagged");
+  ok(ev("RXC.normStep({step:'Sit with Marcus and apply.',for_alumnus:'Apply today.'},'me').title") === "Apply today." && ev("RXC.normStep({step:'x'},'cm').legacy") === true, "plans saved in the old format still show");
+  ok(ev("RXC.phoneHref('311')") === "tel:311" && ev("RXC.phoneHref('(510) 649-1930')") === "tel:+15106491930", "tel: links for short codes and US numbers");
+  /* the alumnus sees the same tiles, plain words, no verdicts */
+  ev("RXV.signOut()"); ev("RXV.signIn('alumnus')"); await go("#/me/resources"); await sleep(60);
+  { const at = [...d.querySelectorAll("#content .btile")];
+    ok(at.length === 2 && /Waiting on a result/.test(at[0].textContent) && /You have it/.test(at[1].textContent), "Marcus sees both tiles in plain words");
+    at[0].click(); await sleep(20);
+    const sb = d.getElementById("sheetBody").textContent;
+    ok(/Money for food/.test(sb) && /Was my CalFresh approved\?/.test(sb) && d.querySelector('#sheetBody a[href^="tel:"]') && !/Likely eligible|Confirm income|W&I|Eligibility|Update/.test(sb) && !d.querySelector("#sheetBody select"), "his sheet has steps and a number to call, with no verdicts, rules or status picker");
+    ev("RXV.close()"); }
+  { const ys = [...d.querySelectorAll("#content .step")].map((x) => x.querySelector(".st").textContent);
+    ok(/Find out if your CalFresh was approved/.test(ys[0]) && ys.length >= 2, "his steps start with the live CalFresh step, then the shared ones: " + ys.join(" | ")); }
+  ev("RXV.signOut()"); ev("RXV.signIn('john')");
 
   console.log("every control goes somewhere");
   const BAD = [], routes = ["#/today", "#/alumni", "#/calendar", "#/resources", "#/case/a-marcus", "#/briefing/a-marcus"];

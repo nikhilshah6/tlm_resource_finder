@@ -51,6 +51,7 @@
       emp: { status: "Job searching", detail: "Interview with Amazon warehouse; target: Warehouse Operations Supervisor" },
       goals: ["Warehouse supervisor role", "Own place by January"], barriers: ["Transportation", "Housing timeline"],
       std: "ddiddinn",
+      ben: { calfresh: { status: "interview_done", d: -13 } }, // matches the Oct 30 interview in his note; result never recorded
       custom: [{ title: "Bring ID and pay stubs to Hope House intake", detail: "Hope House needs a decision on the bed.", due: 3, status: "open", by: "john" }],
       notes: [
         { d: -24, by: "john", kind: "call", twoWay: true, text: "Intake call. Released from San Quentin 25 days ago. Staying with his sister in Oakland for now. Wants warehouse or logistics work, has FedEx and city volunteer experience. State ID done, Social Security card applied for. Motivated, easy to talk to." },
@@ -338,6 +339,13 @@
     var pl = (r.portal || []).map(function (p, i) { return { p: p, i: i }; }).sort(function (x, y) { return x.p.d - y.p.d || x.i - y.i; });
     a.portal = { base: r.pb || { skills: 0, apps: 0, resume: null }, log: pl.map(function (x, i) { var p = x.p, e = { id: "P" + (i + 1), date: iso(p.d), kind: p.kind, text: p.text, metric: p.metric || null, delta: p.delta || 0 }; if (p.value != null) e.value = p.value; if (p.skill) e.skill = p.skill; if (p.std) e.std = p.std; return e; }), lastLogin: null };
     a.portal.log.forEach(function (e) { if (e.kind === "login") a.portal.lastLogin = e.date; });
+    // CalFresh / Medi-Cal status for the benefits tiles. Starts from standard tasks 3 and 4 unless the record says more (r.ben).
+    var cf = r.std[2], mc = r.std[3], ben = r.ben || {};
+    a.benefits = {
+      calfresh: { status: (ben.calfresh && ben.calfresh.status) || (cf === "d" ? "approved" : cf === "i" ? "applied" : "not_started"), date: ben.calfresh && ben.calfresh.d != null ? iso(ben.calfresh.d) : null },
+      medi_cal: { status: (ben.medi_cal && ben.medi_cal.status) || (mc === "d" ? "enrolled" : mc === "i" ? "applied" : "not_confirmed"), date: ben.medi_cal && ben.medi_cal.d != null ? iso(ben.medi_cal.d) : null }
+    };
+    delete a.ben;
     delete a.pb; delete a.dd;
     // standard tasks were assigned by the owning case manager
     a.tasks.forEach(function (t) { t.assignedBy = r.cm; });

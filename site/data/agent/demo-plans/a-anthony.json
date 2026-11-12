@@ -11,7 +11,7 @@
     "recommendations": [
      {
       "candidate": {
-       "name": "Episcopal Community Services \u2013 Connect to Services (311 / resource center shelter access)",
+       "name": "Episcopal Community Services – Connect to Services (311 / resource center shelter access)",
        "description": "ECS says to call 311 for a 90-day shelter reservation or Homeless Outreach Team help. For a one-night bed, go to the nearest resource center. Use this to get a bed tonight.",
        "address": "165 8th St, San Francisco, CA 94103",
        "city": "San Francisco",
@@ -37,7 +37,7 @@
      },
      {
       "candidate": {
-       "name": "Episcopal Community Services \u2013 Adult Coordinated Reentry / Interim Housing",
+       "name": "Episcopal Community Services – Adult Coordinated Reentry / Interim Housing",
        "description": "Offers adult coordinated reentry, supportive housing, interim housing and workforce development; explicitly serves people on parole/probation. Call first and ask about same-day beds, outlet for GPS charging, and ID-free intake.",
        "address": "165 8th St, San Francisco, CA 94103",
        "city": "San Francisco",
@@ -183,8 +183,8 @@
      {
       "candidate": {
        "name": "San Francisco County Adult Assistance Programs (CAAP / General Assistance)",
-       "description": "San Francisco's General Assistance: cash aid and employment services for adults with no dependent children. Apply on BenefitsCal.com or in person at 1235 Mission St, which is in 94103. Ask staff about Expedited CalFresh at the same visit.",
-       "address": "1235 Mission Street",
+       "description": "San Francisco's General Assistance: cash aid and employment services for adults with no dependent children. Apply on BenefitsCal.com or in person at 1460 Mission St, which is in 94103. Ask staff about Expedited CalFresh at the same visit.",
+       "address": "1460 Mission St, San Francisco, CA 94103",
        "city": "San Francisco",
        "county": "San Francisco",
        "phone": "(833) 879-1365",
@@ -237,7 +237,7 @@
      },
      {
       "candidate": {
-       "name": "San Francisco\u2013Marin Food Bank (pantry finder)",
+       "name": "San Francisco–Marin Food Bank (pantry finder)",
        "description": "Runs 240+ weekly grocery pantries. No documentation is required at most sites. Use the Find Food page or call to pick a daytime pantry near 94103.",
        "address": "900 Pennsylvania Ave",
        "city": "San Francisco",
@@ -298,9 +298,9 @@
      },
      {
       "candidate": {
-       "name": "San Francisco County Adult Assistance Programs (CAAP) \u2013 HSA office",
+       "name": "San Francisco County Adult Assistance Programs (CAAP) – HSA office",
        "description": "Apply for cash aid and benefits at the county office in 94103. Apply in person or at BenefitsCal.com. Ask staff about applying for Medi-Cal at the same visit and what to do with no ID yet.",
-       "address": "1235 Mission St",
+       "address": "1460 Mission St, San Francisco, CA 94103",
        "city": "San Francisco",
        "county": "San Francisco",
        "phone": "(833) 879-1365",
@@ -439,33 +439,76 @@
   ],
   "act_today": [
    {
-    "step": "This morning, call 311 for a 90-day shelter reservation, or go to the nearest resource center for a one-night bed tonight. Confirm an outlet for GPS charging and that he can be in by the 8pm curfew. Tell Officer Kim the address.",
-    "for_alumnus": "This morning, call 311 and ask for a shelter bed, or go to the nearest resource center for a bed tonight. Ask if there's an outlet to charge your GPS monitor, and make sure you can get in before your 8pm curfew. Once you have a bed, give the address to Officer Kim.",
+    "title": "Call 311 for a shelter bed tonight",
+    "how": "call",
+    "bullets": [
+     "Ask for a bed with an outlet for GPS charging.",
+     "Must be in by his 8pm curfew.",
+     "Give Officer Kim the address."
+    ],
+    "for_alumnus_title": "Call 311 for a shelter bed tonight",
+    "for_alumnus_bullets": [
+     "Ask for a place you can charge your GPS.",
+     "Make sure you can get in before 8pm.",
+     "Give Officer Kim the address."
+    ],
     "what_to_bring": [
      "GPS charger",
-     "Phone",
-     "Officer Kim's phone number"
+     "Phone"
     ],
-    "resource_name": "Episcopal Community Services \u2013 Connect to Services (311 / resource center shelter access)"
+    "resource_name": "Episcopal Community Services – Connect to Services (311 / resource center shelter access)",
+    "phone": "311",
+    "url": "https://www.ecs-sf.org/connect-to-services",
+    "address": "165 8th St, San Francisco, CA 94103",
+    "missing_contact": false
    },
    {
-    "step": "Call ECS Adult Coordinated Reentry about interim housing for parolees. Ask about same-day beds, GPS charging, intake without ID, and whether they can write a homeless verification letter for a free DMV ID and birth certificate.",
-    "for_alumnus": "Call Episcopal Community Services and ask about their reentry housing for people on parole. Ask if they have a bed today, if you can charge your GPS there, and if you can sign up without an ID. Also ask them for a letter saying you're homeless. That letter gets you a free ID and a free birth certificate.",
+    "title": "Call ECS about reentry housing",
+    "how": "call",
+    "bullets": [
+     "Ask for Adult Coordinated Entry (extension 7000).",
+     "Ask: intake without a photo ID?",
+     "Ask for a homeless letter (free ID and birth certificate)."
+    ],
+    "for_alumnus_title": "Call ECS about housing for people on parole",
+    "for_alumnus_bullets": [
+     "Ask for Adult Coordinated Entry (extension 7000).",
+     "Ask if you can sign up without an ID.",
+     "Ask for a letter saying you're homeless. It gets you a free ID."
+    ],
     "what_to_bring": [
      "GPS charger",
      "Officer Kim's phone number"
     ],
-    "resource_name": "Episcopal Community Services \u2013 Adult Coordinated Reentry / Interim Housing"
+    "resource_name": "Episcopal Community Services – Adult Coordinated Reentry / Interim Housing",
+    "phone": "(415) 487-3300",
+    "url": "https://ecs-sf.org/",
+    "address": "165 8th St, San Francisco, CA 94103",
+    "missing_contact": false
    },
    {
-    "step": "Go to the CAAP office at 1235 Mission St in the daytime to apply for General Assistance, Expedited CalFresh and Medi-Cal. Ask how he can prove who he is without a photo ID, and whether he can use a shelter or mailing address.",
-    "for_alumnus": "Go to the county office at 1235 Mission St in the daytime and apply for cash aid, food benefits (CalFresh) and Medi-Cal. Ask them how you can prove who you are without a photo ID, and if you can use a shelter address.",
+    "title": "Apply for cash aid (CAAP) in person",
+    "how": "visit",
+    "bullets": [
+     "Office moved to 1460 Mission St.",
+     "Ask how to prove ID without a photo ID.",
+     "Ask to use a shelter or mailing address."
+    ],
+    "for_alumnus_title": "Apply for cash aid at the county office",
+    "for_alumnus_bullets": [
+     "The office is at 1460 Mission St.",
+     "Ask how to prove who you are without a photo ID."
+    ],
     "what_to_bring": [
-     "Any release or parole papers you can get from Officer Kim",
-     "Your Social Security number if you know it",
+     "Release or parole papers",
+     "Social Security number if known",
      "Shelter or mailing address"
     ],
-    "resource_name": "San Francisco County Adult Assistance Programs (CAAP / General Assistance)"
+    "resource_name": "San Francisco County Adult Assistance Programs (CAAP / General Assistance)",
+    "phone": "(833) 879-1365",
+    "url": "https://www.sfhsa.org/services/financial-assistance/county-adult-assistance-programs-caap",
+    "address": "1460 Mission St, San Francisco, CA 94103",
+    "missing_contact": false
    }
   ],
   "excluded": [],
@@ -474,5 +517,6 @@
    "sources_searched": 31,
    "seconds": 117.2
   }
- }
+ },
+ "note": "Act today rewritten by hand on 2026-11-12 in the new step format (no live run: no API key). CAAP address corrected to 1460 Mission St (sfhsa.org: the 1235 Mission office closed)."
 }

@@ -259,6 +259,29 @@ export async function judge(ctx: Ctx, body: any) {
   return { judged };
 }
 
+// ------------------------------------------------------------------ act today: one action per step, contacts from the record
+// The model writes the words; phone, URL and address are copied from the program it points at, never from model text.
+// Benefits steps (CalFresh/SNAP, Medi-Cal/Medicaid) are dropped here because the UI adds them from the benefits tiles.
+const BENEFIT_RE = /\b(cal ?fresh|snap|food stamps|medi-?cal|medicaid)\b/i;
+// model text never carries contact details: phone numbers and web addresses are removed (the real ones come from the record)
+const scrub = (t: any) => String(t || "").replace(/https?:\/\/\S+|www\.\S+/gi, "").replace(/\+?1?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b/g, "")
+  .replace(/\s+([.,;:!?)])/g, "$1").replace(/\(\s*\)/g, "").replace(/\s{2,}/g, " ").trim();
+const clip = (t: any, n: number) => scrub(t).slice(0, n);
+export function actTodaySteps(raw: any[], keep: any[]) {
+  return (raw || []).map((a: any) => {
+    const c = Number.isInteger(a.resource_index) ? keep[a.resource_index] : undefined;
+    const how = ["call", "apply_online", "visit"].includes(a.how) ? a.how : "call";
+    const phone = c?.phone || null, url = c?.url || (phone ? null : c?.source_url) || null, address = c?.address || null;
+    return {
+      title: clip(a.title || a.step, 80), how, bullets: (a.bullets || []).slice(0, 3).map((b: any) => clip(b, 120)),
+      for_alumnus_title: clip(a.for_alumnus_title || a.for_alumnus, 80), for_alumnus_bullets: (a.for_alumnus_bullets || []).slice(0, 3).map((b: any) => clip(b, 120)),
+      what_to_bring: a.what_to_bring || [], resource_name: c?.name, phone, url, address,
+      // a "call" step with no number falls back to the website; with neither, the case manager is told to check before sharing
+      missing_contact: !phone && !url,
+    };
+  }).filter((x) => x.title && !BENEFIT_RE.test(`${x.title} ${x.resource_name || ""}`)).slice(0, 3);
+}
+
 // ------------------------------------------------------------------ 5. ranker
 export async function rank(ctx: Ctx, body: any) {
   const { emit } = ctx;
@@ -275,8 +298,14 @@ export async function rank(ctx: Ctx, body: any) {
       "and write an 'act on today' list of 1-3 concrete steps (most urgent first). Explain 'why it fits' in one plain sentence tied to their situation. " +
       "List what to bring (ID, release papers, proof of income, etc.). Prefer likely over worth_applying when equally good, but keep at least one " +
       "worth_applying option when it could matter. Use only the given indexes. " +
+      // TLM: steps are read by people just out of prison, so each one is a single action they can take from a phone
+      "Each act_today step is ONE action at ONE program (resource_index): never combine programs or applications in a step. " +
+      "title: a verb first, 8 words or fewer (e.g. 'Call BOSS about a backup bed'). how: call, apply_online or visit. " +
+      "bullets: at most 3, each under 12 words: what to ask or say, and anything to clear with the parole or probation officer. " +
+      "Do NOT write phone numbers, addresses or URLs anywhere: they are added from the program's record. " +
+      "Do NOT write steps for CalFresh/SNAP or Medi-Cal/Medicaid: those come from the benefits tiles. Pick other programs for today. " +
       // TLM demo: a second version of each step, written to the person, so the case manager can review it and share it
-      "For each act_today step also write for_alumnus: the same step addressed to the person as 'you', in plain words a tired reader gets on first read, " +
+      "For each step also write for_alumnus_title and for_alumnus_bullets: the same step addressed to the person as 'you', in plain words a tired reader gets on first read, " +
       "without staff-only detail (no eligibility verdicts, no instructions meant for the case manager, no internal notes). Call submit.",
     user: `Profile:\n${profileText(profile)}\n\nNeeds in order:\n${JSON.stringify(needs)}\n\nPrograms:\n${JSON.stringify(listing, null, 1)}`,
     submitSchema: { type: "object", properties: {
@@ -285,7 +314,10 @@ export async function rank(ctx: Ctx, body: any) {
           index: { type: "integer" }, why_it_fits: S(), what_to_bring: { type: "array", items: S() } }, required: ["index", "why_it_fits"] } } },
         required: ["category", "picks"] } },
       act_today: { type: "array", maxItems: 3, items: { type: "object", properties: {
-        step: S("For the case manager"), for_alumnus: S("The same step, written to the person as 'you'"), resource_index: { type: "integer" }, what_to_bring: { type: "array", items: S() } }, required: ["step", "for_alumnus"] } } },
+        title: S("For the case manager: verb first, 8 words or fewer, one program"), how: { type: "string", enum: ["call", "apply_online", "visit"] },
+        resource_index: { type: "integer" }, bullets: { type: "array", maxItems: 3, items: S() },
+        for_alumnus_title: S("The same title, written to the person as 'you'"), for_alumnus_bullets: { type: "array", maxItems: 3, items: S() },
+        what_to_bring: { type: "array", items: S() } }, required: ["title", "how", "resource_index", "for_alumnus_title"] } } },
       required: ["sections", "act_today"] },
     submitDescription: "Submit the ranked sections and today's steps.",
   });
@@ -306,10 +338,7 @@ export async function rank(ctx: Ctx, body: any) {
   const order = new Map<string, number>((needs || []).map((n: any, k: number) => [n.category, k]));
   const sections = [...byCat.values()].filter((s) => s.recommendations.length)
     .sort((a, b) => (order.get(a.need.category) ?? 99) - (order.get(b.need.category) ?? 99));
-  const act_today = (out.act_today || []).slice(0, 3).map((a: any) => ({
-    step: a.step || "", for_alumnus: a.for_alumnus || "", what_to_bring: a.what_to_bring || [],
-    resource_name: Number.isInteger(a.resource_index) && keep[a.resource_index] ? keep[a.resource_index].name : undefined,
-  }));
+  const act_today = actTodaySteps(out.act_today, keep);
   await emit({ type: "found", agent: "ranker", count: act_today.length,
     message: `Plan ready: ${sections.reduce((n, s) => n + s.recommendations.length, 0)} recommendations, ${act_today.length} steps for today` });
   return { sections, act_today };

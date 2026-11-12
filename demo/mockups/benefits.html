@@ -42,7 +42,7 @@
   .btile .ttl { font-weight: 600; font-size: var(--fs-md); }
   .btile .sec { color: var(--secondary); font-size: var(--fs-sm); margin: 1px 0 6px; }
   .btile .chev { width: 16px; height: 16px; color: var(--tertiary); flex: none; margin-top: 8px; }
-  .tag.check { color: var(--check); background: var(--check-bg); white-space: normal; }
+  .tag.pend { color: var(--check); background: var(--check-bg); white-space: normal; }
   @media (max-width: 480px) { .btiles { grid-template-columns: 1fr; } }
 
   /* ---- new: one step = bold title, one action link, short bullets, Bring ---- */
@@ -182,8 +182,8 @@
       <span class="body">
         <span class="ttl">CalFresh</span>
         <span class="sec" style="display:block">Food money (SNAP)</span>
-        <span class="tag check cm-only">Interview done · result not recorded</span>
-        <span class="tag check al-only">Waiting on a result</span>
+        <span class="tag pend cm-only">Interview done · result not recorded</span>
+        <span class="tag pend al-only">Waiting on a result</span>
       </span>
       <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6l-6 6"/></svg>
     </button>
@@ -192,8 +192,8 @@
       <span class="body">
         <span class="ttl">Medi-Cal</span>
         <span class="sec" style="display:block">Free health care (Medicaid)</span>
-        <span class="tag check cm-only">Not confirmed · may be enrolled</span>
-        <span class="tag check al-only">Check if you have it</span>
+        <span class="tag pend cm-only">Not confirmed · may be enrolled</span>
+        <span class="tag pend al-only">Check if you have it</span>
       </span>
       <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6l-6 6"/></svg>
     </button>
@@ -216,7 +216,7 @@
     <!-- case manager -->
     <div class="cm-only">
       <h3>Status</h3>
-      <div class="statusrow"><span class="tag check">Interview done · result not recorded</span>
+      <div class="statusrow"><span class="tag pend">Interview done · result not recorded</span>
         <label class="muted" style="font-size:var(--fs-sm)">Update <select aria-label="CalFresh status"><option>Not started</option><option>Applied</option><option selected>Interview done</option><option>Approved</option><option>Denied</option></select></label></div>
       <p class="muted" style="font-size:var(--fs-sm);margin:6px 0 0">Interview was Oct 30 (from John's note, Oct 25).</p>
 
@@ -268,7 +268,7 @@
   <div class="sb bsh">
     <div class="cm-only">
       <h3>Status</h3>
-      <div class="statusrow"><span class="tag check">Not confirmed · may be enrolled</span>
+      <div class="statusrow"><span class="tag pend">Not confirmed · may be enrolled</span>
         <label class="muted" style="font-size:var(--fs-sm)">Update <select aria-label="Medi-Cal status"><option selected>Not confirmed</option><option>Not started</option><option>Applied</option><option>Enrolled</option><option>Denied</option></select></label></div>
       <p class="muted" style="font-size:var(--fs-sm);margin:6px 0 0">Under CalAIM, CDCR files a Medi-Cal application about 135 days before release. Marcus left San Quentin 25 days ago, so he may already be enrolled.</p>
 
