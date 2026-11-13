@@ -28,7 +28,7 @@ function agentStep(b, signal) {
   if (b.stage === "orchestrator") return res({ needs: PLAN.sections.map((x) => x.need), briefs: ["housing", "health", "food_benefits", "jobs", "legal_id"].map((f) => ({ finder: f, focus: f, constraints: [] })) });
   if (b.stage === "finder") { if (b.brief.finder === agentFailFinder) return sse([start, { type: "step_error", agent: "finder", message: "search failed" }], signal); return res({ candidates: ALLC.filter((c) => c.category === b.brief.finder) }); }
   if (b.stage === "judge") return res({ judged: b.candidates });
-  if (b.stage === "ranker") return res({ sections: PLAN.sections, act_today: PLAN.act_today });
+  if (b.stage === "ranker") return res({ sections: b.focus ? PLAN.sections.filter((x) => b.focus.finders.includes(x.need.category)) : PLAN.sections, act_today: PLAN.act_today });
   return new Response("{}", { status: 400 });
 }
 
@@ -262,7 +262,7 @@ function agentStep(b, signal) {
   const agBtn = () => [...d.querySelectorAll("#ag-a-marcus button")].find((b) => /Build plan/.test(b.textContent));
   ok(agBtn() && !agBtn().disabled, "the case page offers Build plan for a California ZIP");
   agBtn().click(); await sleep(10);
-  ok(d.getElementById("sheet").hasAttribute("open") && /about 90 seconds/.test(d.getElementById("sheetBody").textContent) && /Nothing is saved/.test(d.getElementById("sheetBody").textContent), "it asks first, saying how long it takes and that nothing is saved");
+  ok(d.getElementById("sheet").hasAttribute("open") && /90 seconds/.test(d.getElementById("sheetBody").textContent) && /Nothing is saved/.test(d.getElementById("sheetBody").textContent), "it asks first, saying how long it takes and that nothing is saved");
   agentSlow = 40; ev("RXV.agentRun('a-marcus')"); await sleep(30);
   ok(/AI plan/.test(d.getElementById("ag-a-marcus").textContent) && /searching/.test(d.getElementById("ag-a-marcus").textContent) && /Reading the record/.test(d.getElementById("ag-a-marcus").textContent), "progress panel shows the stages");
   [...d.querySelectorAll("#ag-a-marcus button")].find((b) => b.textContent === "Cancel").click(); await sleep(150);
@@ -382,6 +382,42 @@ function agentStep(b, signal) {
   { const ys = [...d.querySelectorAll("#content .step")].map((x) => x.querySelector(".st").textContent);
     ok(/Find out if your CalFresh was approved/.test(ys[0]) && ys.length >= 2, "his steps start with the live CalFresh step, then the shared ones: " + ys.join(" | ")); }
   ev("RXV.signOut()"); ev("RXV.signIn('john')");
+
+  console.log("choosing what to search");
+  agentFailFinder = ""; ev("RXV.signOut()"); ev("RXV.signIn('john')"); await go("#/case/a-marcus"); ev("RXV.tab('a-marcus','resources')"); await sleep(60);
+  ev("delete RXC.byId('a-marcus').aiFocus; RXV.agent['a-marcus'] = {status:'idle'}");
+  const boxes = () => [...d.querySelectorAll('#sheetBody input[id^="fc-"]')], fcCount = () => d.getElementById("fcCount").textContent;
+  const tick = (ids) => { boxes().forEach((b) => { b.checked = ids.includes(b.value); }); ev("RXV.focusChange()"); };
+  ev("RXV.agentAsk('a-marcus')"); await sleep(20);
+  ok(boxes().length === 7 && boxes().every((b) => b.checked) && /5 of 5 searches/.test(fcCount()) && /What to search/.test(d.getElementById("sheetBody").textContent), "first plan: all 7 categories ticked, 5 searches");
+  tick([]);
+  ok(d.getElementById("fcGo").disabled && /Tick at least one category/.test(fcCount()), "with nothing ticked, Run search is disabled and says why");
+  tick(["id", "legal", "money"]);
+  ok(/1 of 5 searches/.test(fcCount()) && ev("RXC.focusFinders(['id','legal','money']).join()") === "legal_id", "ID, legal and banking together are one search");
+  tick(["housing", "food", "id", "jobs", "health", "legal", "money"]); agentCalls.length = 0;
+  d.getElementById("fcGo").click(); await sleep(400);
+  ok(ev("RXV.agent['a-marcus'].status") === "done" && agentCalls.filter((c) => c.stage === "finder").length === 5 && !agentCalls.find((c) => c.stage === "orchestrator").focus, "a full search runs all 5 finders and sends no focus");
+  /* pretend that full search happened on Oct 30, then re-run only Housing and Jobs */
+  ev("RXV.agent['a-marcus'].plan.sections.forEach(function (s) { s.searched_at = '2026-10-30'; })");
+  ev("RXV.agentAsk('a-marcus')"); await sleep(20); tick(["housing", "jobs"]);
+  ok(/2 of 5 searches · fewer searches cost less/.test(fcCount()) && /keep their earlier results/.test(d.getElementById("sheetBody").textContent), "Housing and Jobs is 2 of 5 searches; the sheet says the rest are kept");
+  agentCalls.length = 0; d.getElementById("fcGo").click(); await sleep(400);
+  { const fs = agentCalls.filter((c) => c.stage === "finder").map((c) => c.brief.finder).sort(), oc = agentCalls.find((c) => c.stage === "orchestrator");
+    ok(JSON.stringify(fs) === '["housing","jobs"]' && oc.focus && oc.focus.finders.join() === "housing,jobs", "only Housing and Jobs are searched, though the orchestrator returned all 5 briefs: " + fs.join(", ")); }
+  ok(ev("RXC.byId('a-marcus').aiFocus.cats.join()") === "housing,jobs", "the choice is saved on Marcus's record");
+  { const rows = [...d.querySelectorAll("#ag-a-marcus .row.cat")], txt = (l) => (rows.find((r) => r.querySelector(".ttl").textContent === l) || { textContent: "" }).textContent;
+    const secs = ev("JSON.stringify(RXV.agent['a-marcus'].plan.sections.map(function (s) { return s.need.category + ':' + s.searched_at; }))");
+    ok(/housing:2\d{3}-\d\d-\d\d/.test(secs) && secs.indexOf("health:2026-10-30") >= 0 && secs.indexOf("legal_id:2026-10-30") >= 0 && secs.indexOf("housing:2026-10-30") < 0, "Housing and Jobs are replaced; Health, Food and Legal are kept from Oct 30: " + secs);
+    ok(!/Searched/.test(txt("Housing and shelter")) && rows.some((r) => /Searched Oct 30/.test(r.textContent)), "kept categories say “Searched Oct 30”; fresh ones don't"); }
+  ok(/Last search: housing and jobs/.test(d.getElementById("agov-a-marcus").textContent), "the Overview card says what was searched last");
+  ev("RXV.agentAsk('a-marcus')"); await sleep(20);
+  ok(JSON.stringify(boxes().filter((b) => b.checked).map((b) => b.value)) === '["housing","jobs"]' && /last time's picks/.test(d.getElementById("sheetBody").textContent), "reopening the sheet starts from last time's picks");
+  ev("RXV.close()");
+  /* the merge on its own: no earlier plan, or everything searched, gives just the new plan */
+  ok(ev("RXC.mergePlan(null, {sections:[{need:{category:'housing'}}]}, ['housing'], '2026-11-12').sections.length") === 1 &&
+     ev("RXC.mergePlan({sections:[{need:{category:'jobs'}}]}, {sections:[{need:{category:'housing'}}]}, RXC.FINDERS, '2026-11-12').sections.length") === 1 &&
+     ev("RXC.mergePlan({sections:[{need:{category:'jobs'}}],excluded:[{category:'jobs'},{category:'housing'}]}, {sections:[{need:{category:'housing'}}],excluded:[]}, ['housing'], 'd').excluded.length") === 1, "merge: new plan alone when nothing to keep; kept not-eligible entries follow their category");
+  ev("RXV.agent['a-marcus'] = {status:'idle'}; delete RXC.byId('a-marcus').aiFocus"); /* back to the state the control crawl below expects */
 
   console.log("every control goes somewhere");
   const BAD = [], routes = ["#/today", "#/alumni", "#/calendar", "#/resources", "#/case/a-marcus", "#/briefing/a-marcus"];

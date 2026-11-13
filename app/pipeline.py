@@ -112,14 +112,19 @@ def _repair(items: list, key: str, allowed: set, aliases: dict, counters: Counte
 
 
 # ------------------------------------------------------------------ 2. orchestrator
-async def orchestrate(profile: Profile, emit: Emit, counters: Counters) -> OrchestratorPlan:
+async def orchestrate(profile: Profile, emit: Emit, counters: Counters, focus: list[str] | None = None) -> OrchestratorPlan:
+    """focus: the finders the case manager chose to run (None = all five), as in stages.ts focusBriefs."""
+    want = [f for f in (focus or []) if f in FINDER_LABELS] or None
+    scope = (f"The case manager asked to search ONLY these areas this time: {', '.join(want)}. Name needs and write briefs for these finders only. "
+             if want else
+             "Then write a short, specific brief for each of the five finder agents (housing, health, food_benefits, jobs, legal_id). "
+             "Every finder must get a brief, even for lower-priority needs; legal_id also covers state ID, record relief and bank accounts. ")
     await emit({"type": "agent_start", "agent": "orchestrator", "message": "Ordering needs and briefing the finders"})
     out = await run_agent(
         agent="orchestrator", model=LEAD, effort="low", emit=emit, counters=counters,
         system="You are the lead reentry navigator for The Last Mile. Given a FICTIONAL alumnus profile in California, decide what they need most, "
                "in order of urgency (safety, a place to sleep tonight, ID and documents, food and income, health coverage, supervision compliance, then work, legal and family). "
-               "Then write a short, specific brief for each of the five finder agents (housing, health, food_benefits, jobs, legal_id). "
-               "Every finder must get a brief, even for lower-priority needs; legal_id also covers state ID, record relief and bank accounts. "
+               + scope +
                "Constraints must carry supervision limits (county restriction, curfew, GPS) and practical limits (no car, no ID). Call submit.",
         user=f"Profile:\n{_profile_text(profile)}",
         submit_schema={
@@ -144,19 +149,19 @@ async def orchestrate(profile: Profile, emit: Emit, counters: Counters) -> Orche
     out["briefs"] = _repair(out.get("briefs"), "finder", {"housing", "health", "food_benefits", "jobs", "legal_id"}, CATEGORY_ALIASES, counters, "orchestrator.briefs")
     plan = OrchestratorPlan.model_validate(out)
     seen_needs, needs = set(), []
-    for n in plan.needs:  # one need per category, first (most urgent) wins
-        if n.category not in seen_needs:
+    for n in plan.needs:  # one need per category, first (most urgent) wins; only the chosen areas when there's a focus
+        if n.category not in seen_needs and (not want or n.category in want):
             seen_needs.add(n.category)
             needs.append(n)
     plan.needs = needs
     seen_b, briefs = set(), []
     for b in plan.briefs:
-        if b.finder not in seen_b:
+        if b.finder not in seen_b and (not want or b.finder in want):
             seen_b.add(b.finder)
             briefs.append(b)
     plan.briefs = briefs
     have = {b.finder for b in plan.briefs}
-    for f in FINDER_LABELS:
+    for f in (want or FINDER_LABELS):
         if f not in have:
             plan.briefs.append({"finder": f, "focus": f"General {FINDER_LABELS[f].lower()} help", "constraints": []})  # type: ignore[arg-type]
     plan = OrchestratorPlan.model_validate(plan.model_dump())
@@ -433,7 +438,7 @@ async def run_pipeline(request: dict, emit: Emit) -> Plan:
     t0 = time.time()
     counters = Counters()
     profile = await intake(request, emit, counters)
-    orch = await orchestrate(profile, emit, counters)
+    orch = await orchestrate(profile, emit, counters, request.get("focus"))
 
     async def safe_judge(finder, cands):
         try:

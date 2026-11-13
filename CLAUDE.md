@@ -173,6 +173,7 @@ All findings are from reading the saved HTML. Nothing below was run in a browser
   Later fixes in his repo must be copied again by hand. His `scripts/build_cf_assets.py` isn't in his repo, so the snapshot can't be rebuilt from source.
 - **What it does:** `POST /api/agent/step` runs one stage per call: intake, orchestrator, finder ×5, judge, ranker. It streams events and returns a ranked plan. The browser driver is `V.agentRun` in `demo/app.js`. `RXC.toAgentProfile` maps our sample record to his profile, filling only fields we have.
 - **Cost:** about 25–50 Claude calls (Opus 5.5 and Sonnet 5.5, with web search) and about 90 s per run. California only.
+- **Choosing what to search (added Nov 12):** the case manager ticks which of the 7 categories to search (they map to the 5 finders; ID, legal and banking share one). Only those finders run; the other categories keep their earlier results with the date they were searched. Most of a plan's cost is the finders, so a 2-of-5 re-run costs roughly 40% of a full one.
 - **Keys:** runs use the site's existing `ANTHROPIC_API_KEY` (Owen's). CareerOneStop job-centre lookups need `CAREERONESTOP_USER_ID` / `CAREERONESTOP_TOKEN`; Nikhil sets them with `wrangler pages secret put` if wanted. Without them, that one tool reports "not configured".
 - **Rules kept:**
   - Only sample data goes to Claude: the profile carries the first name and record fields.

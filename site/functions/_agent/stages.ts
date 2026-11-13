@@ -99,16 +99,35 @@ export async function intake(ctx: Ctx, body: any) {
 }
 
 // ------------------------------------------------------------------ 2. orchestrator
+// TLM: the case manager can choose which finders run (body.focus.finders). Without a focus, every finder gets a brief.
+// Needs and briefs are cut to the focus here, whatever the model returned, so an unrequested search never runs.
+export function focusBriefs(out: any, focus?: string[] | null) {
+  const known = (focus || []).filter((f) => FINDER_LABELS[f]), want = known.length ? known : null;
+  const needs: any[] = [], seenN = new Set<string>();
+  for (const n of out?.needs || []) if (CATEGORIES.includes(n.category) && !seenN.has(n.category) && (!want || want.includes(n.category))) { seenN.add(n.category); needs.push(n); }
+  const briefs: any[] = [], seenB = new Set<string>();
+  for (const b of out?.briefs || []) if (FINDER_LABELS[b.finder] && !seenB.has(b.finder) && (!want || want.includes(b.finder))) { seenB.add(b.finder); briefs.push({ constraints: [], ...b }); }
+  for (const f of want || Object.keys(FINDER_LABELS)) if (!seenB.has(f)) briefs.push({ finder: f, focus: `General ${FINDER_LABELS[f].toLowerCase()} help`, constraints: [] });
+  return { needs, briefs };
+}
+
 export async function orchestrate(ctx: Ctx, body: any) {
   const { emit } = ctx;
   const profile = body.profile;
+  const known: string[] = Array.isArray(body.focus?.finders) ? body.focus.finders.filter((f: string) => FINDER_LABELS[f]) : [];
+  const want: string[] | null = known.length ? known : null;
+  const cats: string[] = Array.isArray(body.focus?.categories) ? body.focus.categories.filter((c: any) => typeof c === "string").slice(0, 7) : [];
+  const scope = want
+    ? `The case manager asked to search ONLY these areas this time: ${want.join(", ")}. Name needs and write briefs for these finders only` +
+      (want.includes("legal_id") && cats.length ? ` (for legal_id, cover only: ${cats.filter((c) => ["id", "legal", "money"].includes(c)).map((c) => ({ id: "ID and documents", legal: "legal and records", money: "phone and banking" } as any)[c]).join(", ")})` : "") + ". "
+    : "Then write a short, specific brief for each of the five finder agents (housing, health, food_benefits, jobs, legal_id). " +
+      "Every finder must get a brief, even for lower-priority needs; legal_id also covers state ID, record relief and bank accounts. ";
   await emit({ type: "agent_start", agent: "orchestrator", message: "Ordering needs and briefing the finders" });
   const out = await runAgent({
     ...ctx, agent: "orchestrator", model: OPUS, effort: "low",
     system: "You are the lead reentry navigator for The Last Mile. Given a FICTIONAL alumnus profile in California, decide what they need most, " +
       "in order of urgency (safety, a place to sleep tonight, ID and documents, food and income, health coverage, supervision compliance, then work, legal and family). " +
-      "Then write a short, specific brief for each of the five finder agents (housing, health, food_benefits, jobs, legal_id). " +
-      "Every finder must get a brief, even for lower-priority needs; legal_id also covers state ID, record relief and bank accounts. " +
+      scope +
       "Constraints must carry supervision limits (county restriction, curfew, GPS) and practical limits (no car, no ID). Call submit.",
     user: `Profile:\n${profileText(profile)}`,
     submitSchema: {
@@ -125,11 +144,7 @@ export async function orchestrate(ctx: Ctx, body: any) {
     },
     submitDescription: "Submit the ordered needs and one brief per finder.",
   });
-  const needs: any[] = [], seenN = new Set<string>();
-  for (const n of out.needs || []) if (CATEGORIES.includes(n.category) && !seenN.has(n.category)) { seenN.add(n.category); needs.push(n); }
-  const briefs: any[] = [], seenB = new Set<string>();
-  for (const b of out.briefs || []) if (FINDER_LABELS[b.finder] && !seenB.has(b.finder)) { seenB.add(b.finder); briefs.push({ constraints: [], ...b }); }
-  for (const f of Object.keys(FINDER_LABELS)) if (!seenB.has(f)) briefs.push({ finder: f, focus: `General ${FINDER_LABELS[f].toLowerCase()} help`, constraints: [] });
+  const { needs, briefs } = focusBriefs(out, want);
   await emit({ type: "found", agent: "orchestrator", count: needs.length,
     message: "Needs: " + needs.map((n) => `${n.category.replace("_", " ")} (${n.urgency.replace("_", " ")})`).join(", ") });
   return { needs, briefs };

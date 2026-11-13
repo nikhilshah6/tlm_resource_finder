@@ -67,7 +67,7 @@ cd site && node build.js && cd ..
 NODE_PATH=<folder with jsdom>/node_modules node tests/demo-smoke.js
 node tests/password-gate.mjs
 node tests/navigator-unit.mjs
-node tests/act-today-unit.mjs                   # Act today post-processing (needs site/node_modules for esbuild)
+node tests/act-today-unit.mjs                   # Act today post-processing and search focus (needs site/node_modules for esbuild)
 .venv/bin/python -m pytest tests/test_act_today.py
 .venv/bin/python -m pytest tests/test_apis.py   # live public APIs
 .venv/bin/python evals/run_evals.py --presets   # Python pipeline evals (uses the API)

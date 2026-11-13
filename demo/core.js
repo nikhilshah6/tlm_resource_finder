@@ -370,18 +370,19 @@
   function agentGroups(plan) {
     var by = {}, seen = {};
     ((plan && plan.sections) || []).forEach(function (s) {
-      var urg = (s.need || {}).urgency || null;
+      var urg = (s.need || {}).urgency || null, at = s.searched_at || null;
       (s.recommendations || []).forEach(function (r) {
         var c = r.candidate || {}, it = agentItem(c), cat = catOf(it.need).id;
         if (seen[it.id]) return; seen[it.id] = 1;
-        var g = by[cat] = by[cat] || { id: cat, items: [], urgency: null };
-        g.items.push({ c: c, item: it, why: r.why_it_fits || "", bring: r.what_to_bring || [], urgency: urg });
+        var g = by[cat] = by[cat] || { id: cat, items: [], urgency: null, searchedAt: null };
+        g.items.push({ c: c, item: it, why: r.why_it_fits || "", bring: r.what_to_bring || [], urgency: urg, searchedAt: at });
         if (urg && (g.urgency == null || URG_ORDER[urg] < URG_ORDER[g.urgency])) g.urgency = urg;
+        if (at && (!g.searchedAt || at > g.searchedAt)) g.searchedAt = at;
       });
     });
     var cats = CATS.filter(function (c) { return by[c.id]; }).map(function (c) { return Object.assign({ label: c.label }, by[c.id]); });
     cats.sort(function (x, y) { var u = (URG_ORDER[x.urgency] != null ? URG_ORDER[x.urgency] : 3) - (URG_ORDER[y.urgency] != null ? URG_ORDER[y.urgency] : 3); return u || CATS.findIndex(function (c) { return c.id === x.id; }) - CATS.findIndex(function (c) { return c.id === y.id; }); });
-    return { cats: cats, act_today: (plan && plan.act_today) || [], excluded: (plan && plan.excluded) || [], count: cats.reduce(function (n, c) { return n + c.items.length; }, 0) };
+    return { cats: cats, act_today: (plan && plan.act_today) || [], excluded: (plan && plan.excluded) || [], lastSearch: (plan && plan.last_search) || null, count: cats.reduce(function (n, c) { return n + c.items.length; }, 0) };
   }
   function agentMatch(e, q) {
     var words = String(q || "").toLowerCase().split(/\s+/).filter(Boolean), hay = [e.c.name, e.c.description, e.why, e.item.address, NEEDS[e.item.need], catOf(e.item.need).label].join(" ").toLowerCase();
@@ -395,6 +396,28 @@
       phone: c.phone || null, url: c.url || c.source_url || null, hours: c.hours || null, distanceMi: c.distance_miles != null ? c.distance_miles : null, notes: c.description || null,
       source: { name: c.source ? "AI search · " + c.source : "AI search", url: c.source_url || c.url || null, trust: "directory" } };
   }
+  /* ---------- Choosing what the AI search covers ----------
+   * The 7 categories case managers see map onto the agents' 5 finder searches (ID, legal and banking share one).
+   * A person's first plan searches everything; after that the sheet starts from what the case manager picked last time. */
+  var CAT_FINDER = { housing: "housing", food: "food_benefits", health: "health", jobs: "jobs", id: "legal_id", legal: "legal_id", money: "legal_id" };
+  var FINDERS = ["housing", "health", "food_benefits", "jobs", "legal_id"];
+  function focusFinders(cats) { var out = []; (cats || []).forEach(function (c) { var f = CAT_FINDER[c]; if (f && out.indexOf(f) < 0) out.push(f); }); return FINDERS.filter(function (f) { return out.indexOf(f) >= 0; }); }
+  function defaultFocus(a) { var c = a && a.aiFocus && a.aiFocus.cats; return c && c.length ? c.filter(function (x) { return CAT_FINDER[x]; }) : CATS.map(function (x) { return x.id; }); }
+  function setFocus(a, cats) { a.aiFocus = { cats: cats.slice(), by: actor(), at: today() }; }
+  /* a partial re-run replaces only the searched finders' sections; the rest of the earlier plan stays, with the date it was searched */
+  function mergePlan(prev, next, finders, day) {
+    var searched = {}; (finders || []).forEach(function (f) { searched[f] = 1; });
+    var all = FINDERS.every(function (f) { return searched[f]; });
+    var fresh = ((next && next.sections) || []).map(function (s) { return Object.assign({}, s, { searched_at: day }); });
+    var stamp = { finders: (finders || []).slice(), at: day };
+    if (!prev || !prev.sections || all) return Object.assign({}, next, { sections: fresh, last_search: stamp });
+    var have = {}; fresh.forEach(function (s) { have[(s.need || {}).category] = 1; });
+    /* an earlier section stays unless its category was searched again (family and clothing have no finder: kept unless the new run has them) */
+    var kept = prev.sections.filter(function (s) { var k = (s.need || {}).category; return !searched[k] && !have[k]; });
+    var keptEx = (prev.excluded || []).filter(function (c) { return !searched[c.category]; });
+    return Object.assign({}, next, { sections: fresh.concat(kept), excluded: ((next && next.excluded) || []).concat(keptEx), last_search: stamp });
+  }
+
   /* ---------- Benefits: CalFresh (SNAP) and Medi-Cal (Medicaid) ----------
    * Fixed content, no AI. Rules come from state and federal sources (see data/rules_ca.json); every phone number and
    * link was checked on 2026-11-12. County numbers are from the CDSS county contact list. */
@@ -528,6 +551,7 @@
     sources: sources, briefPrompt: briefPrompt, validateBrief: validateBrief, digest: digest,
     diffPrompt: diffPrompt, validateDiff: validateDiff, applyChange: applyChange, sample: sample, whyFailed: whyFailed,
     priorities: priorities, toYou: toYou, toAgentProfile: toAgentProfile, agentItem: agentItem, agentNeed: agentNeed, agentGroups: agentGroups, agentMatch: agentMatch, AG_NEED: AG_NEED,
+    CAT_FINDER: CAT_FINDER, FINDERS: FINDERS, focusFinders: focusFinders, defaultFocus: defaultFocus, setFocus: setFocus, mergePlan: mergePlan,
     BENEFITS: BENEFITS, BEN_ORDER: BEN_ORDER, benefitOf: benefitOf, benefitTag: benefitTag, benefitOffice: benefitOffice, benefitSteps: benefitSteps, benefitTodaySteps: benefitTodaySteps, setBenefit: setBenefit, normStep: normStep, phoneHref: phoneHref,
     NEEDS: NEEDS, CATS: CATS, catOf: catOf, summaryOf: summaryOf, TRUST_L: TRUST_L, zipOf: zipOf, rank: rank, searchRes: searchRes, resState: resState, loadResources: loadResources, Res: Res
   };

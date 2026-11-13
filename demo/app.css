@@ -724,3 +724,12 @@ table.caseload { width: 100%; border-collapse: collapse; font-size: var(--fs-sm)
 .bsh > .bring { color: var(--secondary); font-size: var(--fs-sm); margin-top: 10px; }
 .bsh .src { font-size: var(--fs-xs); color: var(--secondary); margin-top: 14px; }
 .stepedit .se-links { font-size: var(--fs-sm); margin: 0; }
+
+/* ---------- Build plan: what to search (one row per category) ---------- */
+.fcl .row.fc { cursor: pointer; min-height: 40px; }
+.fcl .row.fc input { accent-color: var(--ink); width: 16px; height: 16px; margin: 0; flex: none; }
+.fcl .row.fc:has(input:not(:checked)) .ctile, .fcl .row.fc:has(input:not(:checked)) .ttl { opacity: .5; }
+@media (pointer: coarse) { .fcl .row.fc { min-height: 48px; } }
+/* "Searched Oct 30" on a category kept from an earlier search */
+.row.cat .sdate { color: var(--tertiary); font-size: var(--fs-xs); white-space: nowrap; margin-left: 6px; }
+#fcCount { margin: 10px 2px 8px; color: var(--secondary); }
