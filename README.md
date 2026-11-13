@@ -1,3 +1,5 @@
+> **Moved:** this repo now lives on GitLab at https://gitlab.com/t9e/development/tlm-reentry-hub (since Nov 13, 2026). This GitHub copy is archived and read-only.
+
 # tlm_resource_finder
 
 The Last Mile reentry hub prototype: a case manager portal with pre-call briefings, call notes, a caseload view, and an agentic resource search that builds an eligibility-checked plan for each (fictional) alumnus. Alumni see what their case manager shares.
